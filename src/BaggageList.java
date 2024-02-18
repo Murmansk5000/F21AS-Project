@@ -1,10 +1,6 @@
 /**
  * 
  */
-
-/**
- * 
- */
 public class BaggageList {
 
 }
