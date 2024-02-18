@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ui.externaltools.ProgramBuilderLaunchConfigurationType">
+    <booleanAttribute key="editedByExternalToolsMainTab" value="true"/>
+    <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+        <mapEntry key="=::" value="::\"/>
+        <mapEntry key="ALLUSERSPROFILE" value="C:\ProgramData"/>
+        <mapEntry key="APPDATA" value="C:\Users\biche\AppData\Roaming"/>
+        <mapEntry key="COMPUTERNAME" value="DESKTOP-UU2R5DE"/>
+        <mapEntry key="ComSpec" value="C:\Windows\system32\cmd.exe"/>
+        <mapEntry key="CommonProgramFiles" value="C:\Program Files\Common Files"/>
+        <mapEntry key="CommonProgramFiles(x86)" value="C:\Program Files (x86)\Common Files"/>
+        <mapEntry key="CommonProgramW6432" value="C:\Program Files\Common Files"/>
+        <mapEntry key="DriverData" value="C:\Windows\System32\Drivers\DriverData"/>
+        <mapEntry key="FPS_BROWSER_APP_PROFILE_STRING" value="Internet Explorer"/>
+        <mapEntry key="FPS_BROWSER_USER_PROFILE_STRING" value="Default"/>
+        <mapEntry key="HOMEDRIVE" value="C:"/>
+        <mapEntry key="HOMEPATH" value="\Users\biche"/>
+        <mapEntry key="LOCALAPPDATA" value="C:\Users\biche\AppData\Local"/>
+        <mapEntry key="LOGONSERVER" value="\\DESKTOP-UU2R5DE"/>
+        <mapEntry key="NUMBER_OF_PROCESSORS" value="12"/>
+        <mapEntry key="OS" value="Windows_NT"/>
+        <mapEntry key="OneDrive" value="D:\OneDrive - Heriot-Watt University"/>
+        <mapEntry key="OneDriveCommercial" value="D:\OneDrive - Heriot-Watt University"/>
+        <mapEntry key="OneDriveConsumer" value="C:\Users\biche\OneDrive"/>
+        <mapEntry key="PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC"/>
+        <mapEntry key="PROCESSOR_ARCHITECTURE" value="AMD64"/>
+        <mapEntry key="PROCESSOR_IDENTIFIER" value="Intel64 Family 6 Model 166 Stepping 0, GenuineIntel"/>
+        <mapEntry key="PROCESSOR_LEVEL" value="6"/>
+        <mapEntry key="PROCESSOR_REVISION" value="a600"/>
+        <mapEntry key="PSModulePath" value="C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules"/>
+        <mapEntry key="PUBLIC" value="C:\Users\Public"/>
+        <mapEntry key="Path" value="C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;D:\Program Files\Bandizip\;D:\ProgramData\anaconda3;D:\ProgramData\anaconda3\Scripts;D:\ProgramData\anaconda3\Library\bin;D:\Program Files\MATLAB\R2023b\bin;C:\Users\biche\AppData\Local\Microsoft\WindowsApps;D:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\biche\AppData\Local\Programs\MiKTeX\miktex\bin\x64\"/>
+        <mapEntry key="ProgramData" value="C:\ProgramData"/>
+        <mapEntry key="ProgramFiles" value="C:\Program Files"/>
+        <mapEntry key="ProgramFiles(x86)" value="C:\Program Files (x86)"/>
+        <mapEntry key="ProgramW6432" value="C:\Program Files"/>
+        <mapEntry key="SESSIONNAME" value="Console"/>
+        <mapEntry key="SystemDrive" value="C:"/>
+        <mapEntry key="SystemRoot" value="C:\Windows"/>
+        <mapEntry key="TEMP" value="D:\Chenmeng\Temp"/>
+        <mapEntry key="TMP" value="D:\Chenmeng\Temp"/>
+        <mapEntry key="USERDOMAIN" value="DESKTOP-UU2R5DE"/>
+        <mapEntry key="USERDOMAIN_ROAMINGPROFILE" value="DESKTOP-UU2R5DE"/>
+        <mapEntry key="USERNAME" value="biche"/>
+        <mapEntry key="USERPROFILE" value="C:\Users\biche"/>
+        <mapEntry key="WEBOTS_HOME" value="D:\Program Files\Webots"/>
+        <mapEntry key="ZES_ENABLE_SYSMAN" value="1"/>
+        <mapEntry key="windir" value="C:\Windows"/>
+    </mapAttribute>
+    <booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_RUN_BUILD_KINDS" value="full,incremental,"/>
+    <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
+</launchConfiguration>
