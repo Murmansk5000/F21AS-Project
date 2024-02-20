@@ -1,5 +1,3 @@
-//a simple class to contain and manage Baggage details
-//(id, name, hours)
 public class Baggage {
 	private double length;
 	private double width;
