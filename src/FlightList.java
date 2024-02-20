@@ -1,109 +1,84 @@
-//maintains a list of Flight objects as an ArrayList
-
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class FlightList
-{
-    // Storage for an arbitrary number of details.
-    private ArrayList <Flight> FlightList;
+public class FlightList {
+    // Storage for an arbitrary number of Flight objects.
+    private ArrayList<Flight> flights;
 
     /**
-     * Perform any initialization for the address book.
+     * Constructor to initialize the FlightList.
      */
-    public FlightList()
-    {
-    	FlightList = new ArrayList<Flight>() ;
+    public FlightList() {
+        flights = new ArrayList<Flight>();
     }
-    
-    /**
-     * Look up an id and return the
-     * corresponding staff details.
-     * @param idThe id  to be looked up.
-     * @return The details corresponding to the id, null if none
-     */
-    public Flight findByCode(String flightCode)
-    {
-    	for (Flight f : FlightList)
-    	{
-    		if (f.getFlightCode().equals(flightCode))
-    		{
-    			return f;
-    		}
-    	}
-    	return null;
-    }
-    
-
 
     /**
-     * Add a new set of details to the list
-     * @param details The details of the staff
+     * Look up a flight code and return the corresponding Flight object.
+     *
+     * @param flightCode The flight code to be looked up.
+     * @return The Flight object corresponding to the flight code, null if none found.
      */
-    public void addDetails(Flight details) 
-    {
-		FlightList.add(details);
+    public Flight findByCode(String flightCode) {
+        for (Flight f : flights) {
+            if (f.getFlightCode().equals(flightCode)) {
+                return f;
+            }
+        }
+        return null;
     }
-    
+
     /**
-     * remove Staff object identified by this ID
-     * @param id the ID identifying the person to be removed
+     * Add a new Flight object to the list.
+     *
+     * @param flight The Flight object to be added.
      */
-    public void removeDetails(String id) {
-    	int index = findIndex(id);
+    public void addFlight(Flight flight) {
+        flights.add(flight);
+    }
+
+    /**
+     * Remove a Flight object identified by the given flight code.
+     *
+     * @param flightCode the flight code identifying the Flight to be removed.
+     */
+    public void removeFlight(String flightCode) {
+        int index = findIndex(flightCode);
         if (index != -1) {
-        	FlightList.remove(index);
+            flights.remove(index);
         }
     }
+
     /**
-     * Look up an id and return index
-     * @param id The id  to be looked up.
-     * @return The index, -1 if none
+     * Look up a flight code and return the index of the corresponding Flight in the list.
+     *
+     * @param flightCode The flight code to be looked up.
+     * @return The index of the Flight, -1 if not found.
      */
-    private int findIndex(String flightCode)
-    {
-    	
-    	int size = FlightList.size();
-    	for (int i = 0; i < size; i++)
-    	{
-    		Flight f = FlightList.get(i);
-    		if (f.getFlightCode().equals(flightCode))
-    		{
-    			return i;
-    		}
-    	}
-    	return -1;
+    private int findIndex(String flightCode) {
+
+        for (int i = 0; i < flights.size(); i++) {
+            if (flights.get(i).getFlightCode().equals(flightCode)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
-     * @return The number of entries currently in the
-     *         address book.
+     * @return The number of Flight objects currently in the list.
      */
-    public int getNumberOfEntries()
-    {
-        return FlightList.size();
+    public int size() {
+        return flights.size();
     }
 
- 
     /**
-     * @return All the staff details
+     * @return A String representation of all Flight details in the list.
      */
-    public String listDetails()
-    {
-    	StringBuffer allEntries = new StringBuffer();
-        for(Flight details : FlightList) {
-            allEntries.append(details);
+    public String listDetails() {
+        StringBuilder allEntries = new StringBuilder();
+        for (Flight flight : flights) {
+            allEntries.append(flight.toString());
             allEntries.append('\n');
         }
         return allEntries.toString();
-    }
-    
-    /**
-     * @return All the staff details in name order
-     */
-    public String listByName()
-    {
-    	// Collections.sort(FlightList, new StaffNameComparator());
-    	return listDetails();
     }
 }

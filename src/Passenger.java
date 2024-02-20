@@ -1,8 +1,5 @@
-//a simple class to contain and manage Passenger details
-//(id, name, hours)
-public class Passenger implements Comparable<Passenger>
-{
-	private String referenceCode;
+public class Passenger implements Comparable<Passenger> {
+    private String referenceCode;
     private String firstName;
     private String lastName;
     private String flightCode;
@@ -10,83 +7,100 @@ public class Passenger implements Comparable<Passenger>
     private BaggageList baggagesOfPassenger;
 
     /**
-     * Set up the contact details. All details are trimmed to remove
+     * Constructor for Passenger that sets up the passenger details. All string details are trimmed to remove
      * trailing white space.
-     * @param b 
-     * @param name The name.
-     * @param hoursWorked The hours worked
+     *
+     * @param referenceCode The unique reference code for the passenger.
+     * @param firstName     The first name of the passenger.
+     * @param lastName      The last name of the passenger.
+     * @param flightCode    The code of the flight associated with the passenger.
+     * @param ifCheck       Boolean flag indicating whether the passenger has checked in.
      */
-    public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean ifCheck)
-    {   
-        this.referenceCode =referenceCode.trim();
+    public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean ifCheck) {
+        this.referenceCode = referenceCode.trim();
         this.firstName = firstName.trim();
         this.lastName = lastName.trim();
         this.flightCode = flightCode.trim();
+        this.ifCheck = ifCheck;
+        this.baggagesOfPassenger = new BaggageList(); // Initialize the baggage list for the passenger
     }
-    
+
     /**
-     * @return The id.
-     */    
-    public String getRefCode() {
-    	return referenceCode;
-    }
-    
-    /**
-     * @return The name.
+     * @return The unique reference code of the passenger.
      */
-    public String getFirstName()
-    {
+    public String getRefCode() {
+        return referenceCode;
+    }
+
+    /**
+     * @return The first name of the passenger.
+     */
+    public String getFirstName() {
         return firstName;
     }
 
     /**
-     * @return The hours Worked
+     * @return The last name of the passenger.
      */
-    public String getLastName()
-    {
-        return  lastName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getFlightCode()
-    {
-        return  flightCode;
+    /**
+     * @return The flight code associated with the passenger.
+     */
+    public String getFlightCode() {
+        return flightCode;
     }
-    
-    public boolean getIfCheck()
-    {
+
+    /**
+     * @return True if the passenger has checked in, false otherwise.
+     */
+    public boolean getIfCheck() {
         return ifCheck;
     }
-    
+
     /**
      * Test for content equality between two objects.
+     *
      * @param other The object to compare to this one.
-     * @return true if the argument object has same id
+     * @return true if the argument object is a Passenger and has the same reference code.
      */
-    public boolean equals(Object other)
-    {
-        if(other instanceof Passenger) {
-        	Passenger otherStaff = (Passenger) other;
-            return referenceCode.equals(otherStaff.getRefCode());
-        }
-        else {
-            return false;
-        }
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Passenger passenger = (Passenger) other;
+        return referenceCode.equals(passenger.referenceCode);
     }
-
 
     /**
-     * @return A  string containing all details.
+     * @return A string containing the passenger's reference code, first name, and last name.
      */
-    public String toString()
-    {
-        return String.format("%-5s", referenceCode ) + String.format("%-20s", firstName) + String.format("%-20s", lastName) + 
-                 String.format("%5d", flightCode );
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "refCode='" + referenceCode + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", flightCode='" + flightCode + '\'' +
+                ", checkedIn=" + ifCheck +
+                '}';
     }
 
-	@Override
-	public int compareTo(Passenger o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    /**
+     * Generate a hash code for this passenger.
+     *
+     * @return A hash code value for this object.
+     */
+    @Override
+    public int hashCode() {
+        return referenceCode.hashCode();
+    }
 
+
+    @Override
+    public int compareTo(Passenger o) {
+        return 0;
+    }
 }

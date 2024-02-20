@@ -1,5 +1,3 @@
-//maintains a list of Passenger objects as an ArrayList
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -8,17 +6,17 @@ public class PassengerList {
 	private ArrayList<Passenger> passengerList;
 
 	/**
-	 * Perform any initialization for the address book.
+	 * Constructor to initialize the PassengerList.
 	 */
 	public PassengerList() {
 		passengerList = new ArrayList<Passenger>();
 	}
 
 	/**
-	 * Look up an id and return the corresponding staff details.
-	 * 
-	 * @param idThe id to be looked up.
-	 * @return The details corresponding to the id, null if none
+	 * Look up a reference code and return the corresponding Passenger object.
+	 *
+	 * @param referenceCode The reference code to be looked up.
+	 * @return The Passenger corresponding to the reference code, null if none found.
 	 */
 	public Passenger findByRefCode(String referenceCode) {
 		for (Passenger p : passengerList) {
@@ -30,38 +28,38 @@ public class PassengerList {
 	}
 
 	/**
-	 * Add a new set of details to the list
-	 * 
-	 * @param details The details of the staff
+	 * Add a new Passenger object to the list.
+	 *
+	 * @param passenger The Passenger to be added.
 	 */
-	public void addDetails(Passenger details) {
-		passengerList.add(details);
+	public void addPassenger(Passenger passenger) {
+		passengerList.add(passenger);
 	}
 
 	/**
-	 * remove Staff object identified by this ID
-	 * 
-	 * @param id the ID identifying the person to be removed
+	 * Remove the Passenger object identified by the given reference code.
+	 *
+	 * @param referenceCode the reference code identifying the Passenger to be removed.
 	 */
-	public void removeDetails(String id) {
-		int index = findIndex(id);
+	public void removeDetails(String referenceCode) {
+		int index = findIndex(referenceCode);
 		if (index != -1) {
 			passengerList.remove(index);
 		}
 	}
 
 	/**
-	 * Look up an id and return index
-	 * 
-	 * @param id The id to be looked up.
-	 * @return The index, -1 if none
+	 * Look up a reference code and return the index of the corresponding Passenger in the list.
+	 *
+	 * @param referenceCode The reference code to be looked up.
+	 * @return The index of the Passenger, -1 if not found.
 	 */
-	private int findIndex(String id) {
+	private int findIndex(String referenceCode) {
 
 		int size = passengerList.size();
 		for (int i = 0; i < size; i++) {
 			Passenger p = passengerList.get(i);
-			if (p.getRefCode().equals(id)) {
+			if (p.getRefCode().equals(referenceCode)) {
 				return i;
 			}
 		}
@@ -69,14 +67,16 @@ public class PassengerList {
 	}
 
 	/**
-	 * @return The number of entries currently in the address book.
+	 * @return The number of Passenger objects currently in the list.
 	 */
 	public int getNumberOfEntries() {
 		return passengerList.size();
 	}
 
 	/**
-	 * @return All the staff details
+	 * List all Passenger details sorted by name.
+	 * Note: This method assumes that Passenger class has implemented Comparable interface to compare names.
+	 * @return All Passenger details in name order as a String.
 	 */
 	public String listDetails() {
 		StringBuffer allEntries = new StringBuffer();
@@ -88,7 +88,8 @@ public class PassengerList {
 	}
 
 	/**
-	 * @return All the staff details in name order
+	 * List all Passenger details sorted by reference code.
+	 * @return All Passenger details in reference code order as a String.
 	 */
 	public String listByName() {
 		// Collections.sort(passengerList, new StaffNameComparator());
@@ -96,10 +97,16 @@ public class PassengerList {
 	}
 
 	/**
-	 * @return All the staff details in id order
+	 * Get the size of the passenger list.
+	 *
+	 * @return The size of the passenger list.
 	 */
 	public String listByID() {
 		Collections.sort(passengerList);
 		return listDetails();
+	}
+
+	public int size(){
+		return this.size();
 	}
 }

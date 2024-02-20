@@ -1,8 +1,11 @@
-
 //program demonstrating using a list of Passenger objects
 //adding and removing and listing and searching
 //uses exceptions
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ProgrammeDemo {
 	private PassengerList paxList;
@@ -33,7 +36,7 @@ public class ProgrammeDemo {
 						data[3], // flightCode
 						Boolean.parseBoolean(data[4]));
 				// add to list
-				paxList.addDetails(passenger);
+				paxList.addPassenger(passenger);
 				// read next line
 				inputLine = buff.readLine();
 			}
@@ -72,7 +75,7 @@ public class ProgrammeDemo {
 						Double.parseDouble(data[4]), // maxBaggageVolume
 						Double.parseDouble(data[5]) // maxBaggageWeight
 				);
-				fltList.addDetails(flight);
+				fltList.addFlight(flight);
 				inputLine = buff.readLine(); // Read next line
 			}
 		} catch (FileNotFoundException e) {

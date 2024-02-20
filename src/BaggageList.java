@@ -8,7 +8,7 @@ public class BaggageList {
     private int quantity;
 
     public BaggageList() {
-        this.baggages = new ArrayList<>();
+        this.baggages = new ArrayList<Baggage>();
         this.totalVolume = 0.0;
         this.totalWeight = 0.0;
         this.totalFee = 0.0;
@@ -67,7 +67,7 @@ public class BaggageList {
                 mergedList.addBaggage(baggage);
             }
         }
-        mergedList.calculateTotalfee(); // 计算合并后的总价格
+        mergedList.calculateTotalfee();
         return mergedList;
     }
     public void clear() {
@@ -75,6 +75,10 @@ public class BaggageList {
         this.totalVolume = 0.0;
         this.totalWeight = 0.0;
         this.quantity = 0;
+    }
+
+    public int size(){
+        return this.size();
     }
 
 

@@ -12,22 +12,27 @@ public class Flight implements Comparable<Flight> {
 	private PassengerList passengerInFlight;
 
 	/**
-	 * Set up the contact details. All details are trimmed to remove trailing white
-	 * space.
-	 * 
-	 * @param name        The name.
-	 * @param hoursWorked The hours worked
+	 * Construct a new Flight with the specified details. All provided information is used
+	 * to initialize the flight's state.
+	 *
+	 * @param flightCode       The unique code identifying the flight.
+	 * @param destination      The flight's destination.
+	 * @param carrier          The carrier operating the flight.
+	 * @param maxPassengers    The maximum number of passengers allowed on the flight.
+	 * @param maxBaggageVolume The maximum volume of baggage allowed on the flight.
+	 * @param maxBaggageWeight The maximum weight of baggage allowed on the flight.
 	 */
 	public Flight(String flightCode, String destination, String carrier, int maxPassengers, double maxBaggageVolume, double maxBaggageWeight) {
-		this.flightCode = flightCode;
-		this.destination = destination;
-		this.carrier = carrier;
+		this.flightCode = flightCode.trim();
+		this.destination = destination.trim();
+		this.carrier = carrier.trim();
 		this.maxPassengers = maxPassengers;
 		this.maxBaggageVolume = maxBaggageVolume;
 		this.maxBaggageWeight = maxBaggageWeight;
-		this.baggageInFlight = new BaggageList(); // Initialize as empty list
+		this.baggageInFlight = new BaggageList();
 		this.passengerInFlight = new PassengerList();
 	}
+
 
 	// Getter methods
 	public String getFlightCode() {
@@ -62,7 +67,7 @@ public class Flight implements Comparable<Flight> {
 		return passengerInFlight;
 	}
 
-	/*
+
 	// Additional methods
 	public boolean isOverCapacity() {
 		return passengerInFlight.size() > maxPassengers;
@@ -70,25 +75,17 @@ public class Flight implements Comparable<Flight> {
 
 	public void addPassenger(Passenger passenger) {
 		if (passengerInFlight.size() < maxPassengers) {
-			passengerInFlight.add(passenger);
+			passengerInFlight.addPassenger(passenger);
 		}
 	}
 
 	public void addBaggage(Baggage baggage) {
-		// Implementation would depend on how you're calculating baggage volume and
-		// weight
+		if(baggageInFlight.getTotalVolume() < getMaxBaggageVolume() && baggageInFlight.getTotalWeight() < getMaxBaggageWeight()){
+			baggageInFlight.addBaggage(baggage);
+		}
 	}
-	*/
 
-	/**
-	 * Compare this Staff object against another, for the purpose of sorting. The
-	 * fields are compared by id.
-	 * 
-	 * @param otherDetails The details to be compared against.
-	 * @return a negative integer if this id comes before the parameter's id, zero
-	 *         if they are equal and a positive integer if this comes after the
-	 *         other.
-	 */
+
 	@Override
 	public int compareTo(Flight o) {
 		// TODO Auto-generated method stub
