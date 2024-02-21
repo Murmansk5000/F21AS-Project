@@ -1,14 +1,45 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FlightList {
     // Storage for an arbitrary number of Flight objects.
-    private ArrayList<Flight> flights;
+    private ArrayList<Flight> flightlist;
+
+    public FlightList() {
+        flightlist = new ArrayList<Flight>();
+    }
 
     /**
-     * Constructor to initialize the FlightList.
+     * Loads flight data from a CSV file.
+     * Skips malformed lines and removes units from numeric fields.
+     * @param fileName Path to the CSV file.
      */
-    public FlightList() {
-        flights = new ArrayList<Flight>();
+    public void loadFlightsFromTXT(String fileName) {
+        this.flightlist.clear(); // Optional: clear existing flights before loading new ones
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(fileName));
+            for (String line : lines.subList(1, lines.size())) { // Skip title row
+                String[] data = line.split(",");
+                if (data.length < 6) { // Ensure there are enough data fields
+                    System.out.println("Skipping malformed line: " + line);
+                    continue;
+                }
+                Flight flight = new Flight(
+                        data[0], // FlightCode
+                        data[1], // Destination
+                        data[2], // Carrier
+                        Integer.parseInt(data[3]), // MaxPassengers
+                        Double.parseDouble(data[4].replaceAll(" lbs", "").trim()), // MaxBaggageWeight, remove "lbs" suffix
+                        Double.parseDouble(data[5].replaceAll(" cubic inches", "").trim()) // MaxBaggageVolume, remove "cubic inches" suffix
+                );
+                this.flightlist.add(flight);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -18,7 +49,7 @@ public class FlightList {
      * @return The Flight object corresponding to the flight code, null if none found.
      */
     public Flight findByCode(String flightCode) {
-        for (Flight f : flights) {
+        for (Flight f : flightlist) {
             if (f.getFlightCode().equals(flightCode)) {
                 return f;
             }
@@ -32,7 +63,7 @@ public class FlightList {
      * @param flight The Flight object to be added.
      */
     public void addFlight(Flight flight) {
-        flights.add(flight);
+        flightlist.add(flight);
     }
 
     /**
@@ -43,7 +74,7 @@ public class FlightList {
     public void removeFlight(String flightCode) {
         int index = findIndex(flightCode);
         if (index != -1) {
-            flights.remove(index);
+            flightlist.remove(index);
         }
     }
 
@@ -55,8 +86,8 @@ public class FlightList {
      */
     private int findIndex(String flightCode) {
 
-        for (int i = 0; i < flights.size(); i++) {
-            if (flights.get(i).getFlightCode().equals(flightCode)) {
+        for (int i = 0; i < flightlist.size(); i++) {
+            if (flightlist.get(i).getFlightCode().equals(flightCode)) {
                 return i;
             }
         }
@@ -67,7 +98,7 @@ public class FlightList {
      * @return The number of Flight objects currently in the list.
      */
     public int size() {
-        return flights.size();
+        return flightlist.size();
     }
 
     /**
@@ -75,7 +106,7 @@ public class FlightList {
      */
     public String listDetails() {
         StringBuilder allEntries = new StringBuilder();
-        for (Flight flight : flights) {
+        for (Flight flight : flightlist) {
             allEntries.append(flight.toString());
             allEntries.append('\n');
         }

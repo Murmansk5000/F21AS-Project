@@ -7,8 +7,8 @@ public class Passenger implements Comparable<Passenger> {
     private BaggageList baggagesOfPassenger;
 
     /**
-     * Constructor for Passenger that sets up the passenger details. All string details are trimmed to remove
-     * trailing white space.
+     * Construct a new Passenger with the specified details. All provided information is used
+     * to initialize the passenger's state.
      *
      * @param referenceCode The unique reference code for the passenger.
      * @param firstName     The first name of the passenger.
@@ -25,37 +25,24 @@ public class Passenger implements Comparable<Passenger> {
         this.baggagesOfPassenger = new BaggageList(); // Initialize the baggage list for the passenger
     }
 
-    /**
-     * @return The unique reference code of the passenger.
-     */
+
+
     public String getRefCode() {
         return referenceCode;
     }
 
-    /**
-     * @return The first name of the passenger.
-     */
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * @return The last name of the passenger.
-     */
     public String getLastName() {
         return lastName;
     }
 
-    /**
-     * @return The flight code associated with the passenger.
-     */
     public String getFlightCode() {
         return flightCode;
     }
 
-    /**
-     * @return True if the passenger has checked in, false otherwise.
-     */
     public boolean getIfCheck() {
         return ifCheck;
     }
@@ -88,19 +75,8 @@ public class Passenger implements Comparable<Passenger> {
                 '}';
     }
 
-    /**
-     * Generate a hash code for this passenger.
-     *
-     * @return A hash code value for this object.
-     */
     @Override
-    public int hashCode() {
-        return referenceCode.hashCode();
-    }
-
-
-    @Override
-    public int compareTo(Passenger o) {
-        return 0;
+    public int compareTo(Passenger other) {
+        return this.referenceCode.compareTo(other.referenceCode);
     }
 }

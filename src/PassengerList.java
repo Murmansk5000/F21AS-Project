@@ -1,5 +1,10 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class PassengerList {
 	// Storage for an arbitrary number of details.
@@ -11,6 +16,31 @@ public class PassengerList {
 	public PassengerList() {
 		passengerList = new ArrayList<Passenger>();
 	}
+
+	/**
+	 * Loads passengers from a CSV file.
+	 * Clears existing list, then adds each passenger from the file, skipping malformed lines.
+	 * @param fileName Path to the CSV file.
+	 */
+
+	public void loadPassengersFromTXT(String fileName) {
+		this.passengerList.clear();
+		try {
+			List<String> lines = Files.readAllLines(Paths.get(fileName));
+			for (String line : lines.subList(1, lines.size())) {
+				String[] data = line.split(",");
+				if (data.length < 5) {
+					System.out.println("Skipping malformed line: " + line);
+					continue;
+				}
+				Passenger passenger = new Passenger(data[0], data[1], data[2], data[3], Boolean.parseBoolean(data[4]));
+				this.passengerList.add(passenger);
+			}
+		} catch (IOException e) {
+			e.printStackTrace(); // Consider more sophisticated error handling or logging
+		}
+	}
+
 
 	/**
 	 * Look up a reference code and return the corresponding Passenger object.
@@ -66,17 +96,11 @@ public class PassengerList {
 		return -1;
 	}
 
-	/**
-	 * @return The number of Passenger objects currently in the list.
-	 */
-	public int getNumberOfEntries() {
-		return passengerList.size();
-	}
 
 	/**
-	 * List all Passenger details sorted by name.
-	 * Note: This method assumes that Passenger class has implemented Comparable interface to compare names.
-	 * @return All Passenger details in name order as a String.
+	 * Lists all passenger details as currently ordered in the passenger list.
+	 *
+	 * @return A String representation of all passenger details, each on a new line.
 	 */
 	public String listDetails() {
 		StringBuffer allEntries = new StringBuffer();
@@ -88,11 +112,22 @@ public class PassengerList {
 	}
 
 	/**
+	 * List all Passenger details sorted by name.
+	 * @return All Passenger details in name order as a String.
+	 */
+	public String listByName() {
+		Collections.sort(passengerList, Comparator.comparing(Passenger::getLastName)
+				.thenComparing(Passenger::getFirstName));
+		return listDetails();
+	}
+
+
+	/**
 	 * List all Passenger details sorted by reference code.
 	 * @return All Passenger details in reference code order as a String.
 	 */
-	public String listByName() {
-		// Collections.sort(passengerList, new StaffNameComparator());
+	public String listByReferenceCode() {
+		Collections.sort(passengerList);
 		return listDetails();
 	}
 
@@ -101,10 +136,6 @@ public class PassengerList {
 	 *
 	 * @return The size of the passenger list.
 	 */
-	public String listByID() {
-		Collections.sort(passengerList);
-		return listDetails();
-	}
 
 	public int size(){
 		return this.size();

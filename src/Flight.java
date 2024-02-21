@@ -1,5 +1,3 @@
-//a simple class to contain and manage Flight details
-//(id, name, hours)
 public class Flight implements Comparable<Flight> {
 
 	private String flightCode;
@@ -32,7 +30,6 @@ public class Flight implements Comparable<Flight> {
 		this.baggageInFlight = new BaggageList();
 		this.passengerInFlight = new PassengerList();
 	}
-
 
 	// Getter methods
 	public String getFlightCode() {
@@ -68,28 +65,42 @@ public class Flight implements Comparable<Flight> {
 	}
 
 
-	// Additional methods
 	public boolean isOverCapacity() {
-		return passengerInFlight.size() > maxPassengers;
+		boolean passengerOver = this.maxPassengers < passengerInFlight.size();
+		boolean baggageOverWeight = this.maxBaggageWeight < baggageInFlight.getTotalWeight();
+		boolean baggageOverVolume = this.maxBaggageVolume < baggageInFlight.getTotalVolume();
+		return passengerOver && baggageOverWeight && baggageOverVolume;
 	}
 
+	/**
+	 * Adds a passenger to the flight if it has not reached its maximum passenger capacity.
+	 * @param passenger The passenger to add to the flight.
+	 */
 	public void addPassenger(Passenger passenger) {
 		if (passengerInFlight.size() < maxPassengers) {
 			passengerInFlight.addPassenger(passenger);
+		} /*
+		else {
 		}
+		*/
 	}
 
+	/**
+	 * Adds baggage to the flight if the total volume and weight do not exceed the flight's limits.
+	 * @param baggage The baggage to add to the flight.
+	 */
 	public void addBaggage(Baggage baggage) {
 		if(baggageInFlight.getTotalVolume() < getMaxBaggageVolume() && baggageInFlight.getTotalWeight() < getMaxBaggageWeight()){
 			baggageInFlight.addBaggage(baggage);
+		}/*
+		else {
 		}
+		*/
 	}
 
-
 	@Override
-	public int compareTo(Flight o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(Flight other) {
+			return this.flightCode.compareTo(other.flightCode);
 	}
 
 }

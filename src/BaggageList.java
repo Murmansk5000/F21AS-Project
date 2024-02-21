@@ -59,7 +59,12 @@ public class BaggageList {
         return this.totalFee;
     }
 
-    // 新增方法：合并多个BaggageList
+    /**
+     * Merge multiple baggage lists.
+     *
+     * @param lists The baggage lists to merge
+     * @return The merged baggage list
+     */
     public static BaggageList mergeBaggageLists(BaggageList... lists) {
         BaggageList mergedList = new BaggageList();
         for (BaggageList list : lists) {
@@ -80,6 +85,4 @@ public class BaggageList {
     public int size(){
         return this.size();
     }
-
-
 }
