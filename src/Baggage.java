@@ -51,8 +51,6 @@ public class Baggage {
 		return volume;
 	}
 
-	// Removed setVolume method since volume is now automatically calculated
-
 	public double getFee() {
 		return fee;
 	}

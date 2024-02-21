@@ -14,13 +14,14 @@ public class PassengerList {
 	 * Constructor to initialize the PassengerList.
 	 */
 	public PassengerList() {
-		passengerList = new ArrayList<Passenger>();
+		this.passengerList = new ArrayList<Passenger>();
+		// Load passengers from TXT file directly into paxList
 	}
 
 	/**
-	 * Loads passengers from a CSV file.
+	 * Loads passengers from a txt file.
 	 * Clears existing list, then adds each passenger from the file, skipping malformed lines.
-	 * @param fileName Path to the CSV file.
+	 * @param fileName Path to the txt file.
 	 */
 
 	public void loadPassengersFromTXT(String fileName) {

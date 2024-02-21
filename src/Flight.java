@@ -66,9 +66,9 @@ public class Flight implements Comparable<Flight> {
 
 
 	public boolean isOverCapacity() {
-		boolean passengerOver = this.maxPassengers < passengerInFlight.size();
-		boolean baggageOverWeight = this.maxBaggageWeight < baggageInFlight.getTotalWeight();
-		boolean baggageOverVolume = this.maxBaggageVolume < baggageInFlight.getTotalVolume();
+		boolean passengerOver = passengerInFlight.size() > this.maxPassengers;
+		boolean baggageOverWeight = baggageInFlight.getTotalWeight() > this.maxBaggageWeight;
+		boolean baggageOverVolume = baggageInFlight.getTotalVolume() > this.maxBaggageVolume;
 		return passengerOver && baggageOverWeight && baggageOverVolume;
 	}
 

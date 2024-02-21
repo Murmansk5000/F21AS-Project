@@ -8,15 +8,15 @@ public class FlightList {
     // Storage for an arbitrary number of Flight objects.
     private ArrayList<Flight> flightlist;
 
-    public FlightList() {
+    /**
+     * Loads flight data from a txt file.
+     * @param fileName Path to the txt file.
+     */
+    public FlightList(String fileName) {
         flightlist = new ArrayList<Flight>();
     }
 
-    /**
-     * Loads flight data from a CSV file.
-     * Skips malformed lines and removes units from numeric fields.
-     * @param fileName Path to the CSV file.
-     */
+
     public void loadFlightsFromTXT(String fileName) {
         this.flightlist.clear(); // Optional: clear existing flights before loading new ones
         try {
