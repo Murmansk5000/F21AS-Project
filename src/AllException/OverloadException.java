@@ -1,12 +1,12 @@
 package AllException;
 
-public class OverLoadException extends Exception{
+public class OverloadException extends Exception{
     /*
     If the flight is overweight,
-    a NoMatchingNameException is thrown,
+    a OverloadException is thrown,
     reminding the staff in the flight report.
     */
-    public OverLoadException(){
+    public OverloadException(){
         super("Flight xxx is overload.");
     }
 }

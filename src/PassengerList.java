@@ -61,7 +61,7 @@ public class PassengerList {
 			if (p.getRefCode().equals(referenceCode)) {
 				return p;
 			}else{
-				throw new NoMatchingRefException();
+				throw new NoMatchingRefException(referenceCode);
 			}
 		}
 		return null;

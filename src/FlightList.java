@@ -38,7 +38,8 @@ public class FlightList {
                 );
                 this.flightlist.add(flight);
             }
-        }  catch(FileNotFoundException e) {
+        }
+        catch(FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
         catch (IOException e) {

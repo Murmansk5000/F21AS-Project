@@ -17,6 +17,11 @@ public class Passenger implements Comparable<Passenger> {
      * @param ifCheck       Boolean flag indicating whether the passenger has checked in.
      */
     public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean ifCheck) {
+        if( firstName.trim().length() ==0|| lastName.trim().length()== 0|| referenceCode.trim().length()== 0)
+        {
+            throw new IllegalStateException(
+                    "Cannot have blank name or reference code");
+        }
         this.referenceCode = referenceCode.trim();
         this.firstName = firstName.trim();
         this.lastName = lastName.trim();
