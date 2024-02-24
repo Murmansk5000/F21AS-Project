@@ -1,3 +1,6 @@
+import AllException.FormatErrorException;
+import AllException.OverWeightException;
+
 public class Baggage {
 	// Assuming a base fee
 	private static final double BASE_FEE = 0.0;
@@ -59,7 +62,7 @@ public class Baggage {
 		this.fee = fee;
 	}
 
-	public void calculateFee() {
+	public void calculateFee() throws FormatErrorException {
 		// Reset the fee to a base value or specific initial charge
 		double weightFee = 0.0;
 		double sizeFee = 0.0;
@@ -71,12 +74,14 @@ public class Baggage {
 
 		// Check if the baggage is over the weight limit
 		if (weight > weightLimit) {
-			weightFee += (weight - weightLimit) * excessWeightFee;
+			//weightFee += (weight - weightLimit) * excessWeightFee;
+			throw new FormatErrorException();
 		}
 
 		// Check if the baggage is over the size limit
 		if ((length + width + height) > sizeLimit) {
-			sizeFee += excessSizeCharge;
+			//sizeFee += excessSizeCharge;
+			throw new FormatErrorException();
 		}
 		fee = BASE_FEE + Math.max(weightFee, sizeFee);
 	}

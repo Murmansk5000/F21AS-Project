@@ -1,3 +1,5 @@
+import AllException.OverLoadException;
+
 public class Flight implements Comparable<Flight> {
 
 	private String flightCode;
@@ -76,26 +78,24 @@ public class Flight implements Comparable<Flight> {
 	 * Adds a passenger to the flight if it has not reached its maximum passenger capacity.
 	 * @param passenger The passenger to add to the flight.
 	 */
-	public void addPassenger(Passenger passenger) {
+	public void addPassenger(Passenger passenger) throws OverLoadException{
 		if (passengerInFlight.size() < maxPassengers) {
 			passengerInFlight.addPassenger(passenger);
-		} /*
-		else {
+		} else{
+			throw new OverLoadException();
 		}
-		*/
 	}
 
 	/**
 	 * Adds baggage to the flight if the total volume and weight do not exceed the flight's limits.
 	 * @param baggage The baggage to add to the flight.
 	 */
-	public void addBaggage(Baggage baggage) {
+	public void addBaggage(Baggage baggage) throws OverLoadException{
 		if(baggageInFlight.getTotalVolume() < getMaxBaggageVolume() && baggageInFlight.getTotalWeight() < getMaxBaggageWeight()){
 			baggageInFlight.addBaggage(baggage);
-		}/*
-		else {
+		}else{
+			throw new OverLoadException();
 		}
-		*/
 	}
 
 	@Override

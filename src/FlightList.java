@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -37,7 +38,10 @@ public class FlightList {
                 );
                 this.flightlist.add(flight);
             }
-        } catch (IOException e) {
+        }  catch(FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
