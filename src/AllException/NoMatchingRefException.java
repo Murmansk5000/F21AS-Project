@@ -7,6 +7,6 @@ public class NoMatchingRefException extends Exception{
     a window will pop up reminding the user to retype.
     */
     public NoMatchingRefException(String ref){
-        super("There is no "+ref+", please check and re-enter.");
+        super("There is no "+ref+", please check.");
     }
 }

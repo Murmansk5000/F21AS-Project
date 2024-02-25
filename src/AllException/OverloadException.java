@@ -6,7 +6,7 @@ public class OverloadException extends Exception{
     a OverloadException is thrown,
     reminding the staff in the flight report.
     */
-    public OverloadException(){
-        super("Flight xxx is overload.");
+    public OverloadException(String flight){
+        super("Flight "+flight+" is overload.");
     }
 }

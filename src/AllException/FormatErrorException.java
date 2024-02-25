@@ -6,7 +6,7 @@ public class FormatErrorException extends Exception{
     a FormatErrorException is thrown, a window will pop up reminding the user to retype.
     */
     public FormatErrorException(){
-        super("Not the correct input format.\n" +
+        super("Incorrect input format.\n" +
                 "Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
                 "Weight of Checked baggage: not exceeding 23 (kg).");
     }

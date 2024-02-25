@@ -82,7 +82,7 @@ public class Flight implements Comparable<Flight> {
 		if (passengerInFlight.size() < maxPassengers) {
 			passengerInFlight.addPassenger(passenger);
 		} else{
-			throw new OverloadException();
+			throw new OverloadException(flightCode);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class Flight implements Comparable<Flight> {
 		if(baggageInFlight.getTotalVolume() < getMaxBaggageVolume() && baggageInFlight.getTotalWeight() < getMaxBaggageWeight()){
 			baggageInFlight.addBaggage(baggage);
 		}else{
-			throw new OverloadException();
+			throw new OverloadException(flightCode);
 		}
 	}
 

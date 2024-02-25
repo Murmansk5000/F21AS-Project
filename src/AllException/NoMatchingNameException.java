@@ -7,6 +7,6 @@ public class NoMatchingNameException extends Exception{
     a window will pop up reminding the user to retype.
     */
     public NoMatchingNameException(){
-        super("There is no matching name, please re-enter.");
+        super("No matching name.\n");
     }
 }
