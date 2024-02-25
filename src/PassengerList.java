@@ -1,3 +1,6 @@
+import AllException.NoMatchingRefException;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,13 +17,14 @@ public class PassengerList {
 	 * Constructor to initialize the PassengerList.
 	 */
 	public PassengerList() {
-		passengerList = new ArrayList<Passenger>();
+		this.passengerList = new ArrayList<Passenger>();
+		// Load passengers from TXT file directly into paxList
 	}
 
 	/**
-	 * Loads passengers from a CSV file.
+	 * Loads passengers from a txt file.
 	 * Clears existing list, then adds each passenger from the file, skipping malformed lines.
-	 * @param fileName Path to the CSV file.
+	 * @param fileName Path to the txt file.
 	 */
 
 	public void loadPassengersFromTXT(String fileName) {
@@ -36,7 +40,11 @@ public class PassengerList {
 				Passenger passenger = new Passenger(data[0], data[1], data[2], data[3], Boolean.parseBoolean(data[4]));
 				this.passengerList.add(passenger);
 			}
-		} catch (IOException e) {
+		}
+		catch(FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		catch (IOException e) {
 			e.printStackTrace(); // Consider more sophisticated error handling or logging
 		}
 	}
@@ -48,10 +56,12 @@ public class PassengerList {
 	 * @param referenceCode The reference code to be looked up.
 	 * @return The Passenger corresponding to the reference code, null if none found.
 	 */
-	public Passenger findByRefCode(String referenceCode) {
+	public Passenger findByRefCode(String referenceCode) throws NoMatchingRefException{
 		for (Passenger p : passengerList) {
 			if (p.getRefCode().equals(referenceCode)) {
 				return p;
+			}else{
+				throw new NoMatchingRefException(referenceCode);
 			}
 		}
 		return null;

@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,15 +9,15 @@ public class FlightList {
     // Storage for an arbitrary number of Flight objects.
     private ArrayList<Flight> flightlist;
 
-    public FlightList() {
+    /**
+     * Loads flight data from a txt file.
+     * @param fileName Path to the txt file.
+     */
+    public FlightList(String fileName) {
         flightlist = new ArrayList<Flight>();
     }
 
-    /**
-     * Loads flight data from a CSV file.
-     * Skips malformed lines and removes units from numeric fields.
-     * @param fileName Path to the CSV file.
-     */
+
     public void loadFlightsFromTXT(String fileName) {
         this.flightlist.clear(); // Optional: clear existing flights before loading new ones
         try {
@@ -37,7 +38,11 @@ public class FlightList {
                 );
                 this.flightlist.add(flight);
             }
-        } catch (IOException e) {
+        }
+        catch(FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

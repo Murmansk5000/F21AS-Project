@@ -6,14 +6,11 @@ public class ProgrammeDemo {
 
 	public ProgrammeDemo() {
 		// Initialize empty list of passengers and flights
+		// Load passengers from TXT file directly into paxList
+		// Load flights from TXT file directly into fltList
 		paxList = new PassengerList();
-		fltList = new FlightList();
-
-		// Load passengers from CSV file directly into paxList
 		paxList.loadPassengersFromTXT("PassengerList.txt");
-
-		// Load flights from CSV file directly into fltList
-		fltList.loadFlightsFromTXT("FlightList.txt");
+		fltList = new FlightList("FlightList.txt");
 	}
 
 
