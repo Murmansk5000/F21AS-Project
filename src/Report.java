@@ -32,6 +32,7 @@ public class Report {
 
     // print report
     public void printReport(String flightNumber, int soldTickets, int checkIns, double luggageWeight, double luggageVolume, String takeOffStatus, String reason, String departureTime) {
+        //add a loop for every flight
         System.out.print(generateReportString(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime));
     }
 
@@ -39,6 +40,7 @@ public class Report {
     public void writeReportToFile(String flightNumber, int soldTickets, int checkIns, double luggageWeight, double luggageVolume, String takeOffStatus, String reason, String departureTime, String filePath) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+            //add a loop for every flight
             writer.write(generateReportString(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime));
             writer.close();
             System.out.println("Report has been written to " + filePath);
