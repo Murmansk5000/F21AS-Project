@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 
 public class BaggageList {
+    private static final double BASE_FEE = 0.0;
     private ArrayList<Baggage> baggages;
     private double totalVolume;
     private double totalWeight;
@@ -50,12 +51,20 @@ public class BaggageList {
         return this.quantity;
     }
 
-    public void calculateTotalfee() {
-        this.totalFee = 0.0;
+    public void calculateTotalWeight() {
+        this.totalWeight = 0.0;
         for (Baggage baggage : this.baggages) {
-            this.totalFee += baggage.getFee();
+            this.totalWeight += baggage.getWeight();
         }
     }
+
+    public void calculateTotalVolume() {
+        this.totalWeight = 0.0;
+        for (Baggage baggage : this.baggages) {
+            this.totalVolume += baggage.getVolume();
+        }
+    }
+
 
     public double getTotalFee() {
         return this.totalFee;
@@ -86,5 +95,21 @@ public class BaggageList {
 
     public int size(){
         return this.size();
+    }
+
+    public void calculateTotalfee() {
+        // Reset the fee to a base value or specific initial charge
+        double Fee = 0.0;
+
+        double weightLimit = 40; // 23 kg weight limit
+        double excessWeightFee = 50; // Charge per kg for weight over the limit
+
+        // Check if the baggage is over the weight limit
+        if (this.totalWeight > weightLimit) {
+            Fee += (this.totalFee - weightLimit) * excessWeightFee;
+        }
+
+        // Check if the baggage is over the size limit
+        this.totalFee = BASE_FEE + Fee;
     }
 }

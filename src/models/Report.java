@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Report {
 
-    // 生成报告
+    // create report content
     private String generateReportString(String flightNumber, int soldTickets, int checkIns, double luggageWeight, double luggageVolume, String takeOffStatus, String reason, String departureTime) {
         String divider = "===============================";
         return new StringBuilder()
@@ -32,15 +32,17 @@ public class Report {
                 .toString();
     }
 
-    // 打印报告
+    // print report
     public void printReport(String flightNumber, int soldTickets, int checkIns, double luggageWeight, double luggageVolume, String takeOffStatus, String reason, String departureTime) {
+        //add a loop for every flight
         System.out.print(generateReportString(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime));
     }
 
-    // 写报告到文件
+    // write report file
     public void writeReportToFile(String flightNumber, int soldTickets, int checkIns, double luggageWeight, double luggageVolume, String takeOffStatus, String reason, String departureTime, String filePath) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+            //add a loop for every flight
             writer.write(generateReportString(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime));
             writer.close();
             System.out.println("models.Report has been written to " + filePath);
@@ -49,12 +51,12 @@ public class Report {
         }
     }
 
-    // 测试
+    // test
     public static void main(String[] args) {
-        // 创建Report实例
+        // create report instance
         Report report = new Report();
 
-        // 后期修改
+        // change later
         String flightNumber = "AB1234";
         int soldTickets = 120;
         int checkIns = 110;
@@ -65,10 +67,10 @@ public class Report {
         String departureTime = "18:00";
         String filePath = "report.txt";
 
-        // 打印报告
+        // print report
         report.printReport(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime);
 
-        // 写报告文件
+        // write report file
         report.writeReportToFile(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime, filePath);
     }
 }
