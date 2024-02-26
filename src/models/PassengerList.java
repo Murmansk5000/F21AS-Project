@@ -1,6 +1,5 @@
 package models;
-
-import AllException.NoMatchingRefException;
+import AllException.AllExceptions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -58,12 +57,12 @@ public class PassengerList {
 	 * @param referenceCode The reference code to be looked up.
 	 * @return The models.Passenger corresponding to the reference code, null if none found.
 	 */
-	public Passenger findByRefCode(String referenceCode) throws NoMatchingRefException{
+	public Passenger findByRefCode(String referenceCode) throws AllExceptions.NoMatchingRefException {
 		for (Passenger p : passengerList) {
 			if (p.getRefCode().equals(referenceCode)) {
 				return p;
 			}else{
-				throw new NoMatchingRefException(referenceCode);
+				throw new AllExceptions.NoMatchingRefException(referenceCode);
 			}
 		}
 		return null;
