@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ExceptionFromatErrorGUI extends JFrame {
-
     public ExceptionFromatErrorGUI(String ref) {
         setTitle("Sample Window");
         setSize(300, 200); // 设置窗口大小
@@ -17,9 +16,9 @@ public class ExceptionFromatErrorGUI extends JFrame {
         setLayout(new BorderLayout());
 
         // 创建标签并添加到中间
-        String labelText = "<html>Not the correct input format." +
-                "<br>Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm)." +
-                "<br>Weight of Checked baggage: not exceeding 23 (kg).</html>";
+        String labelText = "<html><span style='color: red;'>Not the correct input format.</span>" +
+                " Dimensions of Checked baggage: <span style='color: red;'>the sum of length, width, and height not exceeding 158 (cm)</span>," +
+                "<br>Weight of Checked baggage: <span style='color: red;'>not exceeding 23 (kg)</span>.</html>";
         JLabel label = new JLabel(labelText, SwingConstants.CENTER);
         add(label, BorderLayout.CENTER);
 
@@ -39,4 +38,5 @@ public class ExceptionFromatErrorGUI extends JFrame {
 
         setVisible(true); // 使窗口可见
     }
+
 }

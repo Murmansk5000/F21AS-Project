@@ -23,7 +23,7 @@ public class FlightCheckInGUI extends JFrame {
 
         // 输入面板的统一方法，优化代码重用
         // mainPanel.add(createInputPanel("                First Name:", new JTextField(20)));
-        mainPanel.add(createInputPanel("                Last Name:", new JTextField(20)));
+        mainPanel.add(createInputPanel("              Last Name:", new JTextField(20)));
         mainPanel.add(createInputPanel("Booking Reference:", new JTextField(20)));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));

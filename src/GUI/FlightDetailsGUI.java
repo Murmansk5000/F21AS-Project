@@ -16,7 +16,7 @@ public class FlightDetailsGUI extends JFrame {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JLabel headerLabel = new JLabel("Here is your flight details", SwingConstants.CENTER);
+        JLabel headerLabel = new JLabel("Here is your flight details", SwingConstants.LEFT);
         mainPanel.add(headerLabel);
 
         //添加航班信息
@@ -48,6 +48,8 @@ public class FlightDetailsGUI extends JFrame {
         panel.add(new JLabel(value));
         return panel;
     }
-
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> new FlightDetailsGUI().setVisible(true));
+    }
     // Omitted the rest of the class for brevity...
 }
