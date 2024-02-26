@@ -1,3 +1,5 @@
+package models;
+
 public class Baggage {
 	private static final double BASE_FEE = 0.0;
 	private double length = 0.0;
