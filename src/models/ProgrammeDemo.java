@@ -1,3 +1,5 @@
+package models;
+
 public class ProgrammeDemo {
 	private PassengerList paxList;
 	private FlightList fltList;
@@ -9,13 +11,13 @@ public class ProgrammeDemo {
 		// Load passengers from TXT file directly into paxList
 		// Load flights from TXT file directly into fltList
 		paxList = new PassengerList();
-		paxList.loadPassengersFromTXT("PassengerList.txt");
-		fltList = new FlightList("FlightList.txt");
+		paxList.loadPassengersFromTXT("models.PassengerList.txt");
+		fltList = new FlightList("models.FlightList.txt");
 	}
 
 
 	/**
-	 * Allow the user to interact with the Passenger list.
+	 * Allow the user to interact with the models.Passenger list.
 	 */
 	public void showInterface() {
 		// interaction.run();
@@ -29,7 +31,7 @@ public class ProgrammeDemo {
 	 */
 
 	public static void main(String[] args) {
-		// creates demo object, with a populated Passenger list
+		// creates demo object, with a populated models.Passenger list
 		ProgrammeDemo sld = new ProgrammeDemo();
 
 		// allow user to interact using a GUI

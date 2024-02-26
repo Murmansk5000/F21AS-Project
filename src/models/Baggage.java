@@ -1,3 +1,5 @@
+package models;
+
 import AllException.FormatErrorException;
 import AllException.OverWeightException;
 
@@ -36,6 +38,10 @@ public class Baggage {
 	public void setHeight(double height) {
 		this.height = height;
 		updateVolume();
+	}
+
+	public double getSize(){
+		return this.height + this.width + this.length;
 	}
 
 	private void updateVolume() {

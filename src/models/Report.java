@@ -1,3 +1,5 @@
+package models;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,9 +11,9 @@ public class Report {
         String divider = "===============================";
         return new StringBuilder()
                 .append(divider).append("\n")
-                .append("============Report=============").append("\n")
+                .append("============models.Report=============").append("\n")
                 .append(divider).append("\n")
-                .append("Flight number: ").append(flightNumber).append("\n")
+                .append("models.Flight number: ").append(flightNumber).append("\n")
                 .append(divider).append("\n")
                 .append("Sold Ticket: ").append(soldTickets).append("\n")
                 .append(divider).append("\n")
@@ -41,7 +43,7 @@ public class Report {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
             writer.write(generateReportString(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime));
             writer.close();
-            System.out.println("Report has been written to " + filePath);
+            System.out.println("models.Report has been written to " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }

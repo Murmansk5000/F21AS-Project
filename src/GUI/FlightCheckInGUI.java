@@ -22,8 +22,8 @@ public class FlightCheckInGUI extends JFrame {
         mainPanel.add(headerLabel);
 
         // 输入面板的统一方法，优化代码重用
+        // mainPanel.add(createInputPanel("                First Name:", new JTextField(20)));
         mainPanel.add(createInputPanel("                Last Name:", new JTextField(20)));
-        mainPanel.add(createInputPanel("                First Name:", new JTextField(20)));
         mainPanel.add(createInputPanel("Booking Reference:", new JTextField(20)));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -31,6 +31,8 @@ public class FlightCheckInGUI extends JFrame {
         quitButton.addActionListener(e -> System.exit(0));
 
         JButton finishButton = new JButton("Finish");
+
+        // TODO
         finishButton.addActionListener(e -> {
             this.dispose(); // 关闭当前窗口
             // 打开航班详情窗口（最终实现这里会有修改）

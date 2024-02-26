@@ -1,8 +1,6 @@
 package GUI;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 // 现有的FlightCheckInGUI类...
 
@@ -24,16 +22,16 @@ public class FlightDetailsGUI extends JFrame {
         //添加航班信息
         mainPanel.add(createDetailPanel("Arrival Airport: ", "Example Airport"));
         mainPanel.add(createDetailPanel("Carrier: ", "Example Airline"));
-        mainPanel.add(createDetailPanel("Flight Capacity - Max Passenger: ", "220"));
+        mainPanel.add(createDetailPanel("models.Flight Capacity - Max models.Passenger: ", "220"));
         mainPanel.add(createDetailPanel("Max Weight: ", "18,000kg"));
         mainPanel.add(createDetailPanel("Max Volume: ", "200m^3"));
-        mainPanel.add(createDetailPanel("Flight Number: ", "EA123"));
+        mainPanel.add(createDetailPanel("models.Flight Number: ", "EA123"));
 
         JButton nextButton = new JButton("Next Step");
         nextButton.addActionListener(e -> {
             this.dispose(); // 关闭当前窗口
             // 打开航班详情窗口（最终实现这里会有修改）
-            new LuggageDetailsGUI().setVisible(true);
+            new BaggageDetailsGUI().setVisible(true);
         });
 
         // 为了在下方右对齐按钮，用FlowLayout管理器

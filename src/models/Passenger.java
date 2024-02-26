@@ -1,3 +1,5 @@
+package models;
+
 public class Passenger implements Comparable<Passenger> {
     private String referenceCode;
     private String firstName;
@@ -7,7 +9,7 @@ public class Passenger implements Comparable<Passenger> {
     private BaggageList baggagesOfPassenger;
 
     /**
-     * Construct a new Passenger with the specified details. All provided information is used
+     * Construct a new models.Passenger with the specified details. All provided information is used
      * to initialize the passenger's state.
      *
      * @param referenceCode The unique reference code for the passenger.
@@ -26,7 +28,7 @@ public class Passenger implements Comparable<Passenger> {
         this.firstName = firstName.trim();
         this.lastName = lastName.trim();
         this.flightCode = flightCode.trim();
-        this.ifCheck = ifCheck;
+        this.ifCheck = true;
         this.baggagesOfPassenger = new BaggageList(); // Initialize the baggage list for the passenger
     }
 
@@ -56,13 +58,13 @@ public class Passenger implements Comparable<Passenger> {
 //     * Test for content equality between two objects.
 //     *
 //     * @param other The object to compare to this one.
-//     * @return true if the argument object is a Passenger and has the same reference code.
+//     * @return true if the argument object is a models.Passenger and has the same reference code.
 //     */
 //    @Override
 //    public boolean equals(Object other) {
 //        if (this == other) return true;
 //        if (other == null || getClass() != other.getClass()) return false;
-//        Passenger passenger = (Passenger) other;
+//        models.Passenger passenger = (models.Passenger) other;
 //        return referenceCode.equals(passenger.referenceCode);
 //    }
 
@@ -71,7 +73,7 @@ public class Passenger implements Comparable<Passenger> {
      */
     @Override
     public String toString() {
-        return "Passenger{" +
+        return "models.Passenger{" +
                 "refCode='" + referenceCode + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

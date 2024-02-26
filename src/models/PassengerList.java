@@ -1,3 +1,5 @@
+package models;
+
 import AllException.NoMatchingRefException;
 
 import java.io.FileNotFoundException;
@@ -14,7 +16,7 @@ public class PassengerList {
 	private ArrayList<Passenger> passengerList;
 
 	/**
-	 * Constructor to initialize the PassengerList.
+	 * Constructor to initialize the models.PassengerList.
 	 */
 	public PassengerList() {
 		this.passengerList = new ArrayList<Passenger>();
@@ -51,10 +53,10 @@ public class PassengerList {
 
 
 	/**
-	 * Look up a reference code and return the corresponding Passenger object.
+	 * Look up a reference code and return the corresponding models.Passenger object.
 	 *
 	 * @param referenceCode The reference code to be looked up.
-	 * @return The Passenger corresponding to the reference code, null if none found.
+	 * @return The models.Passenger corresponding to the reference code, null if none found.
 	 */
 	public Passenger findByRefCode(String referenceCode) throws NoMatchingRefException{
 		for (Passenger p : passengerList) {
@@ -68,18 +70,18 @@ public class PassengerList {
 	}
 
 	/**
-	 * Add a new Passenger object to the list.
+	 * Add a new models.Passenger object to the list.
 	 *
-	 * @param passenger The Passenger to be added.
+	 * @param passenger The models.Passenger to be added.
 	 */
 	public void addPassenger(Passenger passenger) {
 		passengerList.add(passenger);
 	}
 
 	/**
-	 * Remove the Passenger object identified by the given reference code.
+	 * Remove the models.Passenger object identified by the given reference code.
 	 *
-	 * @param referenceCode the reference code identifying the Passenger to be removed.
+	 * @param referenceCode the reference code identifying the models.Passenger to be removed.
 	 */
 	public void removeDetails(String referenceCode) {
 		int index = findIndex(referenceCode);
@@ -89,10 +91,10 @@ public class PassengerList {
 	}
 
 	/**
-	 * Look up a reference code and return the index of the corresponding Passenger in the list.
+	 * Look up a reference code and return the index of the corresponding models.Passenger in the list.
 	 *
 	 * @param referenceCode The reference code to be looked up.
-	 * @return The index of the Passenger, -1 if not found.
+	 * @return The index of the models.Passenger, -1 if not found.
 	 */
 	private int findIndex(String referenceCode) {
 
@@ -122,8 +124,8 @@ public class PassengerList {
 	}
 
 	/**
-	 * List all Passenger details sorted by name.
-	 * @return All Passenger details in name order as a String.
+	 * List all models.Passenger details sorted by name.
+	 * @return All models.Passenger details in name order as a String.
 	 */
 	public String listByName() {
 		Collections.sort(passengerList, Comparator.comparing(Passenger::getLastName)
@@ -133,8 +135,8 @@ public class PassengerList {
 
 
 	/**
-	 * List all Passenger details sorted by reference code.
-	 * @return All Passenger details in reference code order as a String.
+	 * List all models.Passenger details sorted by reference code.
+	 * @return All models.Passenger details in reference code order as a String.
 	 */
 	public String listByReferenceCode() {
 		Collections.sort(passengerList);

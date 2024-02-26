@@ -1,3 +1,5 @@
+package models;
+
 import AllException.OverloadException;
 
 public class Flight implements Comparable<Flight> {
@@ -12,7 +14,7 @@ public class Flight implements Comparable<Flight> {
 	private PassengerList passengerInFlight;
 
 	/**
-	 * Construct a new Flight with the specified details. All provided information is used
+	 * Construct a new models.Flight with the specified details. All provided information is used
 	 * to initialize the flight's state.
 	 *
 	 * @param flightCode       The unique code identifying the flight.

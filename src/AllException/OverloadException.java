@@ -7,6 +7,6 @@ public class OverloadException extends Exception{
     reminding the staff in the flight report.
     */
     public OverloadException(String flight){
-        super("Flight "+flight+" is overload.");
+        super("models.Flight "+flight+" is overload.");
     }
 }

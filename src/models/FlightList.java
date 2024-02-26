@@ -1,3 +1,5 @@
+package models;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlightList {
-    // Storage for an arbitrary number of Flight objects.
+    // Storage for an arbitrary number of models.Flight objects.
     private ArrayList<Flight> flightlist;
 
     /**
@@ -48,10 +50,10 @@ public class FlightList {
     }
 
     /**
-     * Look up a flight code and return the corresponding Flight object.
+     * Look up a flight code and return the corresponding models.Flight object.
      *
      * @param flightCode The flight code to be looked up.
-     * @return The Flight object corresponding to the flight code, null if none found.
+     * @return The models.Flight object corresponding to the flight code, null if none found.
      */
     public Flight findByCode(String flightCode) {
         for (Flight f : flightlist) {
@@ -63,18 +65,18 @@ public class FlightList {
     }
 
     /**
-     * Add a new Flight object to the list.
+     * Add a new models.Flight object to the list.
      *
-     * @param flight The Flight object to be added.
+     * @param flight The models.Flight object to be added.
      */
     public void addFlight(Flight flight) {
         flightlist.add(flight);
     }
 
     /**
-     * Remove a Flight object identified by the given flight code.
+     * Remove a models.Flight object identified by the given flight code.
      *
-     * @param flightCode the flight code identifying the Flight to be removed.
+     * @param flightCode the flight code identifying the models.Flight to be removed.
      */
     public void removeFlight(String flightCode) {
         int index = findIndex(flightCode);
@@ -84,10 +86,10 @@ public class FlightList {
     }
 
     /**
-     * Look up a flight code and return the index of the corresponding Flight in the list.
+     * Look up a flight code and return the index of the corresponding models.Flight in the list.
      *
      * @param flightCode The flight code to be looked up.
-     * @return The index of the Flight, -1 if not found.
+     * @return The index of the models.Flight, -1 if not found.
      */
     private int findIndex(String flightCode) {
 
@@ -100,14 +102,14 @@ public class FlightList {
     }
 
     /**
-     * @return The number of Flight objects currently in the list.
+     * @return The number of models.Flight objects currently in the list.
      */
     public int size() {
         return flightlist.size();
     }
 
     /**
-     * @return A String representation of all Flight details in the list.
+     * @return A String representation of all models.Flight details in the list.
      */
     public String listDetails() {
         StringBuilder allEntries = new StringBuilder();
