@@ -1,4 +1,6 @@
-package AllException;
+package models;
+
+import javax.swing.*;
 
 public class AllExceptions extends Exception{
     /*
@@ -10,6 +12,9 @@ public class AllExceptions extends Exception{
             super("Incorrect input format.\n" +
                     "Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
                     "Weight of Checked baggage: not exceeding 23 (kg).");
+            JOptionPane.showMessageDialog(null, "Incorrect input format.\n" +
+                    "Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
+                    "Weight of Checked baggage: not exceeding 23 (kg).", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     /*
@@ -20,6 +25,7 @@ public class AllExceptions extends Exception{
     public static class NoMatchingNameException extends Exception{
         public NoMatchingNameException(){
             super("No matching name.\n");
+            JOptionPane.showMessageDialog(null, "No matching name.\n", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     /*
@@ -30,6 +36,7 @@ public class AllExceptions extends Exception{
     public static class NoMatchingRefException extends Exception{
         public NoMatchingRefException(String ref){
             super("There is no "+ref+", please check.");
+            JOptionPane.showMessageDialog(null, "There is no "+ref+", please check.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     /*
@@ -41,6 +48,7 @@ public class AllExceptions extends Exception{
     public static class OverWeightException extends Exception{
         public OverWeightException(){
             super("The baggage exceeds the rated baggage limit(23kg).\n");
+            JOptionPane.showMessageDialog(null, "The baggage exceeds the rated baggage limit(23kg).\n", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     /*
@@ -51,26 +59,27 @@ public class AllExceptions extends Exception{
     public static class OverloadException extends Exception{
         public OverloadException(String flight){
             super("Flight "+flight+" is overload.");
+            JOptionPane.showMessageDialog(null, "Flight "+flight+" is overload.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    public static void AllException(Exception e) {
-        if (e instanceof FormatErrorException) {
-            // 显示特定的异常窗口
-        }
-        if (e instanceof NoMatchingNameException) {
-            // 显示特定的异常窗口
-        }
-        if (e instanceof NoMatchingRefException) {
-            // 显示特定的异常窗口
-        }
-        if (e instanceof OverWeightException) {
-            // 显示特定的异常窗口
-        }
-        if (e instanceof OverloadException) {
-            // 显示特定的异常窗口
-        }else {
-            // 显示一般的异常窗口或处理其他类型的异常
-        }
-    }
+//    public static void AllException(Exception e) {
+//        if (e instanceof FormatErrorException) {
+//            // 显示特定的异常窗口
+//        }
+//        if (e instanceof NoMatchingNameException) {
+//            // 显示特定的异常窗口
+//        }
+//        if (e instanceof NoMatchingRefException) {
+//            // 显示特定的异常窗口
+//        }
+//        if (e instanceof OverWeightException) {
+//            // 显示特定的异常窗口
+//        }
+//        if (e instanceof OverloadException) {
+//            // 显示特定的异常窗口
+//        }else {
+//            // 显示一般的异常窗口或处理其他类型的异常
+//        }
+//    }
 }
 

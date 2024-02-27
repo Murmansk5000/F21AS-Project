@@ -1,5 +1,4 @@
 package models;
-import AllException.AllExceptions;
 
 
 public class Flight implements Comparable<Flight> {

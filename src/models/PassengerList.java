@@ -1,5 +1,4 @@
 package models;
-import AllException.AllExceptions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
