@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ShowGUI extends JFrame {
+    private JTextField lastNameTextField;
+    private JTextField referenceTextField;
 
     public void FlightCheckInGUI() {
         setTitle("Welcome to airport check-in system");
@@ -34,8 +36,16 @@ public class ShowGUI extends JFrame {
 
         JButton finishButton = new JButton("Finish");
         finishButton.addActionListener(e -> {
-            this.dispose(); // 关闭当前窗口
+
             // 打开航班详情窗口（最终实现这里会有修改）
+
+            String lastName = lastNameTextField.getText();
+            String reference = referenceTextField.getText();
+
+            this.dispose(); // 关闭当前窗口
+            System.out.println((lastName));
+            System.out.println(reference);
+
             new FlightDetailsGUI().setVisible(true);
         });
 
@@ -49,9 +59,16 @@ public class ShowGUI extends JFrame {
 
     }
 
-    private JPanel createLoginPanel(String label, JTextField textField) {
+    public JPanel createLoginPanel(String label, JTextField textField) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         panel.add(new JLabel(label));
+
+        if (label.trim().equals("Last Name:")) {
+            lastNameTextField = textField; // 为 "Last Name" 文本框设置对象
+        } else if (label.trim().equals("Booking Reference:")) {
+            referenceTextField = textField; // 为 "Booking Reference" 文本框设置对象
+        }
+
         panel.add(textField);
         return panel;
     }
@@ -99,6 +116,10 @@ public class ShowGUI extends JFrame {
             return panel;
         }
     }
+    private JTextField weightField1;
+    private JTextField lengthField1;
+    private JTextField widthField1;
+    private JTextField heightField1;
     class BaggageDetailsGUI extends JFrame{
         public BaggageDetailsGUI(){
             setTitle("Baggage Details");
@@ -132,8 +153,18 @@ public class ShowGUI extends JFrame {
             // 创建下一步按钮
             JButton nextButton = new JButton("Next Step");
             nextButton.addActionListener(e -> {
+                String baggage1Weight = weightField1.getText(); // 获取第一个行李重量的文本
+                String baggage1Length = lengthField1.getText(); // 获取第一个行李长度的文本
+                String baggage1Width = widthField1.getText(); // 获取第一个行李宽度的文本
+                String baggage1Height = heightField1.getText(); // 获取第一个行李高度的文本
+
+                System.out.println(baggage1Weight);
+                System.out.println(baggage1Length);
+                System.out.println(baggage1Width);
+                System.out.println(baggage1Height);
                 this.dispose(); // 关闭当前窗口
                 // 计算额外费用，跳不同窗口
+
             });
 
             JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
