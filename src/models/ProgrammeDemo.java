@@ -31,8 +31,8 @@ public class ProgrammeDemo {
 	 * public void showGUI() { gui = new PassengerListGUI(entries);
 	 * gui.setVisible(true); }
 	 */
-	public void showGUI(PassengerList passengerList) {
-		ShowGUI gui = new ShowGUI(passengerList);
+	public void showGUI(PassengerList passengerList, Baggage checkBaggage, BaggageList calculateTotalfee) {
+		ShowGUI gui = new ShowGUI(passengerList,checkBaggage,calculateTotalfee);
 		gui.FlightCheckInGUI();
 		gui.setVisible(true);
 	}
@@ -42,12 +42,16 @@ public class ProgrammeDemo {
 		PassengerList passengerList = new PassengerList();
 		// Load passengers from TXT file directly into passengerList
 		passengerList.loadPassengersFromTXT("PassengerList.txt");
+		// Create a new Baggage object
+		Baggage checkBaggage = new Baggage();
+		//create a new BaggageList object
+		BaggageList calculateTotalfee = new BaggageList();
 
 		// creates demo object, with a populated models.Passenger list
 		ProgrammeDemo sld = new ProgrammeDemo();
 
 		// allow user to interact using a GUI
-		sld.showGUI(passengerList);
+		sld.showGUI(passengerList,checkBaggage,calculateTotalfee);
 
 		// allow user to interact with this list
 		// using text interface

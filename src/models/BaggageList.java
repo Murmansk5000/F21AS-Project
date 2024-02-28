@@ -76,7 +76,7 @@ public class BaggageList {
      * @param lists The baggage lists to merge
      * @return The merged baggage list
      */
-    public static BaggageList mergeBaggageLists(BaggageList... lists) {
+    public static BaggageList mergeBaggageLists(BaggageList... lists) throws AllExceptions.OverWeightException {
         BaggageList mergedList = new BaggageList();
         for (BaggageList list : lists) {
             for (Baggage baggage : list.baggages) {
@@ -97,16 +97,16 @@ public class BaggageList {
         return this.size();
     }
 
-    public void calculateTotalfee() {
+    public void calculateTotalfee() throws AllExceptions.OverWeightException{
         // Reset the fee to a base value or specific initial charge
         double Fee = 0.0;
-
-        double weightLimit = 40; // 23 kg weight limit
+        double totalWeightLimit = 40; // 40 kg weight limit
         double excessWeightFee = 50; // Charge per kg for weight over the limit
 
         // Check if the baggage is over the weight limit
-        if (this.totalWeight > weightLimit) {
-            Fee += (this.totalFee - weightLimit) * excessWeightFee;
+        if (this.totalWeight > totalWeightLimit) {
+            Fee += (this.totalFee - totalWeightLimit) * excessWeightFee;
+            throw new AllExceptions.OverWeightException();
         }
 
         // Check if the baggage is over the size limit

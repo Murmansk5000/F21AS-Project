@@ -1,9 +1,6 @@
 package GUI;
 
-import models.AllExceptions;
-import models.Flight;
-import models.Passenger;
-import models.PassengerList;
+import models.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +11,14 @@ public class ShowGUI extends JFrame {
     private JTextField lastNameTextField;
     private JTextField referenceTextField;
     private PassengerList passengerList;
+    private Baggage checkBaggage;
+    private BaggageList calculateTotalfee;
 
-    public ShowGUI(PassengerList passengerList) {
+    public ShowGUI(PassengerList passengerList, Baggage checkBaggage, BaggageList calculateTotalfee) {
+
         this.passengerList = passengerList;
+        this.checkBaggage = checkBaggage;
+        this.calculateTotalfee = calculateTotalfee;
     }
 
     public void FlightCheckInGUI() {
@@ -136,7 +138,7 @@ public class ShowGUI extends JFrame {
             nextButton.addActionListener(e -> {
                 this.dispose(); // 关闭当前窗口
                 // 打开航班详情窗口（最终实现这里会有修改）
-                new BaggageDetailsGUI().setVisible(true);
+                new BaggageDetailsGUI(checkBaggage,calculateTotalfee).setVisible(true);
             });
 
             // 为了在下方右对齐按钮，用FlowLayout管理器
@@ -162,7 +164,11 @@ public class ShowGUI extends JFrame {
         private JTextField lengthField1, widthField1, heightField1;
         private JTextField lengthField2, widthField2, heightField2;
         private JTextField lengthField3, widthField3, heightField3;
-        public BaggageDetailsGUI(){
+        private Baggage baggage;
+        private BaggageList calculateTotalfee;
+        public BaggageDetailsGUI(Baggage baggage, BaggageList calculateTotalfee){
+            this.baggage = baggage;
+            this.calculateTotalfee = calculateTotalfee;
             setTitle("Baggage Details");
             setSize(500, 500); // 统一界面大小
             setLocationRelativeTo(null); // 居中显示
@@ -194,37 +200,60 @@ public class ShowGUI extends JFrame {
             // 创建下一步按钮
             JButton nextButton = new JButton("Next Step");
             nextButton.addActionListener(e -> {
-                String baggage1Weight = weightField1.getText(); // 获取第一个行李重量的文本
-                String baggage1Length = lengthField1.getText(); // 获取第一个行李长度的文本
-                String baggage1Width = widthField1.getText(); // 获取第一个行李宽度的文本
-                String baggage1Height = heightField1.getText(); // 获取第一个行李高度的文本
+//                String baggage1Weight = weightField1.getText(); // 获取第一个行李重量的文本
+//                String baggage1Length = lengthField1.getText(); // 获取第一个行李长度的文本
+//                String baggage1Width = widthField1.getText(); // 获取第一个行李宽度的文本
+//                String baggage1Height = heightField1.getText(); // 获取第一个行李高度的文本
+//
+//                String baggage2Weight = weightField2.getText(); // 获取第二个行李重量的文本
+//                String baggage2Length = lengthField2.getText(); // 获取第二个行李长度的文本
+//                String baggage2Width = widthField2.getText(); // 获取第二个行李宽度的文本
+//                String baggage2Height = heightField2.getText(); // 获取第二个行李高度的文本
+//
+//                String baggage3Weight = weightField3.getText(); // 获取第三个行李重量的文本
+//                String baggage3Length = lengthField3.getText(); // 获取第三个行李长度的文本
+//                String baggage3Width = widthField3.getText(); // 获取第三个行李宽度的文本
+//                String baggage3Height = heightField3.getText(); // 获取第三个行李高度的文本
 
-                String baggage2Weight = weightField2.getText(); // 获取第二个行李重量的文本
-                String baggage2Length = lengthField2.getText(); // 获取第二个行李长度的文本
-                String baggage2Width = widthField2.getText(); // 获取第二个行李宽度的文本
-                String baggage2Height = heightField2.getText(); // 获取第二个行李高度的文本
+                try {
+                    double weight1 = Double.parseDouble(weightField1.getText());
+                    double length1 = Double.parseDouble(lengthField1.getText());
+                    double width1 = Double.parseDouble(widthField1.getText());
+                    double height1 = Double.parseDouble(heightField1.getText());
+                    baggage.checkBaggage(weight1, length1, width1, height1);
 
-                String baggage3Weight = weightField3.getText(); // 获取第三个行李重量的文本
-                String baggage3Length = lengthField3.getText(); // 获取第三个行李长度的文本
-                String baggage3Width = widthField3.getText(); // 获取第三个行李宽度的文本
-                String baggage3Height = heightField3.getText(); // 获取第三个行李高度的文本
+                    double weight2 = Double.parseDouble(weightField2.getText());
+                    double length2 = Double.parseDouble(lengthField2.getText());
+                    double width2 = Double.parseDouble(widthField2.getText());
+                    double height2 = Double.parseDouble(heightField2.getText());
+                    baggage.checkBaggage(weight2, length2, width2, height2);
 
-                System.out.println(baggage1Weight);
-                System.out.println(baggage1Length);
-                System.out.println(baggage1Width);
-                System.out.println(baggage1Height);
+                    double weight3 = Double.parseDouble(weightField3.getText());
+                    double length3 = Double.parseDouble(lengthField3.getText());
+                    double width3 = Double.parseDouble(widthField3.getText());
+                    double height3 = Double.parseDouble(heightField3.getText());
+                    baggage.checkBaggage(weight3, length3, width3, height3);
 
-                System.out.println(baggage2Weight);
-                System.out.println(baggage2Length);
-                System.out.println(baggage2Width);
-                System.out.println(baggage2Height);
+                    //TODO
+                    //这里好像没有计算，没有抛出异常，不知道什么问题，可能是参数没传进去
+                    calculateTotalfee.calculateTotalfee();
+                    // 如果未抛出异常，则说明行李符合规定，继续执行其他操作
+                    // TODO
+                    dispose();
+                } catch (NumberFormatException ex) {
+                    // 处理数字格式异常，例如用户未输入有效的数字等情况
+                    JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid numbers.\n" +
+                            "Please enter 0 in each text box if you not have this baggage, thank you.", "Error", JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
+                } catch (AllExceptions.FormatErrorException ex) {
+                    // 处理格式错误异常
+                    ex.printStackTrace();
+                } catch (AllExceptions.OverWeightException ex) {
+                    // 处理格式错误异常
+                    ex.printStackTrace();
+                }
 
-                System.out.println(baggage3Weight);
-                System.out.println(baggage3Length);
-                System.out.println(baggage3Width);
-                System.out.println(baggage3Height);
-
-                this.dispose(); // 关闭当前窗口
+                //this.dispose(); // 关闭当前窗口
                 // 计算额外费用，跳不同窗口
 
 

@@ -84,4 +84,21 @@ public class Baggage {
 //		}
 //		fee = BASE_FEE + Math.max(weightFee, sizeFee);
 //	}
+	public void checkBaggage(double weight, double length, double width, double height) throws AllExceptions.FormatErrorException{
+		double weightLimit = 23; // 23 kg weight limit
+		double sizeLimit = 158; // 158 cm size limit (length + width + height)
+		//Check if the baggage is over the weight limit
+		if (weight > weightLimit) {
+			throw new AllExceptions.FormatErrorException();
+		}
+		// Check if the baggage is over the size limit
+		if ((length + width + height) > sizeLimit) {
+			throw new AllExceptions.FormatErrorException();
+		}
+		//TODO
+		//如果四个输入有一个为0，其他不为0要不要抛异常？
+//		if (weight=0||length!=0||width!=0||height!=0) {
+//			throw new AllExceptions.FormatErrorException();
+//		}
+	}
 }
