@@ -51,7 +51,7 @@ public class PassengerList {
 
 
 	/**
-	 * Look up a reference code and return the corresponding models.Passenger object.
+	 * Look up a reference code and last name, then return the corresponding models.Passenger object.
 	 *
 	 * @param referenceCode The reference code to be looked up.
 	 * @return The models.Passenger corresponding to the reference code, null if none found.
@@ -66,7 +66,16 @@ public class PassengerList {
 		}
 		return null;
 	}
-
+	public Passenger findByLastName(String lastName) throws AllExceptions.NoMatchingNameException {
+		for (Passenger p : passengerList) {
+			if (p.getLastName().equals(lastName)) {
+				return p;
+			}else{
+				throw new AllExceptions.NoMatchingNameException(lastName);
+			}
+		}
+		return null;
+	}
 	/**
 	 * Add a new models.Passenger object to the list.
 	 *

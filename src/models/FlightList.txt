@@ -1,0 +1,101 @@
+FlightCode,DestinationAirport,Carrier,MaxPassengerCapacity,MaxBaggageWeight,MaxBaggageVolume
+NH3060,Airport 1,British Airways,220,4103 lbs,149 cubic inches
+MO1299,Airport 2,United Airlines,161,3974 lbs,237 cubic inches
+KL5865,Airport 3,American Airlines,191,4852 lbs,225 cubic inches
+WY7491,Airport 4,American Airlines,112,4011 lbs,262 cubic inches
+WN5986,Airport 5,Delta Air Lines,198,4657 lbs,199 cubic inches
+UR3737,Airport 6,British Airways,230,3330 lbs,215 cubic inches
+VX4023,Airport 7,British Airways,145,1804 lbs,292 cubic inches
+RS7341,Airport 8,American Airlines,163,1683 lbs,258 cubic inches
+KC7626,Airport 9,British Airways,112,2154 lbs,214 cubic inches
+TA3079,Airport 10,American Airlines,129,1090 lbs,193 cubic inches
+ZK6538,Airport 11,British Airways,127,4750 lbs,252 cubic inches
+FV5707,Airport 12,British Airways,176,4480 lbs,164 cubic inches
+RU2033,Airport 13,American Airlines,244,1058 lbs,233 cubic inches
+HF5794,Airport 14,British Airways,238,2387 lbs,291 cubic inches
+EF4011,Airport 15,American Airlines,240,2597 lbs,170 cubic inches
+HS8866,Airport 16,Delta Air Lines,127,4815 lbs,190 cubic inches
+FI6839,Airport 17,American Airlines,199,2692 lbs,194 cubic inches
+ZC7160,Airport 18,American Airlines,191,3127 lbs,234 cubic inches
+NK3956,Airport 19,British Airways,167,3313 lbs,187 cubic inches
+MC4960,Airport 20,British Airways,211,2345 lbs,187 cubic inches
+DX1414,Airport 21,British Airways,160,4797 lbs,105 cubic inches
+GI6016,Airport 22,American Airlines,196,3621 lbs,134 cubic inches
+XC3542,Airport 23,United Airlines,106,2004 lbs,222 cubic inches
+FH7485,Airport 24,Delta Air Lines,118,2812 lbs,160 cubic inches
+PS1444,Airport 25,American Airlines,238,3602 lbs,210 cubic inches
+NQ1296,Airport 26,British Airways,230,3594 lbs,221 cubic inches
+WT3608,Airport 27,American Airlines,221,1895 lbs,132 cubic inches
+LX0650,Airport 28,American Airlines,155,2658 lbs,191 cubic inches
+MO9044,Airport 29,American Airlines,233,2067 lbs,275 cubic inches
+CL6621,Airport 30,United Airlines,141,1399 lbs,269 cubic inches
+VO4578,Airport 31,Delta Air Lines,202,3505 lbs,295 cubic inches
+KK5512,Airport 32,Delta Air Lines,205,1681 lbs,158 cubic inches
+NN5566,Airport 33,British Airways,140,3809 lbs,111 cubic inches
+VS3132,Airport 34,Delta Air Lines,236,2474 lbs,111 cubic inches
+QF9761,Airport 35,United Airlines,140,3671 lbs,152 cubic inches
+JK5328,Airport 36,British Airways,220,2847 lbs,198 cubic inches
+ZF3878,Airport 37,United Airlines,198,2121 lbs,285 cubic inches
+DZ3262,Airport 38,British Airways,193,2930 lbs,267 cubic inches
+KW1697,Airport 39,British Airways,145,4836 lbs,264 cubic inches
+LU7958,Airport 40,United Airlines,132,1831 lbs,109 cubic inches
+FJ7232,Airport 41,American Airlines,134,4143 lbs,279 cubic inches
+JP9296,Airport 42,United Airlines,122,2507 lbs,277 cubic inches
+EW2965,Airport 43,American Airlines,202,4542 lbs,282 cubic inches
+XO0164,Airport 44,United Airlines,121,3327 lbs,152 cubic inches
+OL1958,Airport 45,British Airways,136,3612 lbs,100 cubic inches
+CY4669,Airport 46,British Airways,136,2774 lbs,252 cubic inches
+PG4112,Airport 47,British Airways,207,1269 lbs,154 cubic inches
+ZL5964,Airport 48,British Airways,103,4846 lbs,249 cubic inches
+JK7457,Airport 49,American Airlines,211,1265 lbs,127 cubic inches
+RL1500,Airport 50,United Airlines,164,1544 lbs,251 cubic inches
+GN2040,Airport 51,American Airlines,182,3133 lbs,196 cubic inches
+EQ8810,Airport 52,United Airlines,119,1862 lbs,116 cubic inches
+WR5674,Airport 53,Delta Air Lines,214,2331 lbs,152 cubic inches
+AK2357,Airport 54,United Airlines,215,4718 lbs,121 cubic inches
+ME5170,Airport 55,Delta Air Lines,119,4774 lbs,276 cubic inches
+CZ0233,Airport 56,Delta Air Lines,200,4071 lbs,165 cubic inches
+AK1225,Airport 57,Delta Air Lines,189,4553 lbs,159 cubic inches
+EL2320,Airport 58,Delta Air Lines,186,4005 lbs,287 cubic inches
+MU6869,Airport 59,British Airways,125,1037 lbs,126 cubic inches
+AO0792,Airport 60,United Airlines,143,2903 lbs,271 cubic inches
+OH8248,Airport 61,Delta Air Lines,125,1764 lbs,194 cubic inches
+OK6753,Airport 62,Delta Air Lines,108,3019 lbs,264 cubic inches
+CO9225,Airport 63,Delta Air Lines,211,1376 lbs,102 cubic inches
+SV6275,Airport 64,American Airlines,129,2933 lbs,297 cubic inches
+YO5374,Airport 65,Delta Air Lines,174,4634 lbs,224 cubic inches
+AI6164,Airport 66,United Airlines,213,1700 lbs,218 cubic inches
+QC2014,Airport 67,United Airlines,126,4378 lbs,210 cubic inches
+LS1152,Airport 68,Delta Air Lines,228,3239 lbs,255 cubic inches
+ZY9667,Airport 69,American Airlines,243,2152 lbs,157 cubic inches
+VR4034,Airport 70,United Airlines,184,2112 lbs,129 cubic inches
+EF1572,Airport 71,United Airlines,206,4791 lbs,198 cubic inches
+MV3703,Airport 72,British Airways,209,3470 lbs,218 cubic inches
+TJ0793,Airport 73,British Airways,206,3057 lbs,132 cubic inches
+UB6251,Airport 74,American Airlines,121,3427 lbs,224 cubic inches
+VF2090,Airport 75,British Airways,103,3983 lbs,229 cubic inches
+KM6870,Airport 76,American Airlines,109,1917 lbs,232 cubic inches
+YU2815,Airport 77,Delta Air Lines,239,4058 lbs,104 cubic inches
+WU2003,Airport 78,United Airlines,228,2464 lbs,289 cubic inches
+VO6512,Airport 79,American Airlines,101,1738 lbs,235 cubic inches
+EE3005,Airport 80,American Airlines,191,3525 lbs,162 cubic inches
+KD7495,Airport 81,Delta Air Lines,248,1289 lbs,171 cubic inches
+UN7014,Airport 82,American Airlines,101,3579 lbs,161 cubic inches
+IP2574,Airport 83,United Airlines,229,4919 lbs,110 cubic inches
+RP3349,Airport 84,Delta Air Lines,105,3802 lbs,200 cubic inches
+ED6708,Airport 85,British Airways,135,1327 lbs,132 cubic inches
+PN7453,Airport 86,Delta Air Lines,151,2161 lbs,285 cubic inches
+VD4427,Airport 87,British Airways,223,1549 lbs,103 cubic inches
+NN2823,Airport 88,British Airways,126,4717 lbs,195 cubic inches
+LK4903,Airport 89,United Airlines,179,2131 lbs,145 cubic inches
+CW8730,Airport 90,American Airlines,202,1903 lbs,249 cubic inches
+MK5906,Airport 91,American Airlines,233,3733 lbs,112 cubic inches
+BH0640,Airport 92,British Airways,203,3923 lbs,200 cubic inches
+WP3059,Airport 93,British Airways,190,2797 lbs,155 cubic inches
+QV2579,Airport 94,United Airlines,157,2684 lbs,136 cubic inches
+VS6026,Airport 95,Delta Air Lines,111,2202 lbs,124 cubic inches
+MC2413,Airport 96,American Airlines,183,2015 lbs,115 cubic inches
+FD2674,Airport 97,British Airways,205,2130 lbs,149 cubic inches
+QW8391,Airport 98,United Airlines,195,1784 lbs,292 cubic inches
+QV4470,Airport 99,American Airlines,249,2357 lbs,137 cubic inches
+UH4128,Airport 100,Delta Air Lines,162,4618 lbs,268 cubic inches

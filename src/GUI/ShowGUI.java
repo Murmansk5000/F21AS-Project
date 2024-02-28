@@ -1,6 +1,9 @@
 package GUI;
 
+import models.AllExceptions;
 import models.Flight;
+import models.Passenger;
+import models.PassengerList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +13,11 @@ import java.awt.event.ActionListener;
 public class ShowGUI extends JFrame {
     private JTextField lastNameTextField;
     private JTextField referenceTextField;
+    private PassengerList passengerList;
+
+    public ShowGUI(PassengerList passengerList) {
+        this.passengerList = passengerList;
+    }
 
     public void FlightCheckInGUI() {
         setTitle("Airport Check-in System");
@@ -42,12 +50,26 @@ public class ShowGUI extends JFrame {
 
             String lastName = lastNameTextField.getText();
             String reference = referenceTextField.getText();
+            try {
+                validateInputs();
+                Passenger passengerRef = passengerList.findByRefCode(reference);
+                Passenger passengerName = passengerList.findByLastName(lastName);
+                // If inputs are valid and correct, proceed to the next step
+                new FlightDetailsGUI().setVisible(true);
+                dispose(); // Close the current window
+            } catch (IllegalArgumentException ex) {
+                ex.printStackTrace();
+            } catch (AllExceptions.NoMatchingRefException ex){
+                ex.printStackTrace();
+            }catch (AllExceptions.NoMatchingNameException ex){
+                ex.printStackTrace();
+            }
 
-            this.dispose(); // 关闭当前窗口
-            System.out.println((lastName));
-            System.out.println(reference);
-
-            new FlightDetailsGUI().setVisible(true);
+//            this.dispose(); // 关闭当前窗口
+//            System.out.println((lastName));
+//            System.out.println(reference);
+//
+//            new FlightDetailsGUI().setVisible(true);
         });
 
         buttonPanel.add(quitButton);
@@ -59,6 +81,17 @@ public class ShowGUI extends JFrame {
         add(mainPanel);
 
     }
+    private void validateInputs() throws IllegalArgumentException {
+        String lastName = lastNameTextField.getText().trim();
+        String reference = referenceTextField.getText().trim();
+
+        if (lastName.isEmpty() || reference.isEmpty()) {
+            // Show dialog to remind passenger
+            JOptionPane.showMessageDialog(null, "Last Name and Booking Reference cannot be empty.\n", "Error", JOptionPane.ERROR_MESSAGE);
+            throw new IllegalArgumentException("Last Name and Booking Reference cannot be empty.");
+        }
+    }
+
 
     public JPanel createLoginPanel(String label, JTextField textField) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
@@ -260,12 +293,12 @@ public class ShowGUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            ShowGUI showGUI = new ShowGUI();
-            showGUI.FlightCheckInGUI();
-            showGUI.setVisible(true);
-        });
-
-    }
+//    public static void main(String[] args) {
+//        EventQueue.invokeLater(() -> {
+//            ShowGUI showGUI = new ShowGUI();
+//            showGUI.FlightCheckInGUI();
+//            showGUI.setVisible(true);
+//        });
+//
+//    }
 }

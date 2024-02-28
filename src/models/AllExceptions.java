@@ -23,9 +23,9 @@ public class AllExceptions extends Exception{
     a window will pop up reminding the user to retype.
     */
     public static class NoMatchingNameException extends Exception{
-        public NoMatchingNameException(){
-            super("No matching name.\n");
-            JOptionPane.showMessageDialog(null, "No matching name.\n", "Error", JOptionPane.ERROR_MESSAGE);
+        public NoMatchingNameException(String name){
+            super("There is no matching last name: "+name+", please check.");
+            JOptionPane.showMessageDialog(null, "There is no matching last name: "+name+", please check.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     /*
@@ -35,8 +35,8 @@ public class AllExceptions extends Exception{
     */
     public static class NoMatchingRefException extends Exception{
         public NoMatchingRefException(String ref){
-            super("There is no "+ref+", please check.");
-            JOptionPane.showMessageDialog(null, "There is no "+ref+", please check.", "Error", JOptionPane.ERROR_MESSAGE);
+            super("There is no reference number: "+ref+", please check.");
+            JOptionPane.showMessageDialog(null, "There is no reference number: "+ref+", please check.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     /*
@@ -47,8 +47,8 @@ public class AllExceptions extends Exception{
     */
     public static class OverWeightException extends Exception{
         public OverWeightException(){
-            super("The baggage exceeds the rated baggage limit(23kg).\n");
-            JOptionPane.showMessageDialog(null, "The baggage exceeds the rated baggage limit(23kg).\n", "Error", JOptionPane.ERROR_MESSAGE);
+            super("The baggage exceeds the rated baggage limit(23kg).");
+            JOptionPane.showMessageDialog(null, "The baggage exceeds the rated baggage limit(23kg).", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     /*

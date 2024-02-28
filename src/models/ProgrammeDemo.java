@@ -1,5 +1,7 @@
 package models;
 
+import GUI.ShowGUI;
+
 public class ProgrammeDemo {
 	private PassengerList paxList;
 	private FlightList fltList;
@@ -11,8 +13,8 @@ public class ProgrammeDemo {
 		// Load passengers from TXT file directly into paxList
 		// Load flights from TXT file directly into fltList
 		paxList = new PassengerList();
-		paxList.loadPassengersFromTXT("models.PassengerList.txt");
-		fltList = new FlightList("models.FlightList.txt");
+		paxList.loadPassengersFromTXT("PassengerList.txt");
+		fltList = new FlightList("FlightList.txt");
 	}
 
 
@@ -29,13 +31,23 @@ public class ProgrammeDemo {
 	 * public void showGUI() { gui = new PassengerListGUI(entries);
 	 * gui.setVisible(true); }
 	 */
+	public void showGUI(PassengerList passengerList) {
+		ShowGUI gui = new ShowGUI(passengerList);
+		gui.FlightCheckInGUI();
+		gui.setVisible(true);
+	}
 
 	public static void main(String[] args) {
+		// Create a new PassengerList object
+		PassengerList passengerList = new PassengerList();
+		// Load passengers from TXT file directly into passengerList
+		passengerList.loadPassengersFromTXT("PassengerList.txt");
+
 		// creates demo object, with a populated models.Passenger list
 		ProgrammeDemo sld = new ProgrammeDemo();
 
 		// allow user to interact using a GUI
-		// sld.showGUI();
+		sld.showGUI(passengerList);
 
 		// allow user to interact with this list
 		// using text interface

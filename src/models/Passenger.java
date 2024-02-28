@@ -19,6 +19,7 @@ public class Passenger implements Comparable<Passenger> {
      * @param ifCheck       Boolean flag indicating whether the passenger has checked in.
      */
     public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean ifCheck) {
+        //这个异常写在ShowGUI里了，这边的不知道要不要删掉
         if( firstName.trim().length() ==0|| lastName.trim().length()== 0|| referenceCode.trim().length()== 0)
         {
             throw new IllegalStateException(
