@@ -30,8 +30,12 @@ public class Flight implements Comparable<Flight> {
 		this.maxPassengers = maxPassengers;
 		this.maxBaggageVolume = maxBaggageVolume;
 		this.maxBaggageWeight = maxBaggageWeight;
-		this.baggageInFlight = new BaggageList();
+
 		this.passengerInFlight = new PassengerList();
+		//this.addPaxToFlt("PassengerList.txt");
+
+
+		this.baggageInFlight = new BaggageList();
 	}
 
 	// Getter methods
@@ -103,5 +107,16 @@ public class Flight implements Comparable<Flight> {
 	public int compareTo(Flight other) {
 			return this.flightCode.compareTo(other.flightCode);
 	}
+
+	/*public void addPaxToFlt(String fileName){
+		PassengerList all = new PassengerList();
+		PassengerList paxInFlt = new PassengerList();
+		all.loadPassengersFromTXT(fileName);
+		for(int i =0; i< all.size();i++){
+			if(all.get(i).getFlightCode() == this.flightCode){
+				paxInFlt.addPassenger(all.get(i));
+			}
+		}
+	}*/
 
 }

@@ -17,6 +17,7 @@ public class FlightList {
      */
     public FlightList(String fileName) {
         flightlist = new ArrayList<Flight>();
+        this.loadFlightsFromTXT(fileName);
     }
 
 
