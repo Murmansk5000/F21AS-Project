@@ -119,4 +119,8 @@ public class FlightList {
         }
         return allEntries.toString();
     }
+
+    public Flight get(int i) {
+        return flightlist.get(i);
+    }
 }
