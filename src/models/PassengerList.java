@@ -159,4 +159,14 @@ public class PassengerList {
 	public int size(){
 		return this.passengerList.size();
 	}
+
+	public int checkInSize() {
+		int checkInSize = 0;
+		for(int i = 0;i < passengerList.size();i++){
+			if(passengerList.get(i).getIfCheck()){
+				checkInSize++;
+			}
+		}
+		return checkInSize;
+	}
 }

@@ -3,19 +3,28 @@ package models;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Report {
 
+
+    public void getReport(FlightList fl){
+
+        Report report = new Report();
+        String filePath = "report.txt";
+
+        for(int i =0;i < fl.size();i++){
+            System.out.println(fl.get(i).getFlightCode());
+            printReport(fl.get(i).getFlightCode(), fl.get(i).getPassengerInFlight().checkInSize(), fl.get(i).getBaggageInFlight().getTotalWeight(), fl.get(i).getBaggageInFlight().getTotalVolume(), fl.get(i).isOverCapacity(), fl.get(i).getBaggageInFlight().getTotalFee());
+            writeReportToFile(fl.get(i).getFlightCode(), fl.get(i).getPassengerInFlight().checkInSize(), fl.get(i).getBaggageInFlight().getTotalWeight(), fl.get(i).getBaggageInFlight().getTotalVolume(), fl.get(i).isOverCapacity(), fl.get(i).getBaggageInFlight().getTotalFee(), filePath);
+        }
+    }
     // create report content
-    private String generateReportString(String flightNumber, int soldTickets, int checkIns, double luggageWeight, double luggageVolume, String takeOffStatus, String reason, String departureTime) {
-        String divider = "===============================";
+    private String reportModual(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee) {
+        String divider = "=========================================";
         return new StringBuilder()
-                .append(divider).append("\n")
-                .append("============models.Report=============").append("\n")
-                .append(divider).append("\n")
-                .append("models.Flight number: ").append(flightNumber).append("\n")
-                .append(divider).append("\n")
-                .append("Sold Ticket: ").append(soldTickets).append("\n")
+                .append("=================Report==================").append("\n")
+                .append("Flight number: ").append(flightNumber).append("\n")
                 .append(divider).append("\n")
                 .append("Check in: ").append(checkIns).append("\n")
                 .append(divider).append("\n")
@@ -25,27 +34,25 @@ public class Report {
                 .append(divider).append("\n")
                 .append("Take off: ").append(takeOffStatus).append("\n")
                 .append(divider).append("\n")
-                .append("Reason (if can't): ").append(reason).append("\n")
-                .append(divider).append("\n")
-                .append("Departure time: ").append(departureTime).append(" (On time/Delay)").append("\n")
-                .append("=============END===============").append("\n")
+                .append("Total excess baggage fees collected: ").append(overFee).append("\n")
+                .append("==================END====================").append("\n")
                 .toString();
     }
 
     // print report
-    public void printReport(String flightNumber, int soldTickets, int checkIns, double luggageWeight, double luggageVolume, String takeOffStatus, String reason, String departureTime) {
+    public void printReport(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee) {
         //add a loop for every flight
-        System.out.print(generateReportString(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime));
+        System.out.print(reportModual(flightNumber, checkIns, luggageWeight, luggageVolume, takeOffStatus, overFee));
     }
 
     // write report file
-    public void writeReportToFile(String flightNumber, int soldTickets, int checkIns, double luggageWeight, double luggageVolume, String takeOffStatus, String reason, String departureTime, String filePath) {
+    public void writeReportToFile(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee, String filePath) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
             //add a loop for every flight
-            writer.write(generateReportString(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime));
+            writer.write(reportModual(flightNumber, checkIns, luggageWeight, luggageVolume, takeOffStatus, overFee));
             writer.close();
-            System.out.println("models.Report has been written to " + filePath);
+            System.out.println("Report has been written to " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,24 +60,16 @@ public class Report {
 
     // test
     public static void main(String[] args) {
-        // create report instance
+        /*// create report instance
         Report report = new Report();
-
+        FlightList fl = new FlightList("FlightList.txt");
         // change later
-        String flightNumber = "AB1234";
-        int soldTickets = 120;
-        int checkIns = 110;
-        double luggageWeight = 350.5;
-        double luggageVolume = 75.3;
-        String takeOffStatus = "Can";
-        String reason = "N/A";
-        String departureTime = "18:00";
-        String filePath = "report.txt";
+        report.getReport(fl);
 
-        // print report
-        report.printReport(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime);
-
-        // write report file
-        report.writeReportToFile(flightNumber, soldTickets, checkIns, luggageWeight, luggageVolume, takeOffStatus, reason, departureTime, filePath);
+         */
+        Report r = new Report();
+        r.printReport("abc", 1, 2, 3, false, 5);
+        r.writeReportToFile("abc", 1, 2, 3, false, 5, "report.txt");
     }
 }
+
