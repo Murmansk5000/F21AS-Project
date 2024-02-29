@@ -18,7 +18,6 @@ public class PassengerList {
 	 */
 	public PassengerList() {
 		this.passengerList = new ArrayList<Passenger>();
-		//this.loadPassengersFromTXT(fileName);
 		// Load passengers from TXT file directly into paxList
 	}
 
@@ -158,7 +157,7 @@ public class PassengerList {
 	 */
 
 	public int size(){
-		return passengerList.size();
+		return this.passengerList.size();
 	}
 
 	public int checkInSize() {
@@ -169,9 +168,5 @@ public class PassengerList {
 			}
 		}
 		return checkInSize;
-	}
-
-	public Passenger get(int i){
-		return passengerList.get(i);
 	}
 }

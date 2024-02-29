@@ -83,7 +83,7 @@ public class BaggageList {
                 mergedList.addBaggage(baggage);
             }
         }
-        mergedList.calculateTotalfee(mergedList.totalWeight);
+        mergedList.calculateTotalFee(mergedList.totalWeight);
         return mergedList;
     }
     public void clear() {
@@ -94,10 +94,10 @@ public class BaggageList {
     }
 
     public int size(){
-        return this.size();
+        return this.baggages.size();
     }
 
-    public double calculateTotalfee(double totalWeight){
+    public double calculateTotalFee(double totalWeight){
         // Reset the fee to a base value or specific initial charge
         double Fee = 0.0;
         double totalWeightLimit = 40; // 40 kg weight limit

@@ -51,7 +51,7 @@ public class Flight implements Comparable<Flight> {
 		return carrier;
 	}
 
-	public int getMaxPassengers() {
+	public double getMaxPassengers() {
 		return maxPassengers;
 	}
 
