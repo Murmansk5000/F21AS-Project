@@ -6,8 +6,8 @@ public class BaggageList {
     private static final double BASE_FEE = 0.0;
     private ArrayList<Baggage> baggages;
     private double totalVolume;
-    private double totalWeight;
-    private double totalFee;
+    public double totalWeight;
+    public double totalFee;
     private int quantity;
 
     public BaggageList() {
@@ -83,7 +83,7 @@ public class BaggageList {
                 mergedList.addBaggage(baggage);
             }
         }
-        mergedList.calculateTotalfee();
+        mergedList.calculateTotalfee(mergedList.totalWeight);
         return mergedList;
     }
     public void clear() {
@@ -97,19 +97,19 @@ public class BaggageList {
         return this.size();
     }
 
-    public void calculateTotalfee() throws AllExceptions.OverWeightException{
+    public double calculateTotalfee(double totalWeight){
         // Reset the fee to a base value or specific initial charge
         double Fee = 0.0;
         double totalWeightLimit = 40; // 40 kg weight limit
         double excessWeightFee = 50; // Charge per kg for weight over the limit
 
         // Check if the baggage is over the weight limit
-        if (this.totalWeight > totalWeightLimit) {
-            Fee += (this.totalFee - totalWeightLimit) * excessWeightFee;
-            throw new AllExceptions.OverWeightException();
+        if (totalWeight > totalWeightLimit) {
+            Fee += (totalWeight - totalWeightLimit) * excessWeightFee;
         }
 
         // Check if the baggage is over the size limit
         this.totalFee = BASE_FEE + Fee;
+        return totalFee;
     }
 }

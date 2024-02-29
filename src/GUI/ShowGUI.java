@@ -2,6 +2,7 @@ package GUI;
 
 import models.*;
 
+import javax.management.openmbean.SimpleType;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -160,6 +161,7 @@ public class ShowGUI extends JFrame {
     private JTextField widthField1;
     private JTextField heightField1;
     class BaggageDetailsGUI extends JFrame{
+        private double totalFee = 0;
         private JTextField weightField1, weightField2, weightField3;
         private JTextField lengthField1, widthField1, heightField1;
         private JTextField lengthField2, widthField2, heightField2;
@@ -169,6 +171,7 @@ public class ShowGUI extends JFrame {
         public BaggageDetailsGUI(Baggage baggage, BaggageList calculateTotalfee){
             this.baggage = baggage;
             this.calculateTotalfee = calculateTotalfee;
+
             setTitle("Baggage Details");
             setSize(500, 500); // 统一界面大小
             setLocationRelativeTo(null); // 居中显示
@@ -234,12 +237,19 @@ public class ShowGUI extends JFrame {
                     double height3 = Double.parseDouble(heightField3.getText());
                     baggage.checkBaggage(weight3, length3, width3, height3);
 
-                    //TODO
-                    //这里好像没有计算，没有抛出异常，不知道什么问题，可能是参数没传进去
-                    calculateTotalfee.calculateTotalfee();
-                    // 如果未抛出异常，则说明行李符合规定，继续执行其他操作
-                    // TODO
-                    dispose();
+                    double totalWeight = weight1+weight2+weight3;
+                    totalFee = calculateTotalfee.calculateTotalfee(totalWeight);
+                    System.out.println(totalWeight);
+                    System.out.println(totalFee);
+
+                    if(totalFee > 0){
+                        dispose();
+                        new PaymentExtraFeeGUI(totalWeight, totalFee).setVisible(true);
+                    }else {
+                        new CongratsPaymentGUI().setVisible(true);
+                        dispose();
+                    }
+
                 } catch (NumberFormatException ex) {
                     // 处理数字格式异常，例如用户未输入有效的数字等情况
                     JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid numbers.\n" +
@@ -248,15 +258,8 @@ public class ShowGUI extends JFrame {
                 } catch (AllExceptions.FormatErrorException ex) {
                     // 处理格式错误异常
                     ex.printStackTrace();
-                } catch (AllExceptions.OverWeightException ex) {
-                    // 处理格式错误异常
-                    ex.printStackTrace();
+
                 }
-
-                //this.dispose(); // 关闭当前窗口
-                // 计算额外费用，跳不同窗口
-
-
 
             });
 
@@ -321,7 +324,77 @@ public class ShowGUI extends JFrame {
             return panel;
         }
     }
+    class PaymentExtraFeeGUI extends JFrame{
+        public PaymentExtraFeeGUI(double totalWeight, double totalFee) {
+            setTitle("Pay Extra Fee");
+            setSize(600, 200);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            setLocationRelativeTo(null);
 
+            JPanel mainPanel = new JPanel();
+            mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+            mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            JLabel congratsLabel = new JLabel("Congratulations! You have added " + totalWeight + " kg. Please pay extra fee.");
+            mainPanel.add(congratsLabel);
+
+            JLabel feeLabel = new JLabel("Please pay extra fee: $" + totalFee);
+            mainPanel.add(feeLabel);
+
+            // 添加支付方式图标和支付按钮
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+//            buttonPanel.add(new JLabel("Payment Method:"));
+//            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\visa.png"))); // 替换为实际的图标文件路径
+//            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\Paypal.png")));
+//            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\wechat-1.png")));
+//            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\Alipay.png")));
+            JButton payButton = new JButton("Pay");
+            payButton.addActionListener(e ->
+            {
+                this.dispose();
+                new CongratsPaymentGUI().setVisible(true);
+            });
+
+            JButton backButton = new JButton("Back");
+            backButton.addActionListener(e ->
+            {
+                this.dispose();
+                new BaggageDetailsGUI(checkBaggage,calculateTotalfee).setVisible(true);
+            });
+
+            buttonPanel.add(payButton);
+            buttonPanel.add(backButton);
+
+            mainPanel.add(buttonPanel);
+
+            add(mainPanel);
+        }
+    }
+
+    class CongratsPaymentGUI extends JFrame{
+        public CongratsPaymentGUI() {
+            setTitle("Congratulation！");
+            setSize(400, 200);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            setLocationRelativeTo(null);
+
+            JPanel mainPanel = new JPanel();
+            mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+            mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            JLabel congratsLabel = new JLabel("Congratulations! You have successfully loaded your items.");
+            mainPanel.add(congratsLabel);
+
+            JButton finishButton = new JButton("Finish");
+                finishButton.addActionListener(e ->
+                {
+                    this.dispose();
+                });
+            mainPanel.add(finishButton);
+
+            add(mainPanel);
+        }
+    }
 //    public static void main(String[] args) {
 //        EventQueue.invokeLater(() -> {
 //            ShowGUI showGUI = new ShowGUI();

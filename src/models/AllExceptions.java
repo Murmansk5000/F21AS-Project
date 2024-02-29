@@ -47,8 +47,8 @@ public class AllExceptions extends Exception{
     */
     public static class OverWeightException extends Exception{
         public OverWeightException(){
-            super("The baggage exceeds the rated baggage limit(23kg).");
-            JOptionPane.showMessageDialog(null, "The baggage exceeds the rated baggage limit(23kg).", "Error", JOptionPane.ERROR_MESSAGE);
+            super("The baggage exceeds the rated baggage limit(40kg).");
+            //JOptionPane.showMessageDialog(null, "The baggage exceeds the rated baggage limit(23kg).", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     /*
