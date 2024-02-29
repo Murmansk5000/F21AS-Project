@@ -12,6 +12,7 @@ public class Report {
 
         Report report = new Report();
         String filePath = "report.txt";
+
         for(int i =0;i < fl.size();i++){
             System.out.println(fl.get(i).getFlightCode());
             printReport(fl.get(i).getFlightCode(), fl.get(i).getPassengerInFlight().checkInSize(), fl.get(i).getBaggageInFlight().getTotalWeight(), fl.get(i).getBaggageInFlight().getTotalVolume(), fl.get(i).isOverCapacity(), fl.get(i).getBaggageInFlight().getTotalFee());
@@ -59,11 +60,16 @@ public class Report {
 
     // test
     public static void main(String[] args) {
-        // create report instance
+        /*// create report instance
         Report report = new Report();
         FlightList fl = new FlightList("FlightList.txt");
         // change later
         report.getReport(fl);
+
+         */
+        Report r = new Report();
+        r.printReport("abc", 1, 2, 3, false, 5);
+        r.writeReportToFile("abc", 1, 2, 3, false, 5, "report.txt");
     }
 }
 
