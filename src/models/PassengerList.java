@@ -157,6 +157,6 @@ public class PassengerList {
 	 */
 
 	public int size(){
-		return this.size();
+		return this.passengerList.size();
 	}
 }

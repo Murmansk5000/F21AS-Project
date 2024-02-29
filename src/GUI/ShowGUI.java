@@ -2,27 +2,26 @@ package GUI;
 
 import models.*;
 
-import javax.management.openmbean.SimpleType;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ShowGUI extends JFrame {
     private JTextField lastNameTextField;
     private JTextField referenceTextField;
     private PassengerList passengerList;
-    private Baggage checkBaggage;
-    private BaggageList calculateTotalfee;
+    private FlightList flightList;
+//    private Baggage oneBaggage;
+//    private BaggageList baggageListOfOne;
+    private Passenger passengerRef;
 
-    public ShowGUI(PassengerList passengerList, Baggage checkBaggage, BaggageList calculateTotalfee) {
-
+    public ShowGUI(PassengerList passengerList, FlightList flightList) {
         this.passengerList = passengerList;
-        this.checkBaggage = checkBaggage;
-        this.calculateTotalfee = calculateTotalfee;
+        this.flightList = flightList;
     }
 
-    public void FlightCheckInGUI() {
+    public Passenger FlightCheckInGUI() {
+
+
         setTitle("Airport Check-in System");
         setSize(400, 300); // 设置窗口大小
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,24 +54,22 @@ public class ShowGUI extends JFrame {
             String reference = referenceTextField.getText();
             try {
                 validateInputs();
-                Passenger passengerRef = passengerList.findByRefCode(reference);
-                Passenger passengerName = passengerList.findByLastName(lastName);
-                // If inputs are valid and correct, proceed to the next step
-                new FlightDetailsGUI().setVisible(true);
-                dispose(); // Close the current window
+                passengerRef = passengerList.findByRefCode(reference);
+                passengerList.findByLastName(lastName);
+
+                if(passengerRef.getLastName() == lastName){
+                    // If inputs are valid and correct, proceed to the next step
+                    new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
+                    dispose(); // Close the current window
+                }
             } catch (IllegalArgumentException ex) {
                 ex.printStackTrace();
             } catch (AllExceptions.NoMatchingRefException ex){
                 ex.printStackTrace();
-            }catch (AllExceptions.NoMatchingNameException ex){
+            } catch (AllExceptions.NoMatchingNameException ex){
                 ex.printStackTrace();
             }
 
-//            this.dispose(); // 关闭当前窗口
-//            System.out.println((lastName));
-//            System.out.println(reference);
-//
-//            new FlightDetailsGUI().setVisible(true);
         });
 
         buttonPanel.add(quitButton);
@@ -83,6 +80,7 @@ public class ShowGUI extends JFrame {
         // 添加主面板到Frame
         add(mainPanel);
 
+        return  passengerRef;
     }
     private void validateInputs() throws IllegalArgumentException {
         String lastName = lastNameTextField.getText().trim();
@@ -111,7 +109,14 @@ public class ShowGUI extends JFrame {
     }
 
     class FlightDetailsGUI extends JFrame{
-        public FlightDetailsGUI() {
+
+        private String lastName;
+        private String reference;
+        public FlightDetailsGUI(String lastName, String reference, PassengerList passengerList, FlightList flightList) throws AllExceptions.NoMatchingRefException {
+            this.lastName = lastName;
+            this.reference = reference;
+
+
             setTitle("Flight Details");
             setSize(400, 500); // 统一界面大小
             setLocationRelativeTo(null); // 居中显示
@@ -125,21 +130,23 @@ public class ShowGUI extends JFrame {
             headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             mainPanel.add(headerLabel);
 
+            String passenger = passengerList.findByRefCode(reference).getFlightCode();
+            Flight flightDetails = flightList.findByCode(passenger);
             //添加航班信息
-            mainPanel.add(createDetailPanel("Flight Number: ", "EA123"));
-            mainPanel.add(createDetailPanel("Carrier: ", "Example Airline"));
-            mainPanel.add(createDetailPanel("Max Passenger: ", "220"));
-            mainPanel.add(createDetailPanel("Airport of Departure: ", "Example Airport"));
-            mainPanel.add(createDetailPanel("Airport of Destination: ", "Example Airport"));
-            mainPanel.add(createDetailPanel("Estimated time of Departure: ", "00:00"));
-            mainPanel.add(createDetailPanel("Estimated time of Arrival: ", "22:00"));
-//            mainPanel.add(createDetailPanel("Max Baggage Weight: ", "18,000kg"));
-//            mainPanel.add(createDetailPanel("Max Baggage Volume: ", "200m^3"));
+            mainPanel.add(createDetailPanel("Flight Number: ", flightDetails.getFlightCode()));
+            mainPanel.add(createDetailPanel("Carrier: ", flightDetails.getCarrier()));
+            mainPanel.add(createDetailPanel("Max Passenger: ", String.valueOf(flightDetails.getMaxPassengers())));
+            mainPanel.add(createDetailPanel("Max Baggage Weight: ", String.valueOf(flightDetails.getMaxBaggageWeight())));
+            mainPanel.add(createDetailPanel("Max Baggage Volume: ", String.valueOf(flightDetails.getMaxBaggageVolume())));
+
+//            mainPanel.add(createDetailPanel("Airport of Destination: ", "Example Airport"));
+//            mainPanel.add(createDetailPanel("Estimated time of Departure: ", "00:00"));
+//            mainPanel.add(createDetailPanel("Estimated time of Arrival: ", "22:00"));
             JButton nextButton = new JButton("Next Step");
             nextButton.addActionListener(e -> {
                 this.dispose(); // 关闭当前窗口
                 // 打开航班详情窗口（最终实现这里会有修改）
-                new BaggageDetailsGUI(checkBaggage,calculateTotalfee).setVisible(true);
+                new BaggageDetailsGUI().setVisible(true);
             });
 
             // 为了在下方右对齐按钮，用FlowLayout管理器
@@ -168,9 +175,9 @@ public class ShowGUI extends JFrame {
         private JTextField lengthField3, widthField3, heightField3;
         private Baggage baggage;
         private BaggageList calculateTotalfee;
-        public BaggageDetailsGUI(Baggage baggage, BaggageList calculateTotalfee){
-            this.baggage = baggage;
-            this.calculateTotalfee = calculateTotalfee;
+        public BaggageDetailsGUI(){
+            this.baggage = new Baggage();
+            this.calculateTotalfee = new BaggageList();
 
             setTitle("Baggage Details");
             setSize(500, 500); // 统一界面大小
@@ -238,9 +245,9 @@ public class ShowGUI extends JFrame {
                     baggage.checkBaggage(weight3, length3, width3, height3);
 
                     double totalWeight = weight1+weight2+weight3;
-                    totalFee = calculateTotalfee.calculateTotalfee(totalWeight);
-                    System.out.println(totalWeight);
-                    System.out.println(totalFee);
+                    totalFee = calculateTotalfee.calculateTotalFee(totalWeight);
+//                    System.out.println(totalWeight);
+//                    System.out.println(totalFee);
 
                     if(totalFee > 0){
                         dispose();
@@ -343,7 +350,16 @@ public class ShowGUI extends JFrame {
 
             // 添加支付方式图标和支付按钮
             JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-//            buttonPanel.add(new JLabel("Payment Method:"));
+            buttonPanel.add(new JLabel("Payment Method:"));
+            ImageIcon icon = new ImageIcon("D:\\Learn\\fourth_year\\advanced\\visa.png");
+            Image image = icon.getImage(); // 转换图标为 Image
+            Image newImage = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); // 调整图标大小
+            ImageIcon newIcon = new ImageIcon(newImage); // 生成新的 ImageIcon
+
+            JLabel label = new JLabel(newIcon);
+            buttonPanel.add(label);
+
+
 //            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\visa.png"))); // 替换为实际的图标文件路径
 //            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\Paypal.png")));
 //            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\wechat-1.png")));
@@ -359,7 +375,7 @@ public class ShowGUI extends JFrame {
             backButton.addActionListener(e ->
             {
                 this.dispose();
-                new BaggageDetailsGUI(checkBaggage,calculateTotalfee).setVisible(true);
+                new BaggageDetailsGUI().setVisible(true);
             });
 
             buttonPanel.add(payButton);
@@ -389,6 +405,9 @@ public class ShowGUI extends JFrame {
                 finishButton.addActionListener(e ->
                 {
                     this.dispose();
+                    ShowGUI gui = new ShowGUI(passengerList,flightList);
+                    gui.FlightCheckInGUI();
+                    gui.setVisible(true);
                 });
             mainPanel.add(finishButton);
 

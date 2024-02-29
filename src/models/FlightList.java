@@ -11,15 +11,15 @@ public class FlightList {
     // Storage for an arbitrary number of models.Flight objects.
     private ArrayList<Flight> flightlist;
 
+
+    public FlightList() {
+        flightlist = new ArrayList<Flight>();
+    }
+
     /**
      * Loads flight data from a txt file.
      * @param fileName Path to the txt file.
      */
-    public FlightList(String fileName) {
-        flightlist = new ArrayList<Flight>();
-    }
-
-
     public void loadFlightsFromTXT(String fileName) {
         this.flightlist.clear(); // Optional: clear existing flights before loading new ones
         try {
@@ -105,7 +105,7 @@ public class FlightList {
      * @return The number of models.Flight objects currently in the list.
      */
     public int size() {
-        return flightlist.size();
+        return this.flightlist.size();
     }
 
     /**
