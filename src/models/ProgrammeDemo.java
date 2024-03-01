@@ -1,6 +1,6 @@
 package models;
 
-import GUI.ShowGUI;
+import GUI.GUI;
 
 public class ProgrammeDemo {
 	private static PassengerList paxList;
@@ -28,14 +28,14 @@ public class ProgrammeDemo {
 
 	/**
 	 * Show GUI
-	 * 
-	 * public void showGUI() { gui = new PassengerListGUI(entries);
-	 * gui.setVisible(true); }
+	 *
 	 */
 	public void showGUI(PassengerList passengerList, FlightList flightList) {
-		ShowGUI gui = new ShowGUI(passengerList,flightList);
+		GUI gui = new GUI(passengerList,flightList);
 		gui.FlightCheckInGUI();
 		gui.setVisible(true);
+
+
 	}
 
 	public static void main(String[] args) {
@@ -45,6 +45,9 @@ public class ProgrammeDemo {
 
 		// allow user to interact using a GUI
 		sld.showGUI(paxList, fltList);
+
+//		PassengerList updatedPassengerList = gui.getPassengerList();
+//		FlightList updatedFlightList = gui.getFlightList();
 
 		// allow user to interact with this list
 		// using text interface
