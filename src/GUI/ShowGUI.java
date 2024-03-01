@@ -17,6 +17,11 @@ public class ShowGUI extends JFrame {
     public ShowGUI(PassengerList passengerList, FlightList flightList) {
         this.passengerList = passengerList;
         this.flightList = flightList;
+
+//        for (int i = 0; i < this.flightList.size(); i++) {
+//            System.out.println(this.flightList.get(i).getFlightCode());
+//        }
+
     }
 
     public Passenger FlightCheckInGUI() {
@@ -55,9 +60,7 @@ public class ShowGUI extends JFrame {
             try {
                 validateInputs();
                 passengerRef = passengerList.findByRefCode(reference);
-                passengerList.findByLastName(lastName);
-
-                if(passengerRef.getLastName() == lastName){
+                if(passengerRef.getLastName().equals(lastName)){
                     // If inputs are valid and correct, proceed to the next step
                     new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
                     dispose(); // Close the current window
@@ -65,8 +68,6 @@ public class ShowGUI extends JFrame {
             } catch (IllegalArgumentException ex) {
                 ex.printStackTrace();
             } catch (AllExceptions.NoMatchingRefException ex){
-                ex.printStackTrace();
-            } catch (AllExceptions.NoMatchingNameException ex){
                 ex.printStackTrace();
             }
 
@@ -130,14 +131,26 @@ public class ShowGUI extends JFrame {
             headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             mainPanel.add(headerLabel);
 
-            String passenger = passengerList.findByRefCode(reference).getFlightCode();
-            Flight flightDetails = flightList.findByCode(passenger);
-            //添加航班信息
-            mainPanel.add(createDetailPanel("Flight Number: ", flightDetails.getFlightCode()));
-            mainPanel.add(createDetailPanel("Carrier: ", flightDetails.getCarrier()));
-            mainPanel.add(createDetailPanel("Max Passenger: ", String.valueOf(flightDetails.getMaxPassengers())));
-            mainPanel.add(createDetailPanel("Max Baggage Weight: ", String.valueOf(flightDetails.getMaxBaggageWeight())));
-            mainPanel.add(createDetailPanel("Max Baggage Volume: ", String.valueOf(flightDetails.getMaxBaggageVolume())));
+            Passenger passenger = passengerList.findByRefCode(reference);
+            if (passenger != null) {
+                String flightCode = passenger.getFlightCode();
+                Flight flightDetails = flightList.findByCode(flightCode);
+                if (flightDetails != null) {
+                    //添加航班信息
+                    mainPanel.add(createDetailPanel("Flight Number: ", flightDetails.getFlightCode()));
+                    mainPanel.add(createDetailPanel("Carrier: ", flightDetails.getCarrier()));
+                    mainPanel.add(createDetailPanel("Max Passenger: ", String.valueOf(flightDetails.getMaxPassengers())));
+                    mainPanel.add(createDetailPanel("Max Baggage Weight: ", String.valueOf(flightDetails.getMaxBaggageWeight())));
+                    mainPanel.add(createDetailPanel("Max Baggage Volume: ", String.valueOf(flightDetails.getMaxBaggageVolume())));
+
+                } else {
+                    // 处理找不到航班的情况
+                }
+            } else {
+                // 处理找不到乘客的情况
+            }
+
+
 
 //            mainPanel.add(createDetailPanel("Airport of Destination: ", "Example Airport"));
 //            mainPanel.add(createDetailPanel("Estimated time of Departure: ", "00:00"));
