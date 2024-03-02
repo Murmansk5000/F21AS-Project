@@ -52,22 +52,22 @@ public class Report {
 
     // write report file
     public void writeReportToFile(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee, String filePath) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
-            //add a loop for every flight
-            writer.write(reportModual(flightNumber, checkIns, luggageWeight, luggageVolume, takeOffStatus, overFee));
-            writer.close();
-            System.out.println("Report has been written to " + filePath);
+        String reportContent = reportModual(flightNumber, checkIns, luggageWeight, luggageVolume, takeOffStatus, overFee);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(reportContent);
+            //System.out.println("报告已追加到 " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+
     // test
     public static void main(String[] args) {
         // create report instance
         Report report = new Report();
-        FlightList fl = new FlightList("FlightList.txt");
+        FlightList fl = new FlightList();
+        fl.loadFlightsFromTXT("FlightList.txt");
         // change later
         report.getReport(fl);
 
