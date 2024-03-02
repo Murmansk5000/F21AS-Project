@@ -83,7 +83,7 @@ public class BaggageList {
                 mergedList.addBaggage(baggage);
             }
         }
-        mergedList.calculateTotalFee(mergedList.totalWeight);
+        mergedList.calculateTotalFee();
         return mergedList;
     }
     public void clear() {
@@ -97,15 +97,15 @@ public class BaggageList {
         return this.baggages.size();
     }
 
-    public double calculateTotalFee(double totalWeight){
+    public double calculateTotalFee(){
         // Reset the fee to a base value or specific initial charge
         double Fee = 0.0;
         double totalWeightLimit = 40; // 40 kg weight limit
         double excessWeightFee = 50; // Charge per kg for weight over the limit
 
         // Check if the baggage is over the weight limit
-        if (totalWeight > totalWeightLimit) {
-            Fee += (totalWeight - totalWeightLimit) * excessWeightFee;
+        if (this.totalWeight > totalWeightLimit) {
+            Fee += (this.totalWeight - totalWeightLimit) * excessWeightFee;
         }
 
         // Check if the baggage is over the size limit

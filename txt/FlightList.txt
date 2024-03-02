@@ -1,0 +1,11 @@
+FlightCode,DestinationAirport,Carrier,MaxPassengerCapacity,MaxBaggageWeight,MaxBaggageVolume
+JY5289,Airport 1,British Airways,172,1782 lbs,159 cubic inches
+OM9608,Airport 2,American Airlines,199,4420 lbs,243 cubic inches
+MB7047,Airport 3,British Airways,182,2065 lbs,128 cubic inches
+DB2217,Airport 4,American Airlines,207,1016 lbs,186 cubic inches
+LE7978,Airport 5,British Airways,159,3889 lbs,223 cubic inches
+KW4304,Airport 6,American Airlines,228,1308 lbs,216 cubic inches
+UR7371,Airport 7,United Airlines,162,4750 lbs,115 cubic inches
+CX3347,Airport 8,Delta Air Lines,119,3357 lbs,102 cubic inches
+TM5111,Airport 9,United Airlines,213,4397 lbs,114 cubic inches
+BB5558,Airport 10,British Airways,106,3530 lbs,215 cubic inches

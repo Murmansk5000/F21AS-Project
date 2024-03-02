@@ -84,15 +84,15 @@ public class Baggage {
 //		}
 //		fee = BASE_FEE + Math.max(weightFee, sizeFee);
 //	}
-	public void checkBaggage(double weight, double length, double width, double height) throws AllExceptions.FormatErrorException{
+	public void checkBaggage() throws AllExceptions.FormatErrorException{
 		double weightLimit = 23; // 23 kg weight limit
 		double sizeLimit = 158; // 158 cm size limit (length + width + height)
 		//Check if the baggage is over the weight limit
-		if (weight > weightLimit) {
+		if (this.weight > weightLimit) {
 			throw new AllExceptions.FormatErrorException();
 		}
 		// Check if the baggage is over the size limit
-		if ((length + width + height) > sizeLimit) {
+		if ((this.length + this.width + this.height) > sizeLimit) {
 			throw new AllExceptions.FormatErrorException();
 		}
 		//TODO
