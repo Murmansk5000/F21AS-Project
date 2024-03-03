@@ -25,7 +25,7 @@ public class Report {
 
     }
     // create report content
-    private String reportModual(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee) {
+    private String reportModel(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee) {
         String divider = "=========================================";
         return new StringBuilder()
                 .append("=================Report==================").append("\n")
@@ -47,12 +47,12 @@ public class Report {
     // print report
     public void printReport(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee) {
         //add a loop for every flight
-        System.out.print(reportModual(flightNumber, checkIns, luggageWeight, luggageVolume, takeOffStatus, overFee));
+        System.out.print(reportModel(flightNumber, checkIns, luggageWeight, luggageVolume, takeOffStatus, overFee));
     }
 
     // write report file
     public void writeReportToFile(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee, String filePath) {
-        String reportContent = reportModual(flightNumber, checkIns, luggageWeight, luggageVolume, takeOffStatus, overFee);
+        String reportContent = reportModel(flightNumber, checkIns, luggageWeight, luggageVolume, takeOffStatus, overFee);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.write(reportContent);
             //System.out.println("报告已追加到 " + filePath);
