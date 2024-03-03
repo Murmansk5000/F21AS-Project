@@ -63,7 +63,8 @@ public class Report {
 
 
     // test
-    public static void main(String[] args) {
+
+    /*public static void main(String[] args) {
         // create report instance
         Report report = new Report();
         FlightList fl = new FlightList();
@@ -71,11 +72,12 @@ public class Report {
         // change later
         report.getReport(fl);
 
-        /*
+
         Report r = new Report();
         r.printReport("abc", 1, 2, 3, false, 5);
         r.writeReportToFile("abc", 1, 2, 3, false, 5, "report.txt");
 
-         */
-    }
+
+    }*/
+
 }
