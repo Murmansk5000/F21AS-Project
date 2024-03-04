@@ -29,7 +29,7 @@ public class Passenger implements Comparable<Passenger> {
         this.firstName = firstName.trim();
         this.lastName = lastName.trim();
         this.flightCode = flightCode.trim();
-        this.ifCheck = true;
+        this.ifCheck = ifCheck;
         this.baggagesOfPassenger = new BaggageList(); // Initialize the baggage list for the passenger
     }
 
@@ -55,19 +55,6 @@ public class Passenger implements Comparable<Passenger> {
         return ifCheck;
     }
 
-//    /**
-//     * Test for content equality between two objects.
-//     *
-//     * @param other The object to compare to this one.
-//     * @return true if the argument object is a models.Passenger and has the same reference code.
-//     */
-//    @Override
-//    public boolean equals(Object other) {
-//        if (this == other) return true;
-//        if (other == null || getClass() != other.getClass()) return false;
-//        models.Passenger passenger = (models.Passenger) other;
-//        return referenceCode.equals(passenger.referenceCode);
-//    }
 
     /**
      * @return A string containing the passenger's reference code, first name, and last name.
@@ -87,4 +74,17 @@ public class Passenger implements Comparable<Passenger> {
     public int compareTo(Passenger other) {
         return this.referenceCode.compareTo(other.referenceCode);
     }
+
+    public BaggageList getBaggageList() {
+        return this.baggagesOfPassenger;
+    }
+
+    public void setBaggageList(BaggageList baggageList) {
+        this.baggagesOfPassenger = baggageList;
+    }
+    public void setIfCheck(boolean ifCheck){
+        this.ifCheck = ifCheck;
+    }
+
+
 }

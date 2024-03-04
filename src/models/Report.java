@@ -8,21 +8,30 @@ import java.util.ArrayList;
 public class Report {
 
 
-    public void getReport(FlightList fl){
-
-        Report report = new Report();
+    public  Report(FlightList fl){
         String filePath = "report.txt";
+        Flight flight;
         if(fl.size() > 0){
             for(int i =0;i < fl.size();i++){
+                flight = fl.get(i);
                 //System.out.println(fl.get(i).getFlightCode());
-                printReport(fl.get(i).getFlightCode(), fl.get(i).getPassengerInFlight().checkInSize(), fl.get(i).getBaggageInFlight().getTotalWeight(), fl.get(i).getBaggageInFlight().getTotalVolume(), fl.get(i).isOverCapacity(), fl.get(i).getBaggageInFlight().getTotalFee());
-                writeReportToFile(fl.get(i).getFlightCode(), fl.get(i).getPassengerInFlight().checkInSize(), fl.get(i).getBaggageInFlight().getTotalWeight(), fl.get(i).getBaggageInFlight().getTotalVolume(), fl.get(i).isOverCapacity(), fl.get(i).getBaggageInFlight().getTotalFee(), filePath);
+                printReport(flight.getFlightCode(),
+                        flight.getPassengerInFlight().checkInSize(),
+                        flight.getBaggageInFlight().getTotalWeight(),
+                        flight.getBaggageInFlight().getTotalVolume(),
+                        flight.isOverCapacity(),
+                        flight.getBaggageInFlight().getTotalFee());
+                writeReportToFile(flight.getFlightCode(),
+                        flight.getPassengerInFlight().checkInSize(),
+                        flight.getBaggageInFlight().getTotalWeight(),
+                        flight.getBaggageInFlight().getTotalVolume(),
+                        flight.isOverCapacity(),
+                        flight.getBaggageInFlight().getTotalFee(), filePath);
             }
         }
         else {
-            System.out.println("No flight imformation today!");
+            System.out.println("No flight information today!");
         }
-
     }
     // create report content
     private String reportModel(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee) {
@@ -33,9 +42,9 @@ public class Report {
                 .append(divider).append("\n")
                 .append("Check in: ").append(checkIns).append("\n")
                 .append(divider).append("\n")
-                .append("Luggage weight: ").append(luggageWeight).append("\n")
+                .append("Baggage weight: ").append(luggageWeight).append("\n")
                 .append(divider).append("\n")
-                .append("Luggage volume: ").append(luggageVolume).append("\n")
+                .append("Baggage volume: ").append(luggageVolume).append("\n")
                 .append(divider).append("\n")
                 .append("Take off: ").append(takeOffStatus).append("\n")
                 .append(divider).append("\n")
@@ -63,8 +72,9 @@ public class Report {
 
 
     // test
+    /*
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         // create report instance
         Report report = new Report();
         FlightList fl = new FlightList();
@@ -78,6 +88,7 @@ public class Report {
         r.writeReportToFile("abc", 1, 2, 3, false, 5, "report.txt");
 
 
-    }*/
+    }
+    */
 
 }

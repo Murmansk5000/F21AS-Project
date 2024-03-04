@@ -9,11 +9,11 @@ import java.util.List;
 
 public class FlightList {
     // Storage for an arbitrary number of models.Flight objects.
-    private ArrayList<Flight> flightlist;
+    private ArrayList<Flight> flightList;
 
 
     public FlightList() {
-        flightlist = new ArrayList<Flight>();
+        flightList = new ArrayList<Flight>();
     }
 
     /**
@@ -21,7 +21,7 @@ public class FlightList {
      * @param fileName Path to the txt file.
      */
     public void loadFlightsFromTXT(String fileName) {
-        this.flightlist.clear(); // Optional: clear existing flights before loading new ones
+        this.flightList.clear(); // Optional: clear existing flights before loading new ones
         try {
             List<String> lines = Files.readAllLines(Paths.get(fileName));
             for (String line : lines.subList(1, lines.size())) { // Skip title row
@@ -38,7 +38,7 @@ public class FlightList {
                         Double.parseDouble(data[4].replaceAll(" lbs", "").trim()), // MaxBaggageWeight, remove "lbs" suffix
                         Double.parseDouble(data[5].replaceAll(" cubic inches", "").trim()) // MaxBaggageVolume, remove "cubic inches" suffix
                 );
-                this.flightlist.add(flight);
+                this.flightList.add(flight);
             }
         }
         catch(FileNotFoundException e) {
@@ -56,7 +56,7 @@ public class FlightList {
      * @return The models.Flight object corresponding to the flight code, null if none found.
      */
     public Flight findByCode(String flightCode) {
-        for (Flight f : flightlist) {
+        for (Flight f : flightList) {
             if (f.getFlightCode().equals(flightCode)) {
                 return f;
             }
@@ -70,7 +70,7 @@ public class FlightList {
      * @param flight The models.Flight object to be added.
      */
     public void addFlight(Flight flight) {
-        flightlist.add(flight);
+        flightList.add(flight);
     }
 
     /**
@@ -81,7 +81,7 @@ public class FlightList {
     public void removeFlight(String flightCode) {
         int index = findIndex(flightCode);
         if (index != -1) {
-            flightlist.remove(index);
+            flightList.remove(index);
         }
     }
 
@@ -93,8 +93,8 @@ public class FlightList {
      */
     private int findIndex(String flightCode) {
 
-        for (int i = 0; i < flightlist.size(); i++) {
-            if (flightlist.get(i).getFlightCode().equals(flightCode)) {
+        for (int i = 0; i < flightList.size(); i++) {
+            if (flightList.get(i).getFlightCode().equals(flightCode)) {
                 return i;
             }
         }
@@ -105,7 +105,7 @@ public class FlightList {
      * @return The number of models.Flight objects currently in the list.
      */
     public int size() {
-        return this.flightlist.size();
+        return this.flightList.size();
     }
 
     /**
@@ -113,7 +113,7 @@ public class FlightList {
      */
     public String listDetails() {
         StringBuilder allEntries = new StringBuilder();
-        for (Flight flight : flightlist) {
+        for (Flight flight : flightList) {
             allEntries.append(flight.toString());
             allEntries.append('\n');
         }
@@ -121,6 +121,17 @@ public class FlightList {
     }
 
     public Flight get(int i) {
-        return flightlist.get(i);
+        return flightList.get(i);
     }
+
+    public void renewBaggageInFlight() throws AllExceptions.OverloadException {
+        for(int i = 0; i < this.flightList.size();i++){
+            Flight tempFlight = flightList.get(i);
+            tempFlight.addAllPassengerBaggageToFlight();
+            tempFlight.getBaggageInFlight().calculateTotalWeight();
+            tempFlight.getBaggageInFlight().calculateTotalVolume();
+        }
+    }
+
+
 }

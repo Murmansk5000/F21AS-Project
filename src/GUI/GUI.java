@@ -1,9 +1,12 @@
 package GUI;
 
 import models.*;
+import models.Report;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI extends JFrame {
     private boolean shouldExit = false;
@@ -11,9 +14,10 @@ public class GUI extends JFrame {
     private JTextField referenceTextField;
     private PassengerList passengerList;
     private FlightList flightList;
-//    private Baggage oneBaggage;
+    //    private Baggage oneBaggage;
 //    private BaggageList baggageListOfOne;
-    private Passenger passengerRef;
+    private Passenger selectedPassenger;
+    private Flight selectFlight;
 
     public PassengerList getPassengerList() {
         return this.passengerList;
@@ -31,11 +35,21 @@ public class GUI extends JFrame {
     public GUI(PassengerList passengerList, FlightList flightList) {
         this.passengerList = passengerList;
         this.flightList = flightList;
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    onExit();
+                } catch (AllExceptions.OverloadException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
 
-//        for (int i = 0; i < this.flightList.size(); i++) {
-//            System.out.println(this.flightList.get(i).getFlightCode());
-//        }
-
+    private void onExit() throws AllExceptions.OverloadException {
+        this.flightList.renewBaggageInFlight();
+        Report report = new Report(this.flightList);
     }
 
     public void FlightCheckInGUI() {
@@ -62,7 +76,13 @@ public class GUI extends JFrame {
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton quitButton = new JButton("Quit");
-        quitButton.addActionListener(e -> System.exit(0));
+        quitButton.addActionListener(e -> {
+            try {
+                onExit();
+            } catch (AllExceptions.OverloadException ex) {
+                throw new RuntimeException(ex);
+            }
+            System.exit(0);});
 
         JButton finishButton = new JButton("Log In");
         finishButton.addActionListener(e -> {
@@ -73,12 +93,12 @@ public class GUI extends JFrame {
             String reference = referenceTextField.getText();
             try {
                 validateInputs();
-                passengerRef = passengerList.findByRefCode(reference);
-                if(passengerRef.getLastName().equals(lastName)){
+                selectedPassenger = passengerList.findByRefCode(reference);
+                if (selectedPassenger.getLastName().equals(lastName)) {
                     // If inputs are valid and correct, proceed to the next step
                     new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
                     dispose(); // Close the current window
-                }
+                }//TODO else{don't match}
             } catch (IllegalArgumentException ex) {
                 ex.printStackTrace();
             } catch (AllExceptions.NoMatchingRefException ex){
@@ -144,30 +164,22 @@ public class GUI extends JFrame {
             headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             mainPanel.add(headerLabel);
 
-            Passenger passenger = passengerList.findByRefCode(reference);
-            if (passenger != null) {
-                String flightCode = passenger.getFlightCode();
-                Flight flightDetails = flightList.findByCode(flightCode);
-                if (flightDetails != null) {
-                    //添加航班信息
-                    mainPanel.add(createDetailPanel("Flight Number: ", flightDetails.getFlightCode()));
-                    mainPanel.add(createDetailPanel("Carrier: ", flightDetails.getCarrier()));
-                    mainPanel.add(createDetailPanel("Max Passenger: ", String.valueOf(flightDetails.getMaxPassengers())));
-                    mainPanel.add(createDetailPanel("Max Baggage Weight: ", String.valueOf(flightDetails.getMaxBaggageWeight())));
-                    mainPanel.add(createDetailPanel("Max Baggage Volume: ", String.valueOf(flightDetails.getMaxBaggageVolume())));
+            String flightCode = selectedPassenger.getFlightCode();
+            selectFlight = flightList.findByCode(flightCode);
+            if (selectFlight != null) {
+                selectedPassenger = selectFlight.getPassengerInFlight().findByRefCode(reference);
+                //添加航班信息
+                mainPanel.add(createDetailPanel("Flight Number: ", selectFlight.getFlightCode()));
+                mainPanel.add(createDetailPanel("Carrier: ", selectFlight.getCarrier()));
+                mainPanel.add(createDetailPanel("Max Passenger: ", String.valueOf(selectFlight.getMaxPassengers())));
+                mainPanel.add(createDetailPanel("Max Baggage Weight: ", String.valueOf(selectFlight.getMaxBaggageWeight())));
+                mainPanel.add(createDetailPanel("Max Baggage Volume: ", String.valueOf(selectFlight.getMaxBaggageVolume())));
 
-                } else {
-                    // TODO 处理找不到航班的情况
-                }
             } else {
-                // TODO 处理找不到乘客的情况
+                // TODO 处理找不到航班的情况
             }
 
 
-
-//            mainPanel.add(createDetailPanel("Airport of Destination: ", "Example Airport"));
-//            mainPanel.add(createDetailPanel("Estimated time of Departure: ", "00:00"));
-//            mainPanel.add(createDetailPanel("Estimated time of Arrival: ", "22:00"));
             JButton nextButton = new JButton("Next Step");
             nextButton.addActionListener(e -> {
                 this.dispose(); // 关闭当前窗口
@@ -189,22 +201,19 @@ public class GUI extends JFrame {
             return panel;
         }
     }
-    private JTextField weightField1;
-    private JTextField lengthField1;
-    private JTextField widthField1;
-    private JTextField heightField1;
-    class BaggageDetailsGUI extends JFrame{
-        private double totalFee = 0;
-        private JTextField weightField1, weightField2, weightField3;
-        private JTextField lengthField1, widthField1, heightField1;
-        private JTextField lengthField2, widthField2, heightField2;
-        private JTextField lengthField3, widthField3, heightField3;
 
-        private Baggage oneBaggage;
-        private BaggageList allBaggageOfOne;
-        public BaggageDetailsGUI(){
-            this.oneBaggage = new Baggage();
-            this.allBaggageOfOne = new BaggageList();
+
+
+    class BaggageDetailsGUI extends JFrame {
+        private double totalFee = 0;
+        private JTextField
+                weightField1, lengthField1, widthField1, heightField1,
+                weightField2, lengthField2, widthField2, heightField2,
+                weightField3, lengthField3, widthField3, heightField3;
+
+
+
+        public BaggageDetailsGUI() {
 
             setTitle("Baggage Details");
             setSize(500, 500); // 统一界面大小
@@ -219,6 +228,9 @@ public class GUI extends JFrame {
             headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             mainPanel.add(headerLabel);
 
+            JButton clearBaggageButton = new JButton("Clear Baggage");
+            clearBaggageButton.addActionListener(e -> removeBaggage());
+            mainPanel.add(clearBaggageButton);
             // 添加第一个行李重量输入区域和它的尺寸输入区域
             mainPanel.add(createBaggageWeightPanel("Baggage 1:      Weight (kg):", 1));
             mainPanel.add(createDimensionPanel("                         Dimensions (cm):", 1));
@@ -238,40 +250,56 @@ public class GUI extends JFrame {
             JButton nextButton = new JButton("Next Step");
             nextButton.addActionListener(e -> {
 
-
+                // 先尝试将所有行李信息添加到一个临时的行李列表中
+                BaggageList tempBaggageList = new BaggageList();
                 try {
-                    oneBaggage.setWeight(Double.parseDouble(weightField1.getText()));
-                    oneBaggage.setLength(Double.parseDouble(lengthField1.getText()));
-                    oneBaggage.setWidth(Double.parseDouble(lengthField1.getText()));
-                    oneBaggage.setHeight(Double.parseDouble(lengthField1.getText()));
-                    allBaggageOfOne.addBaggage(oneBaggage);
-                    oneBaggage.checkBaggage();
+                    if (isValidBaggage(weightField1, lengthField1, widthField1, heightField1)) {
+                        Baggage tempBaggage = new Baggage(
+                                Double.parseDouble(weightField1.getText()),
+                                Double.parseDouble(lengthField1.getText()),
+                                Double.parseDouble(widthField1.getText()),
+                                Double.parseDouble(heightField1.getText())
+                        );
+                        tempBaggage.checkBaggage(); // 检查行李是否符合规定
+                        tempBaggageList.addBaggage(tempBaggage);
+                    }
+                    if (isValidBaggage(weightField2, lengthField2, widthField2, heightField2)) {
+                        Baggage tempBaggage = new Baggage(
+                                Double.parseDouble(weightField2.getText()),
+                                Double.parseDouble(lengthField2.getText()),
+                                Double.parseDouble(widthField2.getText()),
+                                Double.parseDouble(heightField2.getText())
+                        );
+                        tempBaggage.checkBaggage(); // 检查行李是否符合规定
+                        tempBaggageList.addBaggage(tempBaggage);
+                    }
+                    if (isValidBaggage(weightField3, lengthField3, widthField3, heightField3)) {
+                        Baggage tempBaggage = new Baggage(
+                                Double.parseDouble(weightField3.getText()),
+                                Double.parseDouble(lengthField3.getText()),
+                                Double.parseDouble(widthField3.getText()),
+                                Double.parseDouble(heightField3.getText())
+                        );
+                        tempBaggage.checkBaggage(); // 检查行李是否符合规定
+                        tempBaggageList.addBaggage(tempBaggage);
+                    }
 
-                    oneBaggage.setWeight(Double.parseDouble(weightField1.getText()));
-                    oneBaggage.setLength(Double.parseDouble(lengthField1.getText()));
-                    oneBaggage.setWidth(Double.parseDouble(lengthField1.getText()));
-                    oneBaggage.setHeight(Double.parseDouble(lengthField1.getText()));
-                    allBaggageOfOne.addBaggage(oneBaggage);
-                    oneBaggage.checkBaggage();
 
-                    oneBaggage.setWeight(Double.parseDouble(weightField1.getText()));
-                    oneBaggage.setLength(Double.parseDouble(lengthField1.getText()));
-                    oneBaggage.setWidth(Double.parseDouble(lengthField1.getText()));
-                    oneBaggage.setHeight(Double.parseDouble(lengthField1.getText()));
-                    allBaggageOfOne.addBaggage(oneBaggage);
-                    oneBaggage.checkBaggage();
+                    selectedPassenger.setBaggageList(tempBaggageList);
 
-                    //TODO
-                    double totalVolume = allBaggageOfOne.getTotalVolume();
-                    double totalWeight = allBaggageOfOne.getTotalWeight();
-                    totalFee = allBaggageOfOne.calculateTotalFee();
+
+
+
+                    double totalVolume = tempBaggageList.getTotalVolume();
+                    double totalWeight = tempBaggageList.getTotalWeight();
+                    totalFee = tempBaggageList.calculateTotalFee();
 //                    System.out.println(totalWeight);
 //                    System.out.println(totalFee);
 
-                    if(totalFee > 0){
+                    if (totalFee > 0) {
                         dispose();
                         new PaymentExtraFeeGUI(totalWeight, totalFee).setVisible(true);
-                    }else {
+                    } else {
                         new CongratsPaymentGUI().setVisible(true);
                         dispose();
                     }
@@ -294,6 +322,22 @@ public class GUI extends JFrame {
             mainPanel.add(buttonPanel);
 
             add(mainPanel);
+        }
+
+        // 一个辅助方法，用来检查行李信息是否有效
+        private boolean isValidBaggage(JTextField weightField, JTextField lengthField, JTextField widthField, JTextField heightField) {
+            return !weightField.getText().trim().isEmpty() && !weightField.getText().trim().equals("0") &&
+                    !lengthField.getText().trim().isEmpty() && !lengthField.getText().trim().equals("0") &&
+                    !widthField.getText().trim().isEmpty() && !widthField.getText().trim().equals("0") &&
+                    !heightField.getText().trim().isEmpty() && !heightField.getText().trim().equals("0");
+        }
+
+        private void removeBaggage() {
+            // 假设 selectedPassenger 是当前选定的乘客对象
+            if (selectedPassenger != null && selectedPassenger.getBaggageList() != null) {
+                selectedPassenger.getBaggageList().clearBaggages();
+                JOptionPane.showMessageDialog(this, "All baggage has been cleared.", "Baggage Cleared", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         private JPanel createBaggageWeightPanel(String labelText, int baggageNumber) {
             JPanel weightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -408,7 +452,7 @@ public class GUI extends JFrame {
 
     class CongratsPaymentGUI extends JFrame{
         public CongratsPaymentGUI() {
-            setTitle("Congratulation！");
+            setTitle("Congratulation!");
             setSize(400, 200);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setLocationRelativeTo(null);
@@ -423,22 +467,14 @@ public class GUI extends JFrame {
             JButton finishButton = new JButton("Finish");
                 finishButton.addActionListener(e ->
                 {
+                    selectedPassenger.setIfCheck(true);
                     this.dispose();
                     GUI gui = new GUI(passengerList,flightList);
                     gui.FlightCheckInGUI();
                     gui.setVisible(true);
                 });
             mainPanel.add(finishButton);
-
             add(mainPanel);
         }
     }
-//    public static void main(String[] args) {
-//        EventQueue.invokeLater(() -> {
-//            ShowGUI showGUI = new ShowGUI();
-//            showGUI.FlightCheckInGUI();
-//            showGUI.setVisible(true);
-//        });
-//
-//    }
 }

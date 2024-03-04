@@ -8,25 +8,36 @@ public class ProgrammeDemo {
 	// private PassengerListInterface interaction;
 	// private PassengerListGUI gui;
 
-	public ProgrammeDemo() {
-		// Initialize empty list of passengers and flights
-		// Load passengers from TXT file directly into paxList
-		// Load flights from TXT file directly into fltList
-		paxList = new PassengerList();
-		paxList.loadPassengersFromTXT("PassengerList.txt");
-		fltList = new FlightList();
-		fltList.loadFlightsFromTXT("FlightList.txt");
-	}
+    public ProgrammeDemo() {
+        // Initialize empty list of passengers and flights
+        // Load passengers from TXT file directly into paxList
+        // Load flights from TXT file directly into fltList
+        paxList = new PassengerList();
+        paxList.loadPassengersFromTXT("PassengerList.txt");
+        fltList = new FlightList();
+        fltList.loadFlightsFromTXT("FlightList.txt");
+        addPassengersToFlights(paxList, fltList);
+    }
+
+    private static void addPassengersToFlights(PassengerList passengerList, FlightList flightList) {
+        for (Passenger passenger : passengerList.getPassengers()) {
+            String hisFlightCode = passenger.getFlightCode();
+            Flight flight = flightList.findByCode(hisFlightCode);
+            if (flight != null) {
+                flight.addPassenger(passenger);
+            }
+        }
+    }
 
 
-	/**
-	 * Allow the user to interact with the models.Passenger list.
-	 */
-	public void showInterface() {
-		// interaction.run();
-	}
+    /**
+     * Allow the user to interact with the models.Passenger list.
+     */
+    public void showInterface() {
+        // interaction.run();
+    }
 
-	/**
+    /**
 	 * Show GUI
 	 *
 	 */

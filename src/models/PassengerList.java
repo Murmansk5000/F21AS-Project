@@ -29,6 +29,7 @@ public class PassengerList {
 
 	public void loadPassengersFromTXT(String fileName) {
 		this.passengerList.clear();
+
 		try {
 			List<String> lines = Files.readAllLines(Paths.get(fileName));
 			for (String line : lines.subList(1, lines.size())) {
@@ -145,17 +146,25 @@ public class PassengerList {
 	 * @return The size of the passenger list.
 	 */
 
-	public int size(){
+	public int size() {
 		return this.passengerList.size();
 	}
 
 	public int checkInSize() {
 		int checkInSize = 0;
-		for(int i = 0;i < passengerList.size();i++){
-			if(passengerList.get(i).getIfCheck()){
+		for (int i = 0; i < passengerList.size(); i++) {
+			if (passengerList.get(i).getIfCheck()) {
 				checkInSize++;
 			}
 		}
 		return checkInSize;
+	}
+
+	public ArrayList<Passenger> getPassengers() {
+		return new ArrayList<>(passengerList); // 返回乘客列表的一个副本以保护封装性
+	}
+
+	public Passenger get(int i) {
+		return passengerList.get(i);
 	}
 }

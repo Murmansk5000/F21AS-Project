@@ -4,39 +4,45 @@ import java.util.ArrayList;
 
 public class BaggageList {
     private static final double BASE_FEE = 0.0;
-    private ArrayList<Baggage> baggages;
+    private ArrayList<Baggage> baggageList;
     private double totalVolume;
     public double totalWeight;
     public double totalFee;
     private int quantity;
 
     public BaggageList() {
-        this.baggages = new ArrayList<Baggage>();
+        this.baggageList = new ArrayList<Baggage>();
         this.totalVolume = 0.0;
         this.totalWeight = 0.0;
         this.totalFee = 0.0;
         this.quantity = 0;
     }
 
+    /**
+     * Merge multiple baggage lists.
+     *
+     * @param lists The baggage lists to merge
+     * @return The merged baggage list
+     */
+    public static BaggageList mergeBaggageLists(BaggageList... lists) throws AllExceptions.OverWeightException {
+        BaggageList mergedList = new BaggageList();
+        for (BaggageList list : lists) {
+            for (Baggage baggage : list.baggageList) {
+                mergedList.addBaggage(baggage);
+            }
+        }
+        mergedList.calculateTotalFee();
+        return mergedList;
+    }
+
     public void addBaggage(Baggage baggage) {
-        if (baggage != null) {
-            this.baggages.add(baggage);
+        if (baggage != null&&baggage.getWeight()!=0&&baggage.getSize()!=0) {
+            this.baggageList.add(baggage);
             this.totalVolume += baggage.getVolume();
             this.totalWeight += baggage.getWeight();
             this.totalFee += baggage.getFee();
             this.quantity++;
         }
-    }
-
-    public boolean removeBaggage(Baggage baggage) {
-        if (this.baggages.remove(baggage)) {
-            this.totalVolume -= baggage.getVolume();
-            this.totalWeight -= baggage.getWeight();
-            this.totalFee -= baggage.getFee();
-            this.quantity--;
-            return true;
-        }
-        return false;
     }
 
     public double getTotalVolume() {
@@ -51,17 +57,21 @@ public class BaggageList {
         return this.quantity;
     }
 
-    public void calculateTotalWeight() {
-        this.totalWeight = 0.0;
-        for (Baggage baggage : this.baggages) {
-            this.totalWeight += baggage.getWeight();
+    public boolean removeBaggage(Baggage baggage) {
+        if (this.baggageList.remove(baggage)) {
+            this.totalVolume -= baggage.getVolume();
+            this.totalWeight -= baggage.getWeight();
+            this.totalFee -= baggage.getFee();
+            this.quantity--;
+            return true;
         }
+        return false;
     }
 
-    public void calculateTotalVolume() {
+    public void calculateTotalWeight() {
         this.totalWeight = 0.0;
-        for (Baggage baggage : this.baggages) {
-            this.totalVolume += baggage.getVolume();
+        for (Baggage baggage : this.baggageList) {
+            this.totalWeight += baggage.getWeight();
         }
     }
 
@@ -70,31 +80,22 @@ public class BaggageList {
         return this.totalFee;
     }
 
-    /**
-     * Merge multiple baggage lists.
-     *
-     * @param lists The baggage lists to merge
-     * @return The merged baggage list
-     */
-    public static BaggageList mergeBaggageLists(BaggageList... lists) throws AllExceptions.OverWeightException {
-        BaggageList mergedList = new BaggageList();
-        for (BaggageList list : lists) {
-            for (Baggage baggage : list.baggages) {
-                mergedList.addBaggage(baggage);
-            }
+    public void calculateTotalVolume() {
+        this.totalVolume = 0.0;
+        for (Baggage baggage : this.baggageList) {
+            this.totalVolume += baggage.getVolume();
         }
-        mergedList.calculateTotalFee();
-        return mergedList;
     }
+
     public void clear() {
-        this.baggages.clear();
+        this.baggageList.clear();
         this.totalVolume = 0.0;
         this.totalWeight = 0.0;
         this.quantity = 0;
     }
 
     public int size(){
-        return this.baggages.size();
+        return this.baggageList.size();
     }
 
     public double calculateTotalFee(){
@@ -111,5 +112,17 @@ public class BaggageList {
         // Check if the baggage is over the size limit
         this.totalFee = BASE_FEE + Fee;
         return totalFee;
+    }
+
+    public ArrayList<Baggage> getBaggageList() {
+        return new ArrayList<>(baggageList); // 返回乘客列表的一个副本以保护封装性
+    }
+
+    public void clearBaggages() {
+        baggageList.clear();
+    }
+
+    public boolean isEmpty(){
+        return baggageList.isEmpty();
     }
 }
