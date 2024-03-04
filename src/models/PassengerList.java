@@ -66,6 +66,15 @@ public class PassengerList {
 		throw new AllExceptions.NoMatchingRefException(referenceCode);
 	}
 
+	public Passenger findByLastName(String lastName) throws AllExceptions.NoMatchingNameException {
+		for (Passenger p : passengerList) {
+			if (p.getLastName().equals(lastName)) {
+				return p;
+			}
+		}
+		throw new AllExceptions.NoMatchingNameException(lastName);
+	}
+
 	/**
 	 * Add a new models.Passenger object to the list.
 	 *

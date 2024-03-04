@@ -35,8 +35,34 @@ public class AllExceptions extends Exception{
     */
     public static class NoMatchingRefException extends Exception{
         public NoMatchingRefException(String ref){
-            super("There is no reference number: "+ref+", please check.");
-            JOptionPane.showMessageDialog(null, "There is no reference number: "+ref+", please check.", "Error", JOptionPane.ERROR_MESSAGE);
+            super("There is no matching reference number: "+ref+", please check.");
+            JOptionPane.showMessageDialog(null, "There is no matching reference number: "+ref+", please check.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    /*
+    If one of the baggage information is blank,
+    an IncompleteBaggageInfoException is thrown,
+    a window will pop up reminding the passenger to complete.
+    */
+    public static class IncompleteBaggageInfoException extends Exception {
+        public IncompleteBaggageInfoException() {
+            super("There has blank field for the baggage information, please complete.\n" +
+                    "                                                     Please enter 0 in each text box if you not have this baggage, thank you.");
+            JOptionPane.showMessageDialog(null, "There has blank field for the baggage information, please complete.\n" +
+                    "Please enter 0 in each text box if you not have this baggage, thank you.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    /*
+    If one/two/three of the baggage information is 0,
+    an InvalidBaggageInfoException is thrown,
+    a window will pop up reminding the passenger to re-enter.
+    */
+    public static class InvalidBaggageInfoException extends Exception {
+        public InvalidBaggageInfoException() {
+            super("Some of the baggage weight and volume information you entered is 0, please check.\n" +
+                    "                                                  (Excluded cases where all of these information is 0)" );
+            JOptionPane.showMessageDialog(null, "Some of the baggage weight and volume information you entered is 0, please check.\n" +
+                    "(Excluded cases where all of these information is 0)", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     /*
@@ -62,6 +88,17 @@ public class AllExceptions extends Exception{
             JOptionPane.showMessageDialog(null, "Flight "+flight+" is overload.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    /*
+    If cannot find the matching flight,
+    reminding the passenger.
+    */
+    public static class NoMatchingFlightException extends Exception{
+        public NoMatchingFlightException(){
+            super("There is no matching flight information for you.");
+            JOptionPane.showMessageDialog(null, "There is no matching flight information for you.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 //    public static void AllException(Exception e) {
 //        if (e instanceof FormatErrorException) {
 //            // 显示特定的异常窗口

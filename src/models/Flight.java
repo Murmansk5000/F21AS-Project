@@ -23,7 +23,7 @@ public class Flight implements Comparable<Flight> {
 	 * @param maxBaggageVolume The maximum volume of baggage allowed on the flight.
 	 * @param maxBaggageWeight The maximum weight of baggage allowed on the flight.
 	 */
-	public Flight(String flightCode, String destination, String carrier, int maxPassengers, double maxBaggageVolume, double maxBaggageWeight) {
+	public Flight(String flightCode, String destination, String carrier, int maxPassengers, double maxBaggageWeight, double maxBaggageVolume) {
 		this.flightCode = flightCode.trim();
 		this.destination = destination.trim();
 		this.carrier = carrier.trim();
@@ -116,7 +116,7 @@ public class Flight implements Comparable<Flight> {
 					this.baggageInFlight.addBaggage(baggage);
 				} else {
 					// 如果添加这件行李会导致超过限制，抛出一个异常
-					throw new AllExceptions.OverloadException("Adding this baggage would exceed the flight's baggage limits.");
+					throw new AllExceptions.OverloadException(flightCode);
 				}
 			}
 		}

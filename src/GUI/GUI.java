@@ -16,7 +16,7 @@ public class GUI extends JFrame {
     private FlightList flightList;
     //    private Baggage oneBaggage;
 //    private BaggageList baggageListOfOne;
-    private Passenger selectedPassenger;
+    private static Passenger selectedPassenger;
     private Flight selectFlight;
 
     public PassengerList getPassengerList() {
@@ -60,9 +60,24 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // 居中显示
 
+        // Load background image
+//        JPanel backgroundPanel = new JPanel() {
+//            @Override
+//            protected void paintComponent(Graphics g) {
+//                super.paintComponent(g);
+//                // 绘制背景图像
+//                ImageIcon imageIcon = new ImageIcon("images/background.jpg");
+//                Image image = imageIcon.getImage();
+//                g.drawImage(image, 0, 0, this);
+//            }
+//        };
+//        setContentPane(backgroundPanel);
+
+
         // 使用BoxLayout进行面板布局
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        //mainPanel.setOpaque(false);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JLabel headerLabel = new JLabel("Welcome to Airport Check-in System", SwingConstants.LEFT);
@@ -94,6 +109,7 @@ public class GUI extends JFrame {
             try {
                 validateInputs();
                 selectedPassenger = passengerList.findByRefCode(reference);
+                selectedPassenger = passengerList.findByLastName(lastName);
                 if (selectedPassenger.getLastName().equals(lastName)) {
                     // If inputs are valid and correct, proceed to the next step
                     new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
@@ -102,6 +118,10 @@ public class GUI extends JFrame {
             } catch (IllegalArgumentException ex) {
                 ex.printStackTrace();
             } catch (AllExceptions.NoMatchingRefException ex){
+                ex.printStackTrace();
+            } catch (AllExceptions.NoMatchingNameException ex){
+                ex.printStackTrace();
+            }catch (AllExceptions.NoMatchingFlightException ex){
                 ex.printStackTrace();
             }
 
@@ -146,10 +166,9 @@ public class GUI extends JFrame {
 
         private String lastName;
         private String reference;
-        public FlightDetailsGUI(String lastName, String reference, PassengerList passengerList, FlightList flightList) throws AllExceptions.NoMatchingRefException {
+        public FlightDetailsGUI(String lastName, String reference, PassengerList passengerList, FlightList flightList) throws AllExceptions.NoMatchingRefException, AllExceptions.NoMatchingFlightException{
             this.lastName = lastName;
             this.reference = reference;
-
 
             setTitle("Flight Details");
             setSize(400, 500); // 统一界面大小
@@ -177,20 +196,27 @@ public class GUI extends JFrame {
 
             } else {
                 // TODO 处理找不到航班的情况
+                throw new AllExceptions.NoMatchingFlightException();
             }
 
 
             JButton nextButton = new JButton("Next Step");
+            JButton backButton = new JButton("Back");
             nextButton.addActionListener(e -> {
                 this.dispose(); // 关闭当前窗口
                 // 打开航班详情窗口（最终实现这里会有修改）
                 new BaggageDetailsGUI().setVisible(true);
             });
-
+            backButton.addActionListener(e -> {
+                this.dispose();
+                GUI gui = new GUI(passengerList,flightList);
+                gui.FlightCheckInGUI();
+                gui.setVisible(true);
+            });
             // 为了在下方右对齐按钮，用FlowLayout管理器
             JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            buttonPanel.add(backButton);
             buttonPanel.add(nextButton);
-
             mainPanel.add(buttonPanel);
             add(mainPanel);
         }
@@ -210,8 +236,23 @@ public class GUI extends JFrame {
                 weightField1, lengthField1, widthField1, heightField1,
                 weightField2, lengthField2, widthField2, heightField2,
                 weightField3, lengthField3, widthField3, heightField3;
+       // Clear the entered baggage information
+        private void clearBaggageFields() {
+            weightField1.setText("");
+            lengthField1.setText("");
+            widthField1.setText("");
+            heightField1.setText("");
 
+            weightField2.setText("");
+            lengthField2.setText("");
+            widthField2.setText("");
+            heightField2.setText("");
 
+            weightField3.setText("");
+            lengthField3.setText("");
+            widthField3.setText("");
+            heightField3.setText("");
+        }
 
         public BaggageDetailsGUI() {
 
@@ -228,9 +269,12 @@ public class GUI extends JFrame {
             headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             mainPanel.add(headerLabel);
 
+            JPanel buttonPanel1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             JButton clearBaggageButton = new JButton("Clear Baggage");
             clearBaggageButton.addActionListener(e -> removeBaggage());
-            mainPanel.add(clearBaggageButton);
+            clearBaggageButton.addActionListener(e -> clearBaggageFields());
+            buttonPanel1.add(clearBaggageButton);
+            mainPanel.add(buttonPanel1);
             // 添加第一个行李重量输入区域和它的尺寸输入区域
             mainPanel.add(createBaggageWeightPanel("Baggage 1:      Weight (kg):", 1));
             mainPanel.add(createDimensionPanel("                         Dimensions (cm):", 1));
@@ -284,11 +328,7 @@ public class GUI extends JFrame {
                         tempBaggageList.addBaggage(tempBaggage);
                     }
 
-
                     selectedPassenger.setBaggageList(tempBaggageList);
-
-
-
 
                     double totalVolume = tempBaggageList.getTotalVolume();
                     double totalWeight = tempBaggageList.getTotalWeight();
@@ -300,10 +340,15 @@ public class GUI extends JFrame {
                         dispose();
                         new PaymentExtraFeeGUI(totalWeight, totalFee).setVisible(true);
                     } else {
-                        new CongratsPaymentGUI().setVisible(true);
+                        new CongratsPaymentGUI(totalWeight).setVisible(true);
                         dispose();
                     }
 
+                } catch (AllExceptions.InvalidBaggageInfoException ex) {
+                    ex.printStackTrace();
+                }catch (AllExceptions.IncompleteBaggageInfoException ex) {
+                    // 处理单个行李信息不全异常
+                    ex.printStackTrace();
                 } catch (NumberFormatException ex) {
                     // 处理数字格式异常，例如用户未输入有效的数字等情况
                     JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid numbers.\n" +
@@ -312,31 +357,73 @@ public class GUI extends JFrame {
                 } catch (AllExceptions.FormatErrorException ex) {
                     // 处理格式错误异常
                     ex.printStackTrace();
-
                 }
 
             });
+            JButton backButton = new JButton("Back");
+            backButton.addActionListener(e ->{
+                this.dispose();
+                String lastName = selectedPassenger.getLastName();
+                String reference = selectedPassenger.getRefCode();
+                try {
+                    new FlightDetailsGUI(lastName,reference, passengerList, flightList).setVisible(true);
+                } catch (AllExceptions.NoMatchingRefException ex) {
+                    throw new RuntimeException(ex);
+                } catch (AllExceptions.NoMatchingFlightException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } );
 
-            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            buttonPanel.add(nextButton);
-            mainPanel.add(buttonPanel);
+            JPanel buttonPanel2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            buttonPanel2.add(backButton);
+            buttonPanel2.add(nextButton);
+            mainPanel.add(buttonPanel2);
 
             add(mainPanel);
         }
 
         // 一个辅助方法，用来检查行李信息是否有效
-        private boolean isValidBaggage(JTextField weightField, JTextField lengthField, JTextField widthField, JTextField heightField) {
-            return !weightField.getText().trim().isEmpty() && !weightField.getText().trim().equals("0") &&
-                    !lengthField.getText().trim().isEmpty() && !lengthField.getText().trim().equals("0") &&
-                    !widthField.getText().trim().isEmpty() && !widthField.getText().trim().equals("0") &&
-                    !heightField.getText().trim().isEmpty() && !heightField.getText().trim().equals("0");
+        private boolean isValidBaggage(JTextField weightField, JTextField lengthField, JTextField widthField, JTextField heightField) throws AllExceptions.IncompleteBaggageInfoException, AllExceptions.InvalidBaggageInfoException {
+            String weight = weightField1.getText().trim();
+            String length = lengthField1.getText().trim();
+            String width = widthField1.getText().trim();
+            String height = heightField1.getText().trim();
+
+            if (weight.isEmpty() || length.isEmpty() || width.isEmpty() || height.isEmpty()) {
+                throw new AllExceptions.IncompleteBaggageInfoException();
+            }
+            else if (weight.equals("0") && length.equals("0") && width.equals("0") && height.equals("0")) {
+                return false;
+            }
+            else if (!weight.isEmpty() && !weight.equals("0") &&
+                    !length.isEmpty() && !length.equals("0") &&
+                    !width.trim().isEmpty() && !width.equals("0") &&
+                    !height.isEmpty() && !height.equals("0")){
+                return true;
+            }
+            else {
+                throw new AllExceptions.InvalidBaggageInfoException();
+            }
+//            return !weight.isEmpty() && !weight.equals("0") &&
+//                    !length.isEmpty() && !length.equals("0") &&
+//                    !width.trim().isEmpty() && !width.equals("0") &&
+//                    !height.isEmpty() && !height.equals("0");
         }
 
-        private void removeBaggage() {
+        //一件行李的四个信息必须都有
+//        private boolean isIncompleteBaggage(JTextField weightField, JTextField lengthField, JTextField widthField, JTextField heightField) throws AllExceptions.IncompleteBaggageInfoException{
+//            if (weightField.getText().trim().isEmpty() || lengthField.getText().trim().isEmpty() || widthField.getText().trim().isEmpty() || heightField.getText().trim().isEmpty()) {
+//                throw new AllExceptions.IncompleteBaggageInfoException();
+//            }
+//            return true;
+//        }
+
+
+        private static void removeBaggage() {
             // 假设 selectedPassenger 是当前选定的乘客对象
             if (selectedPassenger != null && selectedPassenger.getBaggageList() != null) {
                 selectedPassenger.getBaggageList().clearBaggages();
-                JOptionPane.showMessageDialog(this, "All baggage has been cleared.", "Baggage Cleared", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "All baggage has been cleared.", "Baggage Cleared", JOptionPane.INFORMATION_MESSAGE);
             }
         }
         private JPanel createBaggageWeightPanel(String labelText, int baggageNumber) {
@@ -431,18 +518,17 @@ public class GUI extends JFrame {
             payButton.addActionListener(e ->
             {
                 this.dispose();
-                new CongratsPaymentGUI().setVisible(true);
+                new CongratsPaymentGUI(totalWeight).setVisible(true);
             });
 
             JButton backButton = new JButton("Back");
-            backButton.addActionListener(e ->
-            {
+            backButton.addActionListener(e -> {
                 this.dispose();
+                BaggageDetailsGUI.removeBaggage(); // 调用 removeBaggage 方法
                 new BaggageDetailsGUI().setVisible(true);
             });
-
-            buttonPanel.add(payButton);
             buttonPanel.add(backButton);
+            buttonPanel.add(payButton);
 
             mainPanel.add(buttonPanel);
 
@@ -451,9 +537,9 @@ public class GUI extends JFrame {
     }
 
     class CongratsPaymentGUI extends JFrame{
-        public CongratsPaymentGUI() {
+        public CongratsPaymentGUI(double totalWeight) {
             setTitle("Congratulation!");
-            setSize(400, 200);
+            setSize(500, 200);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setLocationRelativeTo(null);
 
@@ -462,8 +548,11 @@ public class GUI extends JFrame {
             mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             JLabel congratsLabel = new JLabel("Congratulations! You have successfully loaded your items.");
+            JLabel weightLabel = new JLabel("The total weight is "+totalWeight+"kg.");
             mainPanel.add(congratsLabel);
+            mainPanel.add(weightLabel);
 
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
             JButton finishButton = new JButton("Finish");
                 finishButton.addActionListener(e ->
                 {
@@ -473,7 +562,15 @@ public class GUI extends JFrame {
                     gui.FlightCheckInGUI();
                     gui.setVisible(true);
                 });
-            mainPanel.add(finishButton);
+            JButton backButton = new JButton("Back");
+            backButton.addActionListener(e -> {
+                this.dispose();
+                BaggageDetailsGUI.removeBaggage(); // 调用 removeBaggage 方法
+                new BaggageDetailsGUI().setVisible(true);
+            });
+            buttonPanel.add(backButton);
+            buttonPanel.add(finishButton);
+            mainPanel.add(buttonPanel);
             add(mainPanel);
         }
     }
