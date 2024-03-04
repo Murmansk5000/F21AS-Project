@@ -2,43 +2,46 @@ package models;
 
 import javax.swing.*;
 
-public class AllExceptions extends Exception{
+public class AllExceptions extends Exception {
     /*
     If the input format (information of checked baggage) is incorrect,
     a FormatErrorException is thrown, a window will pop up reminding the user to retype.
     */
-    public static class FormatErrorException extends Exception{
-        public FormatErrorException(){
+    public static class FormatErrorException extends Exception {
+        public FormatErrorException() {
             super("Incorrect input format of checked baggage.\n" +
-                   "                                           Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
-                   "                                           Weight of Checked baggage: not exceeding 23 (kg).");
+                    "                                           Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
+                    "                                           Weight of Checked baggage: not exceeding 23 (kg).");
             JOptionPane.showMessageDialog(null, "Incorrect input format.\n" +
                     "Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
                     "Weight of Checked baggage: not exceeding 23 (kg).", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /*
     If there is no matching name,
     a NoMatchingNameException is thrown,
     a window will pop up reminding the user to retype.
     */
-    public static class NoMatchingNameException extends Exception{
-        public NoMatchingNameException(String name){
-            super("There is no matching last name: "+name+", please check.");
-            JOptionPane.showMessageDialog(null, "There is no matching last name: "+name+", please check.", "Error", JOptionPane.ERROR_MESSAGE);
+    public static class NoMatchingNameException extends Exception {
+        public NoMatchingNameException(String name) {
+            super("There is no matching last name: " + name + ", please check.");
+            JOptionPane.showMessageDialog(null, "There is no matching last name: " + name + ", please check.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /*
     If there is no matching booking reference code,
     a NoMatchingRefException is thrown,
     a window will pop up reminding the user to retype.
     */
-    public static class NoMatchingRefException extends Exception{
-        public NoMatchingRefException(String ref){
-            super("There is no matching reference number: "+ref+", please check.");
-            JOptionPane.showMessageDialog(null, "There is no matching reference number: "+ref+", please check.", "Error", JOptionPane.ERROR_MESSAGE);
+    public static class NoMatchingRefException extends Exception {
+        public NoMatchingRefException(String ref) {
+            super("There is no matching reference number: " + ref + ", please check.");
+            JOptionPane.showMessageDialog(null, "There is no matching reference number: " + ref + ", please check.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /*
     If one of the baggage information is blank,
     an IncompleteBaggageInfoException is thrown,
@@ -52,6 +55,7 @@ public class AllExceptions extends Exception{
                     "Please enter 0 in each text box if you not have this baggage, thank you.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /*
     If one/two/three of the baggage information is 0,
     an InvalidBaggageInfoException is thrown,
@@ -60,40 +64,43 @@ public class AllExceptions extends Exception{
     public static class InvalidBaggageInfoException extends Exception {
         public InvalidBaggageInfoException() {
             super("Some of the baggage weight and volume information you entered is 0, please check.\n" +
-                    "                                                  (Excluded cases where all of these information is 0)" );
+                    "                                                  (Excluded cases where all of these information is 0)");
             JOptionPane.showMessageDialog(null, "Some of the baggage weight and volume information you entered is 0, please check.\n" +
                     "(Excluded cases where all of these information is 0)", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /*
     If the baggage exceeds the rated baggage limit,
     a OverWeightException is thrown,
     a window will pop up asking the passenger
     if they would like to purchase the excess baggage allowance.
     */
-    public static class OverWeightException extends Exception{
-        public OverWeightException(){
+    public static class OverWeightException extends Exception {
+        public OverWeightException() {
             super("The baggage exceeds the rated baggage limit(40kg).");
             //JOptionPane.showMessageDialog(null, "The baggage exceeds the rated baggage limit(23kg).", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /*
     If the flight is overweight,
     a OverloadException is thrown,
     reminding the staff in the flight report.
     */
-    public static class OverloadException extends Exception{
-        public OverloadException(String flight){
-            super("Flight "+flight+" is overload.");
-            JOptionPane.showMessageDialog(null, "Flight "+flight+" is overload.", "Error", JOptionPane.ERROR_MESSAGE);
+    public static class OverloadException extends Exception {
+        public OverloadException(String flight) {
+            super("Flight " + flight + " is overload.");
+            JOptionPane.showMessageDialog(null, "Flight " + flight + " is overload.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /*
     If cannot find the matching flight,
     reminding the passenger.
     */
-    public static class NoMatchingFlightException extends Exception{
-        public NoMatchingFlightException(){
+    public static class NoMatchingFlightException extends Exception {
+        public NoMatchingFlightException() {
             super("There is no matching flight information for you.");
             JOptionPane.showMessageDialog(null, "There is no matching flight information for you.", "Error", JOptionPane.ERROR_MESSAGE);
         }

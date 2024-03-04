@@ -3,10 +3,10 @@ package models;
 import GUI.GUI;
 
 public class ProgrammeDemo {
-	private static PassengerList paxList;
-	private static FlightList fltList;
-	// private PassengerListInterface interaction;
-	// private PassengerListGUI gui;
+    private static PassengerList paxList;
+    private static FlightList fltList;
+    // private PassengerListInterface interaction;
+    // private PassengerListGUI gui;
 
     public ProgrammeDemo() {
         // Initialize empty list of passengers and flights
@@ -29,6 +29,22 @@ public class ProgrammeDemo {
         }
     }
 
+    public static void main(String[] args) {
+
+        // creates demo object, with a populated models.Passenger list
+        ProgrammeDemo sld = new ProgrammeDemo();
+
+        // allow user to interact using a GUI
+        sld.showGUI(paxList, fltList);
+
+//		PassengerList updatedPassengerList = gui.getPassengerList();
+//		FlightList updatedFlightList = gui.getFlightList();
+
+        // allow user to interact with this list
+        // using text interface
+        sld.showInterface();
+
+    }
 
     /**
      * Allow the user to interact with the models.Passenger list.
@@ -38,32 +54,14 @@ public class ProgrammeDemo {
     }
 
     /**
-	 * Show GUI
-	 *
-	 */
-	public void showGUI(PassengerList passengerList, FlightList flightList) {
-		GUI gui = new GUI(passengerList,flightList);
-		gui.FlightCheckInGUI();
-		gui.setVisible(true);
+     * Show GUI
+     */
+    public void showGUI(PassengerList passengerList, FlightList flightList) {
+        GUI gui = new GUI(passengerList, flightList);
+        gui.FlightCheckInGUI();
+        gui.setVisible(true);
 
 
-	}
-
-	public static void main(String[] args) {
-
-		// creates demo object, with a populated models.Passenger list
-		ProgrammeDemo sld = new ProgrammeDemo();
-
-		// allow user to interact using a GUI
-		sld.showGUI(paxList, fltList);
-
-//		PassengerList updatedPassengerList = gui.getPassengerList();
-//		FlightList updatedFlightList = gui.getFlightList();
-
-		// allow user to interact with this list
-		// using text interface
-		sld.showInterface();
-
-	}
+    }
 
 }

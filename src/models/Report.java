@@ -3,36 +3,35 @@ package models;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Report {
 
 
-    public  Report(FlightList fl){
+    public Report(FlightList fl) {
         String filePath = "report.txt";
         Flight flight;
-        if(fl.size() > 0){
-            for(int i =0;i < fl.size();i++){
+        if (fl.size() > 0) {
+            for (int i = 0; i < fl.size(); i++) {
                 flight = fl.get(i);
                 //System.out.println(fl.get(i).getFlightCode());
                 printReport(flight.getFlightCode(),
                         flight.getPassengerInFlight().checkInSize(),
                         flight.getBaggageInFlight().getTotalWeight(),
                         flight.getBaggageInFlight().getTotalVolume(),
-                        flight.isOverCapacity(),
+                        !flight.isOverCapacity(),
                         flight.getBaggageInFlight().getTotalFee());
                 writeReportToFile(flight.getFlightCode(),
                         flight.getPassengerInFlight().checkInSize(),
                         flight.getBaggageInFlight().getTotalWeight(),
                         flight.getBaggageInFlight().getTotalVolume(),
-                        flight.isOverCapacity(),
+                        !flight.isOverCapacity(),
                         flight.getBaggageInFlight().getTotalFee(), filePath);
             }
-        }
-        else {
+        } else {
             System.out.println("No flight information today!");
         }
     }
+
     // create report content
     private String reportModel(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee) {
         String divider = "=========================================";
@@ -62,9 +61,8 @@ public class Report {
     // write report file
     public void writeReportToFile(String flightNumber, int checkIns, double luggageWeight, double luggageVolume, boolean takeOffStatus, double overFee, String filePath) {
         String reportContent = reportModel(flightNumber, checkIns, luggageWeight, luggageVolume, takeOffStatus, overFee);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
             writer.write(reportContent);
-            //System.out.println("报告已追加到 " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -18,6 +18,7 @@ public class FlightList {
 
     /**
      * Loads flight data from a txt file.
+     *
      * @param fileName Path to the txt file.
      */
     public void loadFlightsFromTXT(String fileName) {
@@ -35,16 +36,14 @@ public class FlightList {
                         data[1], // Destination
                         data[2], // Carrier
                         Integer.parseInt(data[3]), // MaxPassengers
-                        Double.parseDouble(data[4].replaceAll(" lbs", "").trim()), // MaxBaggageWeight, remove "lbs" suffix
-                        Double.parseDouble(data[5].replaceAll(" cubic inches", "").trim()) // MaxBaggageVolume, remove "cubic inches" suffix
+                        Double.parseDouble(data[4].trim()), // MaxBaggageWeight
+                        Double.parseDouble(data[5].trim()) // MaxBaggageVolume
                 );
                 this.flightList.add(flight);
             }
-        }
-        catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -125,11 +124,11 @@ public class FlightList {
     }
 
     public void renewBaggageInFlight() throws AllExceptions.OverloadException {
-        for(int i = 0; i < this.flightList.size();i++){
-            Flight tempFlight = flightList.get(i);
-            tempFlight.addAllPassengerBaggageToFlight();
-            tempFlight.getBaggageInFlight().calculateTotalWeight();
-            tempFlight.getBaggageInFlight().calculateTotalVolume();
+        for (int i = 0; i < this.flightList.size(); i++) {
+            flightList.get(i).addAllPassengerBaggageToFlight();
+            flightList.get(i).getBaggageInFlight().calculateTotalWeight();
+            flightList.get(i).getBaggageInFlight().calculateTotalVolume();
+            flightList.get(i).isOverCapacity();
         }
     }
 

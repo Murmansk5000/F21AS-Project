@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class BaggageList {
     private static final double BASE_FEE = 0.0;
-    private ArrayList<Baggage> baggageList;
-    private double totalVolume;
     public double totalWeight;
     public double totalFee;
+    private ArrayList<Baggage> baggageList;
+    private double totalVolume;
     private int quantity;
 
     public BaggageList() {
@@ -36,7 +36,7 @@ public class BaggageList {
     }
 
     public void addBaggage(Baggage baggage) {
-        if (baggage != null&&baggage.getWeight()!=0&&baggage.getSize()!=0) {
+        if (baggage != null && baggage.getWeight() != 0 && baggage.getSize() != 0) {
             this.baggageList.add(baggage);
             this.totalVolume += baggage.getVolume();
             this.totalWeight += baggage.getWeight();
@@ -94,11 +94,11 @@ public class BaggageList {
         this.quantity = 0;
     }
 
-    public int size(){
+    public int size() {
         return this.baggageList.size();
     }
 
-    public double calculateTotalFee(){
+    public double calculateTotalFee() {
         // Reset the fee to a base value or specific initial charge
         double Fee = 0.0;
         double totalWeightLimit = 40; // 40 kg weight limit
@@ -122,7 +122,7 @@ public class BaggageList {
         baggageList.clear();
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return baggageList.isEmpty();
     }
 }

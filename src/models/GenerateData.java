@@ -53,7 +53,7 @@ public class GenerateData {
             int maxBaggageVolume = 100 + random.nextInt(201); // 100 to 300 cubic inches
 
             flightsWriter.write(flightCode + "," + destinationAirport + "," + carrier + "," + maxPassengerCapacity + "," +
-                    maxBaggageWeight + " lbs," + maxBaggageVolume + " cubic inches\n");
+                    maxBaggageWeight + maxBaggageVolume + "\n");
         }
         flightsWriter.close();
 

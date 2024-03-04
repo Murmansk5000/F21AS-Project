@@ -1,11 +1,11 @@
 FlightCode,DestinationAirport,Carrier,MaxPassengerCapacity,MaxBaggageWeight,MaxBaggageVolume
-IV6518,Airport 1,Delta Air Lines,240,1268 lbs,121 cubic inches
-NE8389,Airport 2,American Airlines,144,2674 lbs,136 cubic inches
-VD7018,Airport 3,United Airlines,246,3585 lbs,298 cubic inches
-BT9441,Airport 4,Delta Air Lines,185,1758 lbs,230 cubic inches
-XQ3326,Airport 5,British Airways,229,1864 lbs,113 cubic inches
-GC3217,Airport 6,United Airlines,242,3043 lbs,176 cubic inches
-WJ7955,Airport 7,American Airlines,216,3590 lbs,170 cubic inches
-ZK8692,Airport 8,Delta Air Lines,128,1660 lbs,126 cubic inches
-LQ3059,Airport 9,Delta Air Lines,123,2413 lbs,271 cubic inches
-DQ2692,Airport 10,United Airlines,219,3398 lbs,266 cubic inches
+IV6518,Airport 1,Delta Air Lines,240,1268,12100
+NE8389,Airport 2,American Airlines,144,2674,13600
+VD7018,Airport 3,United Airlines,246,3585,29800
+BT9441,Airport 4,Delta Air Lines,185,1758,23000
+XQ3326,Airport 5,British Airways,229,1864,11300
+GC3217,Airport 6,United Airlines,242,3043,17600
+WJ7955,Airport 7,American Airlines,216,3590,17000
+ZK8692,Airport 8,Delta Air Lines,128,1660,12600
+LQ3059,Airport 9,Delta Air Lines,123,2413,27100
+DQ2692,Airport 10,United Airlines,219,3398,26600

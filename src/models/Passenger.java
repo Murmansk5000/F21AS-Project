@@ -20,8 +20,7 @@ public class Passenger implements Comparable<Passenger> {
      */
     public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean ifCheck) {
         //这个异常写在ShowGUI里了，这边的不知道要不要删掉
-        if( firstName.trim().length() ==0|| lastName.trim().length()== 0|| referenceCode.trim().length()== 0)
-        {
+        if (firstName.trim().length() == 0 || lastName.trim().length() == 0 || referenceCode.trim().length() == 0) {
             throw new IllegalStateException(
                     "Cannot have blank name or reference code");
         }
@@ -32,7 +31,6 @@ public class Passenger implements Comparable<Passenger> {
         this.ifCheck = ifCheck;
         this.baggagesOfPassenger = new BaggageList(); // Initialize the baggage list for the passenger
     }
-
 
 
     public String getRefCode() {
@@ -55,6 +53,9 @@ public class Passenger implements Comparable<Passenger> {
         return ifCheck;
     }
 
+    public void setIfCheck(boolean ifCheck) {
+        this.ifCheck = ifCheck;
+    }
 
     /**
      * @return A string containing the passenger's reference code, first name, and last name.
@@ -81,9 +82,6 @@ public class Passenger implements Comparable<Passenger> {
 
     public void setBaggageList(BaggageList baggageList) {
         this.baggagesOfPassenger = baggageList;
-    }
-    public void setIfCheck(boolean ifCheck){
-        this.ifCheck = ifCheck;
     }
 
 
