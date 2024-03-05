@@ -3,11 +3,11 @@ package models;
 import java.util.ArrayList;
 
 public class BaggageList {
+    private ArrayList<Baggage> baggageList;
     private static final double BASE_FEE = 0.0;
     public double totalWeight;
-    public double totalFee;
-    private ArrayList<Baggage> baggageList;
     private double totalVolume;
+    public double totalFee;
     private final double weightLimit = 40;
 
     public BaggageList() {
@@ -18,15 +18,6 @@ public class BaggageList {
     }
 
 
-    public void addBaggage(Baggage baggage) {
-        if (baggage != null && baggage.getWeight() != 0 && baggage.getSize() != 0) {
-            this.baggageList.add(baggage);
-            this.totalVolume += baggage.getVolume();
-            this.totalWeight += baggage.getWeight();
-        }
-        this.checkBaggageList();
-        this.calculateTotalFee();
-    }
 
     public double getTotalVolume() {
         return this.totalVolume;
@@ -46,23 +37,13 @@ public class BaggageList {
         return false;
     }
 
-    public void calculateTotalWeight() {
-        this.totalWeight = 0.0;
-        for (Baggage baggage : this.baggageList) {
-            this.totalWeight += baggage.getWeight();
-        }
-    }
-
 
     public double getTotalFee() {
         return this.totalFee;
     }
 
-    public void calculateTotalVolume() {
-        this.totalVolume = 0.0;
-        for (Baggage baggage : this.baggageList) {
-            this.totalVolume += baggage.getVolume();
-        }
+    public double getWeightLimit() {
+        return weightLimit;
     }
 
     public void clear() {
@@ -74,6 +55,31 @@ public class BaggageList {
     public int size() {
         return this.baggageList.size();
     }
+
+    public void calculateTotalWeight() {
+        this.totalWeight = 0.0;
+        for (Baggage baggage : this.baggageList) {
+            this.totalWeight += baggage.getWeight();
+        }
+    }
+
+    public void calculateTotalVolume() {
+        this.totalVolume = 0.0;
+        for (Baggage baggage : this.baggageList) {
+            this.totalVolume += baggage.getVolume();
+        }
+    }
+
+    public void addBaggage(Baggage baggage) {
+        if (baggage != null && baggage.getWeight() != 0 && baggage.getSize() != 0) {
+            this.baggageList.add(baggage);
+        }
+        this.checkBaggageList();
+        this.calculateTotalWeight();
+        this.calculateTotalVolume();
+        this.calculateTotalFee();
+    }
+
 
     public double calculateTotalFee() {
         // Reset the fee to a base value or specific initial charge
@@ -91,19 +97,16 @@ public class BaggageList {
         return totalFee;
     }
 
+
     public ArrayList<Baggage> getBaggageList() {
         return new ArrayList<>(baggageList); // 返回乘客列表的一个副本以保护封装性
     }
-
-
 
     public boolean isEmpty() {
         return baggageList.isEmpty();
     }
 
-    public double getWeightLimit(){
-        return weightLimit;
-    }
+
     public void checkBaggageList(){
         if (this.totalWeight > this.getWeightLimit()){
             //TODO Baggagelist > 40 Exception

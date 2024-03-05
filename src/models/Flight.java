@@ -107,7 +107,6 @@ public class Flight implements Comparable<Flight> {
     }
 
 
-
     @Override
     public int compareTo(Flight other) {
         return this.flightCode.compareTo(other.flightCode);
@@ -115,16 +114,13 @@ public class Flight implements Comparable<Flight> {
 
     @Override
     public String toString() {
-        return String.format("%-15s\t%-12d\t%-10d\t%-15.2f\t%-15.2f\t%-20b\t%-20.2f",
+        return String.format("%-15s\t%-12d\t%-10d\t%-15.2f\t%-15.2f\t%-10b\t%-20.2f",
                 getFlightCode(),
                 getPassengerInFlight().size(),
                 getPassengerInFlight().checkInSize(),
                 getBaggageInFlight().getTotalWeight(),
                 getBaggageInFlight().getTotalVolume(),
-                canTakeOff(),
+                canTakeOff() ? "Ready" : "overweight",
                 getBaggageInFlight().getTotalFee());
     }
-
-
-
 }

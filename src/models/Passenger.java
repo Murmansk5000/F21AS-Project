@@ -6,7 +6,7 @@ public class Passenger implements Comparable<Passenger> {
     private String lastName;
     private String flightCode;
     private boolean ifCheck;
-    private BaggageList baggagesOfPassenger;
+    private BaggageList baggageOfPassenger;
 
     /**
      * Construct a new models.Passenger with the specified details. All provided information is used
@@ -29,7 +29,7 @@ public class Passenger implements Comparable<Passenger> {
         this.lastName = lastName.trim();
         this.flightCode = flightCode.trim();
         this.ifCheck = ifCheck;
-        this.baggagesOfPassenger = new BaggageList(); // Initialize the baggage list for the passenger
+        this.baggageOfPassenger = new BaggageList(); // Initialize the baggage list for the passenger
     }
 
 
@@ -77,11 +77,11 @@ public class Passenger implements Comparable<Passenger> {
     }
 
     public BaggageList getBaggageList() {
-        return this.baggagesOfPassenger;
+        return this.baggageOfPassenger;
     }
 
     public void setBaggageList(BaggageList baggageList) {
-        this.baggagesOfPassenger = baggageList;
+        this.baggageOfPassenger = baggageList;
     }
 
 

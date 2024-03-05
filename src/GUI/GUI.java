@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class GUI extends JFrame {
     //    private Baggage oneBaggage;
@@ -24,7 +25,11 @@ public class GUI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                onExit();
+                try {
+                    onExit();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 //throw new RuntimeException(ex);
             }
         });
@@ -42,7 +47,7 @@ public class GUI extends JFrame {
         return shouldExit;
     }
 
-    private void onExit(){
+    private void onExit() throws IOException {
         this.flightList.renewBaggageInFlight();
         Report report = new Report(this.flightList);
     }
@@ -87,7 +92,11 @@ public class GUI extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(e -> {
-            onExit();
+            try {
+                onExit();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             System.exit(0);
         });
 
@@ -224,6 +233,8 @@ public class GUI extends JFrame {
 
 
     class BaggageDetailsGUI extends JFrame {
+        private double totalWeight = 0;
+        private double totalVolume = 0;
         private double totalFee = 0;
         private JTextField
                 weightField1, lengthField1, widthField1, heightField1,
@@ -304,11 +315,9 @@ public class GUI extends JFrame {
                     }
 
                     selectedPassenger.setBaggageList(tempBaggageList);
-                    double totalVolume = tempBaggageList.getTotalVolume();
-                    double totalWeight = tempBaggageList.getTotalWeight();
+                    totalVolume = tempBaggageList.getTotalVolume();
+                    totalWeight = tempBaggageList.getTotalWeight();
                     totalFee = tempBaggageList.getTotalFee();
-//                    System.out.println(totalWeight);
-//                    System.out.println(totalFee);
 
                     if (totalFee > 0) {
                         dispose();

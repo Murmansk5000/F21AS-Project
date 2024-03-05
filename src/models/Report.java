@@ -7,19 +7,17 @@ import java.io.IOException;
 public class Report {
 
 
-    public Report(FlightList flightList) {
+
+    public Report(FlightList flightList) throws IOException {
         String filePath = "report.txt";
-        try {
-            new FileWriter(filePath, false).close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new FileWriter(filePath, false).close();
         if (flightList.size() > 0) {
             writeReportToFile(flightList, filePath);
         } else {
             System.out.println("No flight information today!");
         }
     }
+
 
     // create report content
     private String reportModel(Flight flight) {
@@ -32,11 +30,11 @@ public class Report {
 
     // write report file
     public void writeReportToFile(FlightList flightList, String filePath) {
-        String start = "=================================Report==================================";
-        String header = String.format("%-5s\t%-15s\t%-12s\t%-10s\t%-15s\t%-15s\t%-20s\t%-20s%n",
-                "#", "Flight Number", "Tickets Sold", "Check ins", "Baggage Weight", "Baggage Volume", "Permission to Take off", "Total Fees Collected");
+        String start = "===================================================Report====================================================";
+        String header = String.format("%-5s\t%-15s\t%-12s\t%-10s\t%-15s\t%-15s\t%-15s\t%-20s%n",
+                "#", "Flight Number", "Tickets Sold", "Check ins", "Baggage Weight", "Baggage Volume", "Flight Status", "Total Fees Collected");
 
-        String end = "====================================END====================================";
+        String end = "======================================================END======================================================";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             System.out.println(start);
             writer.write(start);
