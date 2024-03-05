@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class GUI extends JFrame {
     //    private Baggage oneBaggage;
-//    private BaggageList baggageListOfOne;
+    //    private BaggageList baggageListOfOne;
     private static Passenger selectedPassenger;
     private boolean shouldExit = false;
     private JTextField lastNameTextField;
@@ -56,16 +56,16 @@ public class GUI extends JFrame {
 
 
         setTitle("Airport Check-in System");
-        setSize(400, 300); // 设置窗口大小
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // 居中显示
+        setLocationRelativeTo(null);
 
         // Load background image
 //        JPanel backgroundPanel = new JPanel() {
 //            @Override
 //            protected void paintComponent(Graphics g) {
 //                super.paintComponent(g);
-//                // 绘制背景图像
+//                // Draw background image
 //                ImageIcon imageIcon = new ImageIcon("images/background.jpg");
 //                Image image = imageIcon.getImage();
 //                g.drawImage(image, 0, 0, this);
@@ -73,18 +73,15 @@ public class GUI extends JFrame {
 //        };
 //        setContentPane(backgroundPanel);
 
-
-        // 使用BoxLayout进行面板布局
+        // Using BoxLayout for panel layout
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        //mainPanel.setOpaque(false);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JLabel headerLabel = new JLabel("Welcome to Airport Check-in System", SwingConstants.LEFT);
         headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(headerLabel);
 
-        // 输入面板的统一方法，优化代码重用
         // mainPanel.add(createInputPanel("                First Name:", new JTextField(20)));
         mainPanel.add(createLoginPanel("               Last Name:", new JTextField(20)));
         mainPanel.add(createLoginPanel("Booking Reference:", new JTextField(20)));
@@ -103,7 +100,7 @@ public class GUI extends JFrame {
         JButton finishButton = new JButton("Log In");
         finishButton.addActionListener(e -> {
 
-            // 打开航班详情窗口（最终实现这里会有修改）
+            // Open flight details window
 
             String lastName = lastNameTextField.getText();
             String reference = referenceTextField.getText();
@@ -131,11 +128,10 @@ public class GUI extends JFrame {
         buttonPanel.add(quitButton);
         buttonPanel.add(finishButton);
 
-        // 添加按钮面板到主面板
+        // Add button panel to main panel
         mainPanel.add(buttonPanel);
-        // 添加主面板到Frame
+        // Add main panel to frame
         add(mainPanel);
-
     }
 
     private void validateInputs() throws IllegalArgumentException {
@@ -149,15 +145,16 @@ public class GUI extends JFrame {
         }
     }
 
-
     public JPanel createLoginPanel(String label, JTextField textField) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         panel.add(new JLabel(label));
 
         if (label.trim().equals("Last Name:")) {
-            lastNameTextField = textField; // 为 "Last Name" 文本框设置对象
+            //Set the object for the "Last Name" text box
+            lastNameTextField = textField;
         } else if (label.trim().equals("Booking Reference:")) {
-            referenceTextField = textField; // 为 "Booking Reference" 文本框设置对象
+            // Set the object for the "Booking Reference" text box
+            referenceTextField = textField;
         }
 
         panel.add(textField);
@@ -174,8 +171,8 @@ public class GUI extends JFrame {
             this.reference = reference;
 
             setTitle("Flight Details");
-            setSize(400, 500); // 统一界面大小
-            setLocationRelativeTo(null); // 居中显示
+            setSize(400, 500);
+            setLocationRelativeTo(null);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             JPanel mainPanel = new JPanel();
@@ -190,7 +187,7 @@ public class GUI extends JFrame {
             selectFlight = flightList.findByCode(flightCode);
             if (selectFlight != null) {
                 selectedPassenger = selectFlight.getPassengerInFlight().findByRefCode(reference);
-                //添加航班信息
+                //Add flight information
                 mainPanel.add(createDetailPanel("Flight Number: ", selectFlight.getFlightCode()));
                 mainPanel.add(createDetailPanel("Carrier: ", selectFlight.getCarrier()));
                 mainPanel.add(createDetailPanel("Flight Max Passenger: ", String.valueOf(selectFlight.getMaxPassengers())));
@@ -205,8 +202,9 @@ public class GUI extends JFrame {
             JButton nextButton = new JButton("Next Step");
             JButton backButton = new JButton("Back");
             nextButton.addActionListener(e -> {
-                this.dispose(); // 关闭当前窗口
-                // 打开航班详情窗口（最终实现这里会有修改）
+                // Close the current window
+                this.dispose();
+                // //Open the Baggage details window
                 new BaggageDetailsGUI().setVisible(true);
             });
             backButton.addActionListener(e -> {
@@ -215,7 +213,7 @@ public class GUI extends JFrame {
                 gui.FlightCheckInGUI();
                 gui.setVisible(true);
             });
-            // 为了在下方右对齐按钮，用FlowLayout管理器
+            // To right-align the buttons below, use the FlowLayout manager
             JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             buttonPanel.add(backButton);
             buttonPanel.add(nextButton);
@@ -231,10 +229,7 @@ public class GUI extends JFrame {
         }
     }
 
-
     class BaggageDetailsGUI extends JFrame {
-        private double totalWeight = 0;
-        private double totalVolume = 0;
         private double totalFee = 0;
         private JTextField
                 weightField1, lengthField1, widthField1, heightField1,
@@ -244,8 +239,8 @@ public class GUI extends JFrame {
         public BaggageDetailsGUI() {
 
             setTitle("Baggage Details");
-            setSize(500, 500); // 统一界面大小
-            setLocationRelativeTo(null); // 居中显示
+            setSize(500, 500);
+            setLocationRelativeTo(null);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             JPanel mainPanel = new JPanel();
@@ -262,27 +257,26 @@ public class GUI extends JFrame {
             clearBaggageButton.addActionListener(e -> clearBaggageFields());
             buttonPanel1.add(clearBaggageButton);
             mainPanel.add(buttonPanel1);
-            // 添加第一个行李重量输入区域和它的尺寸输入区域
+
+            // Add the first baggage weight input area and its size input area
             mainPanel.add(createBaggageWeightPanel("Baggage 1:      Weight (kg):", 1));
             mainPanel.add(createDimensionPanel("                         Dimensions (cm):", 1));
 
-            // 添加第二个行李重量输入区域和它的尺寸输入区域
             mainPanel.add(createBaggageWeightPanel("Baggage 2:      Weight (kg):", 2));
             mainPanel.add(createDimensionPanel("                         Dimensions (cm):", 2));
 
-            // 添加第三个行李重量输入区域和它的尺寸输入区域
             mainPanel.add(createBaggageWeightPanel("Baggage 3:      Weight (kg):", 3));
             mainPanel.add(createDimensionPanel("                         Dimensions (cm):", 3));
-            // 创建行李重量输入区域（纵向排列）
+            // Create a baggage weight input area (arranged vertically)
             JPanel weightPanel = new JPanel();
             weightPanel.setLayout(new BoxLayout(weightPanel, BoxLayout.Y_AXIS));
 
-            // 创建下一步按钮
+            // Create next button
             JButton nextButton = new JButton("Next Step");
             nextButton.addActionListener(e -> {
 
-                // 先尝试将所有行李信息添加到一个临时的行李列表中
-                BaggageList tempBaggageList = selectedPassenger.getBaggageList();
+                // First try adding all luggage information to a temporary luggage list
+                BaggageList tempBaggageList = new BaggageList();
                 try {
                     if (isValidBaggage(weightField1, lengthField1, widthField1, heightField1)) {
                         Baggage tempBaggage = new Baggage(
@@ -315,9 +309,11 @@ public class GUI extends JFrame {
                     }
 
                     selectedPassenger.setBaggageList(tempBaggageList);
-                    totalVolume = tempBaggageList.getTotalVolume();
-                    totalWeight = tempBaggageList.getTotalWeight();
+                    double totalVolume = tempBaggageList.getTotalVolume();
+                    double totalWeight = tempBaggageList.getTotalWeight();
                     totalFee = tempBaggageList.getTotalFee();
+//                    System.out.println(totalWeight);
+//                    System.out.println(totalFee);
 
                     if (totalFee > 0) {
                         dispose();
@@ -330,14 +326,14 @@ public class GUI extends JFrame {
                 } catch (AllExceptions.InvalidBaggageInfoException ex) {
                     ex.printStackTrace();
                 } catch (AllExceptions.IncompleteBaggageInfoException ex) {
-                    // 处理单个行李信息不全异常
+                    // Handling exceptions with incomplete information for a single baggage
                     ex.printStackTrace();
                 } catch (NumberFormatException ex) {
-                    // 处理数字格式异常，例如用户未输入有效的数字等情况
+                    // Handle number format exceptions, such as when the user does not enter a valid number, etc.
                     JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid numbers.", "Error", JOptionPane.ERROR_MESSAGE);
                     ex.printStackTrace();
                 } catch (AllExceptions.FormatErrorException ex) {
-                    // 处理格式错误异常
+                    // Handling format error exceptions
                     ex.printStackTrace();
                 }
 
@@ -365,7 +361,7 @@ public class GUI extends JFrame {
         }
 
         private static void removeBaggage() {
-            // 假设 selectedPassenger 是当前选定的乘客对象
+            // Assume selectedPassenger is the currently selected Passenger object
             if (selectedPassenger != null && selectedPassenger.getBaggageList() != null) {
                 selectedPassenger.getBaggageList().clear();
                 JOptionPane.showMessageDialog(null, "All baggage has been cleared.", "Baggage Cleared", JOptionPane.INFORMATION_MESSAGE);
@@ -390,8 +386,7 @@ public class GUI extends JFrame {
             heightField3.setText("");
         }
 
-
-        // 一个辅助方法，用来检查行李信息是否有效
+        // A helper method to check whether the baggage information is valid
         private boolean isValidBaggage(JTextField weightField, JTextField lengthField, JTextField widthField, JTextField heightField) throws AllExceptions.IncompleteBaggageInfoException, AllExceptions.InvalidBaggageInfoException {
             String weight = weightField.getText().trim();
             String length = lengthField.getText().trim();
@@ -456,7 +451,7 @@ public class GUI extends JFrame {
             panel.add(new JLabel("H:"));
             panel.add(heightField);
 
-            // 根据行李编号，将对应的长、宽、高文本框变量指向创建的文本框
+            // According to the baggage number, point the corresponding length, width, and height text box variables to the created text box.
             switch (baggageNumber) {
                 case 1:
                     lengthField1 = lengthField;
@@ -481,64 +476,67 @@ public class GUI extends JFrame {
     class PaymentExtraFeeGUI extends JFrame {
         public PaymentExtraFeeGUI(double totalWeight, double totalFee) {
             setTitle("Pay Extra Fee");
-            setSize(600, 200);
+            setSize(400, 250); // Window resized to better display layout
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setLocationRelativeTo(null);
 
-            JPanel mainPanel = new JPanel();
-            mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-            mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            // Use BorderLayout as the main layout and prepare a new bottom panel for the bottom area
+            setLayout(new BorderLayout(10, 10));
 
-            JLabel congratsLabel = new JLabel("Congratulations! You have added " + totalWeight + " kg. Please pay extra fee.");
-            mainPanel.add(congratsLabel);
+            // Top information area
+            JPanel topPanel = new JPanel();
+            topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+            JLabel congratsLabel = new JLabel(" Congratulations! You have added " + totalWeight + " kg. Please pay extra fee.", SwingConstants.CENTER);
+            JLabel feeLabel1 = new JLabel(" Extra Fee: $" + totalFee, SwingConstants.CENTER);
+            JLabel feeLabel2 = new JLabel(" [Extra Fee = (Total Weight - Purchased Baggage Weight) * 50]", SwingConstants.CENTER);
+            topPanel.add(congratsLabel);
+            topPanel.add(feeLabel1);
+            topPanel.add(feeLabel2);
 
-            JLabel feeLabel1 = new JLabel("Extra Fee: $" + totalFee);
-            mainPanel.add(feeLabel1);
-            JLabel feeLabel2 = new JLabel("[Extra Fee = (Total Weight - Purchased Baggage Weight) * 50]");
-            mainPanel.add(feeLabel2);
-
-            // 添加支付方式图标和支付按钮
-            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-            buttonPanel.add(new JLabel("Payment Method:"));
-            ImageIcon icon = new ImageIcon("D:\\Learn\\fourth_year\\advanced\\visa.png");
-            Image image = icon.getImage(); // 转换图标为 Image
-            Image newImage = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); // 调整图标大小
-            ImageIcon newIcon = new ImageIcon(newImage); // 生成新的 ImageIcon
-
+            // Payment methods and icons on the left
+            JPanel paymentMethodPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            paymentMethodPanel.add(new JLabel("Payment Method:"));
+            ImageIcon icon = new ImageIcon("src/GUI/payWays.jpg");
+            Image image = icon.getImage();
+            Image newImage = image.getScaledInstance(180, 120, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon newIcon = new ImageIcon(newImage);
             JLabel label = new JLabel(newIcon);
-            buttonPanel.add(label);
+            paymentMethodPanel.add(label);
 
-
-//            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\visa.png"))); // 替换为实际的图标文件路径
-//            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\Paypal.png")));
-//            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\wechat-1.png")));
-//            buttonPanel.add(new JLabel(new ImageIcon("D:\\Learn\\fourth_year\\advanced\\Alipay.png")));
+            // Bottom button panel, containing Back and Pay buttons
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             JButton payButton = new JButton("Pay");
-            payButton.addActionListener(e ->
-            {
+            payButton.addActionListener(e -> {
                 this.dispose();
                 new CongratsPaymentGUI(totalWeight).setVisible(true);
             });
-
             JButton backButton = new JButton("Back");
             backButton.addActionListener(e -> {
                 this.dispose();
-                BaggageDetailsGUI.removeBaggage(); // 调用 removeBaggage 方法
+                BaggageDetailsGUI.removeBaggage();
                 new BaggageDetailsGUI().setVisible(true);
             });
             buttonPanel.add(backButton);
             buttonPanel.add(payButton);
 
-            mainPanel.add(buttonPanel);
+            // Bottom panel with integrated payment methods and buttons
+            JPanel bottomPanel = new JPanel(new BorderLayout());
+            bottomPanel.add(paymentMethodPanel, BorderLayout.NORTH);
+            bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-            add(mainPanel);
+            //Add a panel to a form
+            add(topPanel, BorderLayout.NORTH);
+            add(new JPanel(), BorderLayout.CENTER);
+            add(bottomPanel, BorderLayout.SOUTH);
+
         }
+
     }
 
     class CongratsPaymentGUI extends JFrame {
         public CongratsPaymentGUI(double totalWeight) {
             setTitle("Congratulation!");
-            setSize(500, 200);
+            setSize(500, 130);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setLocationRelativeTo(null);
 
@@ -564,7 +562,7 @@ public class GUI extends JFrame {
             JButton backButton = new JButton("Back");
             backButton.addActionListener(e -> {
                 this.dispose();
-                BaggageDetailsGUI.removeBaggage(); // 调用 removeBaggage 方法
+                BaggageDetailsGUI.removeBaggage();
                 new BaggageDetailsGUI().setVisible(true);
             });
             buttonPanel.add(backButton);
