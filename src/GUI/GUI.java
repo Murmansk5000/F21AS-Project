@@ -184,10 +184,10 @@ public class GUI extends JFrame {
                 //添加航班信息
                 mainPanel.add(createDetailPanel("Flight Number: ", selectFlight.getFlightCode()));
                 mainPanel.add(createDetailPanel("Carrier: ", selectFlight.getCarrier()));
-                mainPanel.add(createDetailPanel("Max Passenger: ", String.valueOf(selectFlight.getMaxPassengers())));
-                mainPanel.add(createDetailPanel("Max Baggage Weight: ", String.valueOf(selectFlight.getMaxBaggageWeight())+" kg"));
-                mainPanel.add(createDetailPanel("Max Baggage Volume: ", String.valueOf(selectFlight.getMaxBaggageVolume()/1000000)+" cubic meters"));
-
+                mainPanel.add(createDetailPanel("Flight Max Passenger: ", String.valueOf(selectFlight.getMaxPassengers())));
+                mainPanel.add(createDetailPanel("Flight Max Baggage Weight: ", String.valueOf(selectFlight.getMaxBaggageWeight())+" kg"));
+                mainPanel.add(createDetailPanel("Flight Max Baggage Volume: ", String.valueOf(selectFlight.getMaxBaggageVolume()/1000000)+" cubic meters"));
+                mainPanel.add(createDetailPanel("Your Purchased Baggage Weight: ", "40 kg"));
             } else {
                 throw new AllExceptions.NoMatchingFlightException();
             }
@@ -327,8 +327,7 @@ public class GUI extends JFrame {
                     ex.printStackTrace();
                 } catch (NumberFormatException ex) {
                     // 处理数字格式异常，例如用户未输入有效的数字等情况
-                    JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid numbers.\n" +
-                            "Please enter 0 in each text box if you not have this baggage, thank you.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid numbers.", "Error", JOptionPane.ERROR_MESSAGE);
                     ex.printStackTrace();
                 } catch (AllExceptions.FormatErrorException ex) {
                     // 处理格式错误异常
@@ -495,8 +494,10 @@ public class GUI extends JFrame {
             JLabel congratsLabel = new JLabel("Congratulations! You have added " + totalWeight + " kg. Please pay extra fee.");
             mainPanel.add(congratsLabel);
 
-            JLabel feeLabel = new JLabel("Please pay extra fee: $" + totalFee);
-            mainPanel.add(feeLabel);
+            JLabel feeLabel1 = new JLabel("Extra Fee: $" + totalFee);
+            mainPanel.add(feeLabel1);
+            JLabel feeLabel2 = new JLabel("[Extra Fee = (Total Weight - Purchased Baggage Weight) * 50]");
+            mainPanel.add(feeLabel2);
 
             // 添加支付方式图标和支付按钮
             JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));

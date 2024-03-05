@@ -51,7 +51,7 @@ public class Flight implements Comparable<Flight> {
         return carrier;
     }
 
-    public double getMaxPassengers() {
+    public int getMaxPassengers() {
         return maxPassengers;
     }
 
@@ -98,10 +98,9 @@ public class Flight implements Comparable<Flight> {
      * @param baggage The baggage to add to the flight.
      */
     public void addBaggage(Baggage baggage) {
-        if (baggageInFlight.getTotalVolume() < getMaxBaggageVolume() && baggageInFlight.getTotalWeight() < getMaxBaggageWeight()) {
-            baggageInFlight.addBaggage(baggage);
-        } else {
-        }
+
+        baggageInFlight.addBaggage(baggage);
+
     }
 
     public void addAllPassengerBaggageToFlight() {
@@ -112,13 +111,9 @@ public class Flight implements Comparable<Flight> {
 
             // 然后遍历这个乘客的所有行李
             for (Baggage baggage : passengerBaggageList.getBaggageList()) {
-                // 在添加每件行李之前检查是否会超过航班的最大容量
-                if (this.baggageInFlight.getTotalVolume() + baggage.getVolume() <= this.maxBaggageVolume &&
-                        this.baggageInFlight.getTotalWeight() + baggage.getWeight() <= this.maxBaggageWeight) {
-                    // 如果不超过，添加行李到航班
-                    this.baggageInFlight.addBaggage(baggage);
-                } else {
-                }
+
+                this.baggageInFlight.addBaggage(baggage);
+
             }
         }
     }
