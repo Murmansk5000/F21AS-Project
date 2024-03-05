@@ -25,9 +25,6 @@ public class Report {
     }
 
 
-
-
-
     // write report file
     public void writeReportToFile(FlightList flightList, String filePath) {
         String start =

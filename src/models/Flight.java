@@ -106,7 +106,6 @@ public class Flight implements Comparable<Flight> {
         }
     }
 
-
     @Override
     public int compareTo(Flight other) {
         return this.flightCode.compareTo(other.flightCode);
