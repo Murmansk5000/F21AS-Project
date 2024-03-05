@@ -30,24 +30,24 @@ public class Report {
 
     // write report file
     public void writeReportToFile(FlightList flightList, String filePath) {
-        String start = "===================================================Report====================================================";
+        String start = "===================================================Report====================================================\n";
         String header = String.format("%-5s\t%-15s\t%-12s\t%-10s\t%-15s\t%-15s\t%-15s\t%-20s%n",
                 "#", "Flight Number", "Tickets Sold", "Check ins", "Baggage Weight", "Baggage Volume", "Flight Status", "Total Fees Collected");
 
-        String end = "======================================================END======================================================";
+        String end = "======================================================END======================================================\n";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            System.out.println(start);
+            System.out.print(start);
             writer.write(start);
-            System.out.println(header);
+            System.out.print(header);
             writer.write(header);
             for (int i = 0; i < flightList.size(); i++) {
                 Flight flight = flightList.get(i);
-                String reportContent = String.format("%-5d\t%s", i + 1, reportModel(flight));
-                System.out.println(reportContent);
+                String reportContent = String.format("%-5d\t%s%n", i + 1, reportModel(flight));
+                System.out.print(reportContent);
                 writer.write(reportContent);
             }
             writer.write(end);
-            System.out.println(end);
+            System.out.print(end);
         } catch (IOException e) {
             e.printStackTrace();
         }
