@@ -15,7 +15,6 @@ public class BaggageList {
         this.totalVolume = 0.0;
         this.totalWeight = 0.0;
         this.totalFee = 0.0;
-        this.checkBaggageList();
     }
 
 
@@ -24,8 +23,9 @@ public class BaggageList {
             this.baggageList.add(baggage);
             this.totalVolume += baggage.getVolume();
             this.totalWeight += baggage.getWeight();
-            this.totalFee += baggage.getFee();
         }
+        this.checkBaggageList();
+        this.calculateTotalFee();
     }
 
     public double getTotalVolume() {
@@ -41,7 +41,6 @@ public class BaggageList {
         if (this.baggageList.remove(baggage)) {
             this.totalVolume -= baggage.getVolume();
             this.totalWeight -= baggage.getWeight();
-            this.totalFee -= baggage.getFee();
             return true;
         }
         return false;

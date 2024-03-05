@@ -306,7 +306,7 @@ public class GUI extends JFrame {
                     selectedPassenger.setBaggageList(tempBaggageList);
                     double totalVolume = tempBaggageList.getTotalVolume();
                     double totalWeight = tempBaggageList.getTotalWeight();
-                    totalFee = tempBaggageList.calculateTotalFee();
+                    totalFee = tempBaggageList.getTotalFee();
 //                    System.out.println(totalWeight);
 //                    System.out.println(totalFee);
 

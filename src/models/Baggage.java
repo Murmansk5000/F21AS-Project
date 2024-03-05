@@ -9,7 +9,6 @@ public class Baggage {
     private double volume = 0.0;
     private final double weightLimit = 23;
     private final double sizeLimit = 158;
-    private double fee = 0.0;
 
     public Baggage(double weight, double length, double width, double height) throws AllExceptions.FormatErrorException {
         this.weight = weight;
@@ -67,13 +66,6 @@ public class Baggage {
         return volume;
     }
 
-    public double getFee() {
-        return fee;
-    }
-
-    public void setFee(double fee) {
-        this.fee = fee;
-    }
     public double getWeightLimit(){
         return this.weightLimit;
     }
