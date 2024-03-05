@@ -185,8 +185,8 @@ public class GUI extends JFrame {
                 mainPanel.add(createDetailPanel("Flight Number: ", selectFlight.getFlightCode()));
                 mainPanel.add(createDetailPanel("Carrier: ", selectFlight.getCarrier()));
                 mainPanel.add(createDetailPanel("Max Passenger: ", String.valueOf(selectFlight.getMaxPassengers())));
-                mainPanel.add(createDetailPanel("Max Baggage Weight (kg): ",String.valueOf(selectFlight.getMaxBaggageWeight())));
-                mainPanel.add(createDetailPanel("Max Baggage Volume (cubic centimeters): ", String.valueOf(selectFlight.getMaxBaggageVolume())));
+                mainPanel.add(createDetailPanel("Max Baggage Weight: ", String.valueOf(selectFlight.getMaxBaggageWeight())+" kg"));
+                mainPanel.add(createDetailPanel("Max Baggage Volume: ", String.valueOf(selectFlight.getMaxBaggageVolume()/1000000)+" cubic meters"));
 
             } else {
                 throw new AllExceptions.NoMatchingFlightException();

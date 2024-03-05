@@ -9,9 +9,10 @@ public class AllExceptions extends Exception {
     */
     public static class FormatErrorException extends Exception {
         public FormatErrorException() {
-            super("Incorrect input format of checked baggage.\n" +
-                    "                                           Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
-                    "                                           Weight of Checked baggage: not exceeding 23 (kg).");
+            super("""
+                    Incorrect input format of checked baggage.
+                                                               Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).
+                                                               Weight of Checked baggage: not exceeding 23 (kg).""");
             JOptionPane.showMessageDialog(null, "Incorrect input format.\n" +
                     "Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
                     "Weight of Checked baggage: not exceeding 23 (kg).", "Error", JOptionPane.ERROR_MESSAGE);

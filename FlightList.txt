@@ -1,5 +1,5 @@
 FlightCode,DestinationAirport,Carrier,MaxPassengerCapacity,MaxBaggageWeight,MaxBaggageVolume
-IV6518,Airport 1,Delta Air Lines,240,1268,121
+IV6518,Airport 1,Delta Air Lines,240,1268,121000000
 NE8389,Airport 2,American Airlines,144,2674,136000000
 VD7018,Airport 3,United Airlines,246,3585,298000000
 BT9441,Airport 4,Delta Air Lines,185,1758,230000000
