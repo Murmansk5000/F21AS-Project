@@ -30,11 +30,12 @@ public class Report {
 
     // write report file
     public void writeReportToFile(FlightList flightList, String filePath) {
-        String start = "===================================================Report====================================================\n";
+        String start =
+                String.format("=====================================================Report====================================================%n");
         String header = String.format("%-5s\t%-15s\t%-12s\t%-10s\t%-15s\t%-15s\t%-15s\t%-20s%n",
                 "#", "Flight Number", "Tickets Sold", "Check ins", "Baggage Weight", "Baggage Volume", "Flight Status", "Total Fees Collected");
-
-        String end = "======================================================END======================================================\n";
+        String end =
+                String.format("======================================================END======================================================%n");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             System.out.print(start);
             writer.write(start);
