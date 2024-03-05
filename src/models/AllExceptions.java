@@ -4,16 +4,16 @@ import javax.swing.*;
 
 public class AllExceptions extends Exception {
     /*
-    If the input format (information of checked baggage) is incorrect,
-    a FormatErrorException is thrown, a window will pop up reminding the user to retype.
+    If the input number (information of checked baggage) is exceeds the limits,
+    a NumberErrorException is thrown, a window will pop up reminding the user to retype.
     */
-    public static class FormatErrorException extends Exception {
-        public FormatErrorException() {
+    public static class NumberErrorException extends Exception {
+        public NumberErrorException() {
             super("""
-                    Incorrect input format of checked baggage.
+                    Incorrect input number of checked baggage.
                                                                Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).
                                                                Weight of Checked baggage: not exceeding 23 (kg).""");
-            JOptionPane.showMessageDialog(null, "Incorrect input format.\n" +
+            JOptionPane.showMessageDialog(null, "Incorrect input number.\n" +
                     "Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
                     "Weight of Checked baggage: not exceeding 23 (kg).", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -75,15 +75,15 @@ public class AllExceptions extends Exception {
     a window will pop up asking the passenger
     if they would like to purchase the excess baggage allowance.
     */
-    public static class OverWeightException extends Exception {
-        public OverWeightException() {
-            super("The baggage exceeds the rated baggage limit(40kg).");
-            //JOptionPane.showMessageDialog(null, "The baggage exceeds the rated baggage limit(23kg).", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+//    public static class OverWeightException extends Exception {
+//        public OverWeightException() {
+//            super("The baggage exceeds the rated baggage limit(40kg).");
+//            //JOptionPane.showMessageDialog(null, "The baggage exceeds the rated baggage limit(23kg).", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
 
     /*
-    If cannot find the matching flight,
+    If the system cannot find the matching flight,
     reminding the passenger.
     */
     public static class NoMatchingFlightException extends Exception {
@@ -93,24 +93,5 @@ public class AllExceptions extends Exception {
         }
     }
 
-//    public static void AllException(Exception e) {
-//        if (e instanceof FormatErrorException) {
-//            // 显示特定的异常窗口
-//        }
-//        if (e instanceof NoMatchingNameException) {
-//            // 显示特定的异常窗口
-//        }
-//        if (e instanceof NoMatchingRefException) {
-//            // 显示特定的异常窗口
-//        }
-//        if (e instanceof OverWeightException) {
-//            // 显示特定的异常窗口
-//        }
-//        if (e instanceof OverloadException) {
-//            // 显示特定的异常窗口
-//        }else {
-//            // 显示一般的异常窗口或处理其他类型的异常
-//        }
-//    }
 }
 

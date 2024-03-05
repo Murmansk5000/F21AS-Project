@@ -190,6 +190,7 @@ public class GUI extends JFrame {
                 //Add flight information
                 mainPanel.add(createDetailPanel("Flight Number: ", selectFlight.getFlightCode()));
                 mainPanel.add(createDetailPanel("Carrier: ", selectFlight.getCarrier()));
+                mainPanel.add(createDetailPanel("Destination Airport: ", selectFlight.getDestination()));
                 mainPanel.add(createDetailPanel("Flight Max Passenger: ", String.valueOf(selectFlight.getMaxPassengers())));
                 mainPanel.add(createDetailPanel("Flight Max Baggage Weight: ", String.valueOf(selectFlight.getMaxBaggageWeight())+" kg"));
                 mainPanel.add(createDetailPanel("Flight Max Baggage Volume: ", String.valueOf(selectFlight.getMaxBaggageVolume()/1000000)+" cubic meters"));
@@ -332,7 +333,7 @@ public class GUI extends JFrame {
                     // Handle number format exceptions, such as when the user does not enter a valid number, etc.
                     JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid numbers.", "Error", JOptionPane.ERROR_MESSAGE);
                     ex.printStackTrace();
-                } catch (AllExceptions.FormatErrorException ex) {
+                } catch (AllExceptions.NumberErrorException ex) {
                     // Handling format error exceptions
                     ex.printStackTrace();
                 }
