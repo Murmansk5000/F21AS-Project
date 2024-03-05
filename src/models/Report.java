@@ -48,6 +48,9 @@ public class Report {
                 .append("Take off: ").append(takeOffStatus).append("\n")
                 .append(divider).append("\n")
                 .append("Total excess baggage fees collected: ").append(overFee).append("\n")
+                .append(divider).append("\n")
+                .append("Note: If the flight is overloaded,").append("\n")
+                .append("the take-off status will be false.").append("\n")
                 .append("==================END====================").append("\n")
                 .toString();
     }

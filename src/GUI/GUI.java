@@ -24,11 +24,8 @@ public class GUI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                try {
-                    onExit();
-                } catch (AllExceptions.OverloadException ex) {
-                    throw new RuntimeException(ex);
-                }
+                onExit();
+                //throw new RuntimeException(ex);
             }
         });
     }
@@ -45,7 +42,7 @@ public class GUI extends JFrame {
         return shouldExit;
     }
 
-    private void onExit() throws AllExceptions.OverloadException {
+    private void onExit(){
         this.flightList.renewBaggageInFlight();
         Report report = new Report(this.flightList);
     }
@@ -90,11 +87,7 @@ public class GUI extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(e -> {
-            try {
-                onExit();
-            } catch (AllExceptions.OverloadException ex) {
-                throw new RuntimeException(ex);
-            }
+            onExit();
             System.exit(0);
         });
 
@@ -192,8 +185,8 @@ public class GUI extends JFrame {
                 mainPanel.add(createDetailPanel("Flight Number: ", selectFlight.getFlightCode()));
                 mainPanel.add(createDetailPanel("Carrier: ", selectFlight.getCarrier()));
                 mainPanel.add(createDetailPanel("Max Passenger: ", String.valueOf(selectFlight.getMaxPassengers())));
-                mainPanel.add(createDetailPanel("Max Baggage Weight: ", String.valueOf(selectFlight.getMaxBaggageWeight())));
-                mainPanel.add(createDetailPanel("Max Baggage Volume: ", String.valueOf(selectFlight.getMaxBaggageVolume())));
+                mainPanel.add(createDetailPanel("Max Baggage Weight (kg): ",String.valueOf(selectFlight.getMaxBaggageWeight())));
+                mainPanel.add(createDetailPanel("Max Baggage Volume (cubic centimeters): ", String.valueOf(selectFlight.getMaxBaggageVolume())));
 
             } else {
                 throw new AllExceptions.NoMatchingFlightException();

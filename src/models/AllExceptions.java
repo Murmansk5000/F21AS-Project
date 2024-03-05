@@ -45,14 +45,12 @@ public class AllExceptions extends Exception {
     /*
     If one of the baggage information is blank,
     an IncompleteBaggageInfoException is thrown,
-    a window will pop up reminding the passenger to complete.
+    a window will pop up reminding the passenger to complete the four field of the baggage.
     */
     public static class IncompleteBaggageInfoException extends Exception {
         public IncompleteBaggageInfoException() {
-            super("There has blank field for the baggage information, please complete.\n" +
-                    "                                                     Please enter 0 in each text box if you not have this baggage, thank you.");
-            JOptionPane.showMessageDialog(null, "There has blank field for the baggage information, please complete.\n" +
-                    "Please enter 0 in each text box if you not have this baggage, thank you.", "Error", JOptionPane.ERROR_MESSAGE);
+            super("There has blank field for the baggage information, please complete.");
+            JOptionPane.showMessageDialog(null, "There has blank field for the baggage information, please complete.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -80,18 +78,6 @@ public class AllExceptions extends Exception {
         public OverWeightException() {
             super("The baggage exceeds the rated baggage limit(40kg).");
             //JOptionPane.showMessageDialog(null, "The baggage exceeds the rated baggage limit(23kg).", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /*
-    If the flight is overweight,
-    a OverloadException is thrown,
-    reminding the staff in the flight report.
-    */
-    public static class OverloadException extends Exception {
-        public OverloadException(String flight) {
-            super("Flight " + flight + " is overload.");
-            JOptionPane.showMessageDialog(null, "Flight " + flight + " is overload.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

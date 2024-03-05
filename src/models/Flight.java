@@ -97,15 +97,14 @@ public class Flight implements Comparable<Flight> {
      *
      * @param baggage The baggage to add to the flight.
      */
-    public void addBaggage(Baggage baggage) throws AllExceptions.OverloadException {
+    public void addBaggage(Baggage baggage) {
         if (baggageInFlight.getTotalVolume() < getMaxBaggageVolume() && baggageInFlight.getTotalWeight() < getMaxBaggageWeight()) {
             baggageInFlight.addBaggage(baggage);
         } else {
-            throw new AllExceptions.OverloadException(flightCode);
         }
     }
 
-    public void addAllPassengerBaggageToFlight() throws AllExceptions.OverloadException {
+    public void addAllPassengerBaggageToFlight() {
         // 遍历passengerInFlight中的每一个乘客
         for (Passenger passenger : passengerInFlight.getPassengers()) {
             // 假设每个乘客有一个getBaggageList()方法返回其所有行李的列表
@@ -119,8 +118,6 @@ public class Flight implements Comparable<Flight> {
                     // 如果不超过，添加行李到航班
                     this.baggageInFlight.addBaggage(baggage);
                 } else {
-                    // 如果添加这件行李会导致超过限制，抛出一个异常
-                    throw new AllExceptions.OverloadException(flightCode);
                 }
             }
         }

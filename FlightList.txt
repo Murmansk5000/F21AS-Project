@@ -1,11 +1,11 @@
 FlightCode,DestinationAirport,Carrier,MaxPassengerCapacity,MaxBaggageWeight,MaxBaggageVolume
-IV6518,Airport 1,Delta Air Lines,240,1268,12100
-NE8389,Airport 2,American Airlines,144,2674,13600
-VD7018,Airport 3,United Airlines,246,3585,29800
-BT9441,Airport 4,Delta Air Lines,185,1758,23000
-XQ3326,Airport 5,British Airways,229,1864,11300
-GC3217,Airport 6,United Airlines,242,3043,17600
-WJ7955,Airport 7,American Airlines,216,3590,17000
-ZK8692,Airport 8,Delta Air Lines,128,1660,12600
-LQ3059,Airport 9,Delta Air Lines,123,2413,27100
-DQ2692,Airport 10,United Airlines,219,3398,26600
+IV6518,Airport 1,Delta Air Lines,240,1268,121
+NE8389,Airport 2,American Airlines,144,2674,136000000
+VD7018,Airport 3,United Airlines,246,3585,298000000
+BT9441,Airport 4,Delta Air Lines,185,1758,230000000
+XQ3326,Airport 5,British Airways,229,1864,113000000
+GC3217,Airport 6,United Airlines,242,3043,176000000
+WJ7955,Airport 7,American Airlines,216,3590,170000000
+ZK8692,Airport 8,Delta Air Lines,128,1660,126000000
+LQ3059,Airport 9,Delta Air Lines,123,2413,271000000
+DQ2692,Airport 10,United Airlines,219,3398,266000000

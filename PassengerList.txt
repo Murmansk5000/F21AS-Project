@@ -1,5 +1,5 @@
 Reference Code,FirstName,LastName,FlightCode,CheckInStatus
-B0001,Robert,Lee,VD7018,false
+B0001,Robert,Lee,IV6518,false
 B0002,Robert,Miller,NE8389,false
 B0003,John,Martinez,NE8389,false
 B0004,John,Miller,ZK8692,false

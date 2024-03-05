@@ -123,7 +123,7 @@ public class FlightList {
         return flightList.get(i);
     }
 
-    public void renewBaggageInFlight() throws AllExceptions.OverloadException {
+    public void renewBaggageInFlight() {
         for (int i = 0; i < this.flightList.size(); i++) {
             flightList.get(i).addAllPassengerBaggageToFlight();
             flightList.get(i).getBaggageInFlight().calculateTotalWeight();
