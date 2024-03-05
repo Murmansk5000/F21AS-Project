@@ -7,21 +7,15 @@ import java.io.IOException;
 public class Report {
 
 
-    public Report(FlightList fl) {
+    public Report(FlightList flightList) {
         String filePath = "report.txt";
         try {
             new FileWriter(filePath, false).close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Flight flight;
-        if (fl.size() > 0) {
-            for (int i = 0; i < fl.size(); i++) {
-                flight = fl.get(i);
-                //System.out.println(fl.get(i).getFlightCode());
-                printReport(flight);
-                writeReportToFile(flight, filePath);
-            }
+        if (flightList.size() > 0) {
+            writeReportToFile(flightList, filePath);
         } else {
             System.out.println("No flight information today!");
         }
@@ -29,65 +23,44 @@ public class Report {
 
     // create report content
     private String reportModel(Flight flight) {
-        String divider = "=========================================";
-        return new StringBuilder()
-                .append("=================Report==================").append("\n")
-                .append("Flight number: ").append(flight.getFlightCode()).append("\n")
-                .append(divider).append("\n")
-                .append("Tickets sold: ").append(flight.getPassengerInFlight().size())
-                .append(divider).append("\n")
-                .append("Check in: ").append(flight.getPassengerInFlight().checkInSize()).append("\n")
-                .append(divider).append("\n")
-                .append("Baggage weight: ").append(flight.getBaggageInFlight().getTotalWeight()).append("\n")
-                .append(divider).append("\n")
-                .append("Baggage volume: ").append(flight.getBaggageInFlight().getTotalVolume()).append("\n")
-                .append(divider).append("\n")
-                .append("Permission to take off: ").append(!flight.isOverCapacity()).append("\n")
-                .append(divider).append("\n")
-                .append("Total excess baggage fees collected: ").append(flight.getBaggageInFlight().getTotalFee()).append("\n")
-                .append(divider).append("\n")
-                .append("Note: If the flight is overloaded,").append("\n")
-                .append("the take-off status will be false.").append("\n")
-                .append("==================END====================").append("\n")
-                .append("\n")
-                .toString();
+        return String.format("%-15s\t%-12s\t%-10s\t%-15s\t%-15s\t%-20s\t%-20s%n",
+                flight.getFlightCode(),
+                flight.getPassengerInFlight().size(),
+                flight.getPassengerInFlight().checkInSize(),
+                flight.getBaggageInFlight().getTotalWeight(),
+                flight.getBaggageInFlight().getTotalVolume(),
+                !flight.isOverCapacity(),
+                flight.getBaggageInFlight().getTotalFee());
     }
 
-    // print report
-    public void printReport(Flight flight) {
-        //add a loop for every flight
-        System.out.print(reportModel(flight));
-    }
+
+
+
 
     // write report file
-    public void writeReportToFile(Flight flight, String filePath) {
-        String reportContent = reportModel(flight);
+    public void writeReportToFile(FlightList flightList, String filePath) {
+        String start = "=================================Report==================================\n";
+        String header = String.format("%-5s\t%-15s\t%-12s\t%-10s\t%-15s\t%-15s\t%-20s\t%-20s%n",
+                "#", "Flight Number", "Tickets Sold", "Check ins", "Baggage Weight", "Baggage Volume", "Permission to Take off", "Total Fees Collected");
+
+        String end = "====================================END====================================\n";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write(reportContent);
+            System.out.println(start);
+            writer.write(start);
+            System.out.println(header);
+            writer.write(header);
+            for (int i = 0; i < flightList.size(); i++) {
+                Flight flight = flightList.get(i);
+                String reportContent = String.format("%-5d\t%s", i + 1, reportModel(flight));
+                System.out.println(reportContent);
+                writer.write(reportContent);
+            }
+            writer.write(end);
+            System.out.println(end);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    // test
-    /*
-
-    public static void main(String[] args) {
-        // create report instance
-        Report report = new Report();
-        FlightList fl = new FlightList();
-        fl.loadFlightsFromTXT("FlightList.txt");
-        // change later
-        report.getReport(fl);
-
-
-        Report r = new Report();
-        r.printReport("abc", 1, 2, 3, false, 5);
-        r.writeReportToFile("abc", 1, 2, 3, false, 5, "report.txt");
-
-
-    }
-    */
 
 }
