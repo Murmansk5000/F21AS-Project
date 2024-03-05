@@ -7,15 +7,17 @@ public class Baggage {
     private double width = 0.0;
     private double height = 0.0;
     private double volume = 0.0;
+    private final double weightLimit = 23;
+    private final double sizeLimit = 158;
     private double fee = 0.0;
 
-    public Baggage(double weight, double length, double width, double height) {
+    public Baggage(double weight, double length, double width, double height) throws AllExceptions.FormatErrorException {
         this.weight = weight;
         this.length = length;
         this.width = width;
         this.height = height;
         this.updateVolume();
-
+        this.checkBaggage();
     }
 
     public double getLength() {
@@ -72,16 +74,20 @@ public class Baggage {
     public void setFee(double fee) {
         this.fee = fee;
     }
+    public double getWeightLimit(){
+        return this.weightLimit;
+    }
+    public double getSizeLimit(){
+        return this.sizeLimit;
+    }
 
     public void checkBaggage() throws AllExceptions.FormatErrorException {
-        double weightLimit = 23; // 23 kg weight limit
-        double sizeLimit = 158; // 158 cm size limit (length + width + height)
         //Check if the baggage is over the weight limit
-        if (this.weight > weightLimit) {
+        if (this.weight > this.getWeightLimit()) {
             throw new AllExceptions.FormatErrorException();
         }
         // Check if the baggage is over the size limit
-        if ((this.length + this.width + this.height) > sizeLimit) {
+        if (this.getSize() > this.getSizeLimit()) {
             throw new AllExceptions.FormatErrorException();
         }
     }

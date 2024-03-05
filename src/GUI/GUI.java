@@ -187,7 +187,7 @@ public class GUI extends JFrame {
                 mainPanel.add(createDetailPanel("Flight Max Passenger: ", String.valueOf(selectFlight.getMaxPassengers())));
                 mainPanel.add(createDetailPanel("Flight Max Baggage Weight: ", String.valueOf(selectFlight.getMaxBaggageWeight())+" kg"));
                 mainPanel.add(createDetailPanel("Flight Max Baggage Volume: ", String.valueOf(selectFlight.getMaxBaggageVolume()/1000000)+" cubic meters"));
-                mainPanel.add(createDetailPanel("Your Purchased Baggage Weight: ", "40 kg"));
+                mainPanel.add(createDetailPanel("Your Purchased Baggage Weight: ", String.valueOf(selectFlight.getBaggageInFlight().getWeightLimit())));
             } else {
                 throw new AllExceptions.NoMatchingFlightException();
             }
@@ -280,9 +280,9 @@ public class GUI extends JFrame {
                                 Double.parseDouble(widthField1.getText()),
                                 Double.parseDouble(heightField1.getText())
                         );
-                        tempBaggage.checkBaggage(); // 检查行李是否符合规定
                         tempBaggageList.addBaggage(tempBaggage);
                     }
+
                     if (isValidBaggage(weightField2, lengthField2, widthField2, heightField2)) {
                         Baggage tempBaggage = new Baggage(
                                 Double.parseDouble(weightField2.getText()),
@@ -290,9 +290,9 @@ public class GUI extends JFrame {
                                 Double.parseDouble(widthField2.getText()),
                                 Double.parseDouble(heightField2.getText())
                         );
-                        tempBaggage.checkBaggage(); // 检查行李是否符合规定
                         tempBaggageList.addBaggage(tempBaggage);
                     }
+
                     if (isValidBaggage(weightField3, lengthField3, widthField3, heightField3)) {
                         Baggage tempBaggage = new Baggage(
                                 Double.parseDouble(weightField3.getText()),
@@ -300,12 +300,10 @@ public class GUI extends JFrame {
                                 Double.parseDouble(widthField3.getText()),
                                 Double.parseDouble(heightField3.getText())
                         );
-                        tempBaggage.checkBaggage(); // 检查行李是否符合规定
                         tempBaggageList.addBaggage(tempBaggage);
                     }
 
                     selectedPassenger.setBaggageList(tempBaggageList);
-
                     double totalVolume = tempBaggageList.getTotalVolume();
                     double totalWeight = tempBaggageList.getTotalWeight();
                     totalFee = tempBaggageList.calculateTotalFee();
@@ -360,7 +358,7 @@ public class GUI extends JFrame {
         private static void removeBaggage() {
             // 假设 selectedPassenger 是当前选定的乘客对象
             if (selectedPassenger != null && selectedPassenger.getBaggageList() != null) {
-                selectedPassenger.getBaggageList().clearBaggages();
+                selectedPassenger.getBaggageList().clear();
                 JOptionPane.showMessageDialog(null, "All baggage has been cleared.", "Baggage Cleared", JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -383,13 +381,6 @@ public class GUI extends JFrame {
             heightField3.setText("");
         }
 
-        //一件行李的四个信息必须都有
-//        private boolean isIncompleteBaggage(JTextField weightField, JTextField lengthField, JTextField widthField, JTextField heightField) throws AllExceptions.IncompleteBaggageInfoException{
-//            if (weightField.getText().trim().isEmpty() || lengthField.getText().trim().isEmpty() || widthField.getText().trim().isEmpty() || heightField.getText().trim().isEmpty()) {
-//                throw new AllExceptions.IncompleteBaggageInfoException();
-//            }
-//            return true;
-//        }
 
         // 一个辅助方法，用来检查行李信息是否有效
         private boolean isValidBaggage(JTextField weightField, JTextField lengthField, JTextField widthField, JTextField heightField) throws AllExceptions.IncompleteBaggageInfoException, AllExceptions.InvalidBaggageInfoException {
@@ -397,8 +388,6 @@ public class GUI extends JFrame {
             String length = lengthField.getText().trim();
             String width = widthField.getText().trim();
             String height = heightField.getText().trim();
-
-
             if (weight.isEmpty() &&
                     length.isEmpty() &&
                     width.isEmpty() &&

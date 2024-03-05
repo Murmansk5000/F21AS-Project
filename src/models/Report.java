@@ -23,14 +23,7 @@ public class Report {
 
     // create report content
     private String reportModel(Flight flight) {
-        return String.format("%-15s\t%-12s\t%-10s\t%-15s\t%-15s\t%-20s\t%-20s%n",
-                flight.getFlightCode(),
-                flight.getPassengerInFlight().size(),
-                flight.getPassengerInFlight().checkInSize(),
-                flight.getBaggageInFlight().getTotalWeight(),
-                flight.getBaggageInFlight().getTotalVolume(),
-                !flight.isOverCapacity(),
-                flight.getBaggageInFlight().getTotalFee());
+        return flight.toString();
     }
 
 
@@ -39,11 +32,11 @@ public class Report {
 
     // write report file
     public void writeReportToFile(FlightList flightList, String filePath) {
-        String start = "=================================Report==================================\n";
+        String start = "=================================Report==================================";
         String header = String.format("%-5s\t%-15s\t%-12s\t%-10s\t%-15s\t%-15s\t%-20s\t%-20s%n",
                 "#", "Flight Number", "Tickets Sold", "Check ins", "Baggage Weight", "Baggage Volume", "Permission to Take off", "Total Fees Collected");
 
-        String end = "====================================END====================================\n";
+        String end = "====================================END====================================";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             System.out.println(start);
             writer.write(start);

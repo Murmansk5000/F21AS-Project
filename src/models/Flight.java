@@ -32,9 +32,6 @@ public class Flight implements Comparable<Flight> {
         this.maxBaggageWeight = maxBaggageWeight;
 
         this.passengerInFlight = new PassengerList();
-        //this.addPaxToFlt("PassengerList.txt");
-
-
         this.baggageInFlight = new BaggageList();
     }
 
@@ -72,19 +69,15 @@ public class Flight implements Comparable<Flight> {
     }
 
 
-    public boolean isOverCapacity() {
-        int passengerCheckIn = 0;
-        for (int i = 0; i < passengerInFlight.size(); i++) {
-            if (passengerInFlight.get(i).getIfCheck()) passengerCheckIn++;
-        }
-        boolean passengerOver = passengerCheckIn > this.maxPassengers;
-        boolean baggageOverWeight = baggageInFlight.getTotalWeight() > this.maxBaggageWeight;
-        boolean baggageOverVolume = baggageInFlight.getTotalVolume() > this.maxBaggageVolume;
-        return passengerOver || baggageOverWeight || baggageOverVolume;
+    public boolean canTakeOff() {
+        boolean checkPassengers = passengerInFlight.checkInSize() < this.maxPassengers;
+        boolean checkBaggageWeight = baggageInFlight.getTotalWeight() < this.maxBaggageWeight;
+        boolean checkBaggageVolume = baggageInFlight.getTotalVolume() < this.maxBaggageVolume;
+        return checkPassengers && checkBaggageWeight && checkBaggageVolume;
     }
 
     /**
-     * Adds a passenger to the flight according to his ticket..
+     * Adds a passenger to the flight according to his ticket.
      *
      * @param passenger The passenger to add to the flight.
      */
@@ -97,10 +90,8 @@ public class Flight implements Comparable<Flight> {
      *
      * @param baggage The baggage to add to the flight.
      */
-    public void addBaggage(Baggage baggage) {
-
+    public void addBaggageToFlight(Baggage baggage) {
         baggageInFlight.addBaggage(baggage);
-
     }
 
     public void addAllPassengerBaggageToFlight() {
@@ -108,15 +99,13 @@ public class Flight implements Comparable<Flight> {
         for (Passenger passenger : passengerInFlight.getPassengers()) {
             // 假设每个乘客有一个getBaggageList()方法返回其所有行李的列表
             BaggageList passengerBaggageList = passenger.getBaggageList();
-
             // 然后遍历这个乘客的所有行李
             for (Baggage baggage : passengerBaggageList.getBaggageList()) {
-
-                this.baggageInFlight.addBaggage(baggage);
-
+                this.addBaggageToFlight(baggage);
             }
         }
     }
+
 
 
     @Override
@@ -124,15 +113,18 @@ public class Flight implements Comparable<Flight> {
         return this.flightCode.compareTo(other.flightCode);
     }
 
-	/*public void addPaxToFlt(String fileName){
-		PassengerList all = new PassengerList();
-		PassengerList paxInFlt = new PassengerList();
-		all.loadPassengersFromTXT(fileName);
-		for(int i =0; i< all.size();i++){
-			if(all.get(i).getFlightCode() == this.flightCode){
-				paxInFlt.addPassenger(all.get(i));
-			}
-		}
-	}*/
+    @Override
+    public String toString() {
+        return String.format("%-15s\t%-12d\t%-10d\t%-15.2f\t%-15.2f\t%-20b\t%-20.2f",
+                getFlightCode(),
+                getPassengerInFlight().size(),
+                getPassengerInFlight().checkInSize(),
+                getBaggageInFlight().getTotalWeight(),
+                getBaggageInFlight().getTotalVolume(),
+                canTakeOff(),
+                getBaggageInFlight().getTotalFee());
+    }
+
+
 
 }

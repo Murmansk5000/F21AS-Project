@@ -128,7 +128,7 @@ public class FlightList {
             flightList.get(i).addAllPassengerBaggageToFlight();
             flightList.get(i).getBaggageInFlight().calculateTotalWeight();
             flightList.get(i).getBaggageInFlight().calculateTotalVolume();
-            flightList.get(i).isOverCapacity();
+            flightList.get(i).canTakeOff();
         }
     }
 
