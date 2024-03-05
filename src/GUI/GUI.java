@@ -282,7 +282,7 @@ public class GUI extends JFrame {
             nextButton.addActionListener(e -> {
 
                 // 先尝试将所有行李信息添加到一个临时的行李列表中
-                BaggageList tempBaggageList = new BaggageList();
+                BaggageList tempBaggageList = selectedPassenger.getBaggageList();
                 try {
                     if (isValidBaggage(weightField1, lengthField1, widthField1, heightField1)) {
                         Baggage tempBaggage = new Baggage(

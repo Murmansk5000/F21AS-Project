@@ -29,30 +29,6 @@ public class ProgrammeDemo {
         }
     }
 
-    public static void main(String[] args) {
-
-        // creates demo object, with a populated models.Passenger list
-        ProgrammeDemo sld = new ProgrammeDemo();
-
-        // allow user to interact using a GUI
-        sld.showGUI(paxList, fltList);
-
-//		PassengerList updatedPassengerList = gui.getPassengerList();
-//		FlightList updatedFlightList = gui.getFlightList();
-
-        // allow user to interact with this list
-        // using text interface
-        sld.showInterface();
-
-    }
-
-    /**
-     * Allow the user to interact with the models.Passenger list.
-     */
-    public void showInterface() {
-        // interaction.run();
-    }
-
     /**
      * Show GUI
      */
@@ -63,5 +39,13 @@ public class ProgrammeDemo {
 
 
     }
+
+    public static void main(String[] args) {
+        ProgrammeDemo sld = new ProgrammeDemo();
+        sld.showGUI(paxList, fltList);
+    }
+
+
+
 
 }
