@@ -52,8 +52,11 @@ public class GUI extends JFrame {
         Report report = new Report(this.flightList);
     }
 
+    /*
+    Create a user login interface. Users need to enter their last name
+    and a matching reference code to be allowed to log in.
+     */
     public void FlightCheckInGUI() {
-
 
         setTitle("Airport Check-in System");
         setSize(400, 300);
@@ -161,6 +164,10 @@ public class GUI extends JFrame {
         return panel;
     }
 
+    /*
+    Create an interface to display flight information, retrieve the corresponding flight
+    through the user's login information, and display flight-related information on the interface
+     */
     class FlightDetailsGUI extends JFrame {
 
         private String lastName;
@@ -229,6 +236,12 @@ public class GUI extends JFrame {
         }
     }
 
+    /*
+    Create a page for users to enter baggage information.
+    On this page, users are allowed to enter up to three pieces of their own baggage information.
+    When the user completes the input, the baggage information will be stored and whether to jump to the payment interface
+    or check-in success page based on the weight of the baggage carried by the user is determined.
+     */
     class BaggageDetailsGUI extends JFrame {
         private double totalFee = 0;
         private JTextField
@@ -319,7 +332,7 @@ public class GUI extends JFrame {
                         dispose();
                         new PaymentExtraFeeGUI(totalWeight, totalFee).setVisible(true);
                     } else {
-                        new CongratsPaymentGUI(totalWeight).setVisible(true);
+                        new CongratsCheckInGUI(totalWeight).setVisible(true);
                         dispose();
                     }
 
@@ -473,6 +486,10 @@ public class GUI extends JFrame {
         }
     }
 
+    /*
+    Create an interface where users need to pay for luggage and
+    display the fees passengers need to pay and the weight of checked luggage
+     */
     class PaymentExtraFeeGUI extends JFrame {
         public PaymentExtraFeeGUI(double totalWeight, double totalFee) {
             setTitle("Pay Extra Fee");
@@ -508,7 +525,7 @@ public class GUI extends JFrame {
             JButton payButton = new JButton("Pay");
             payButton.addActionListener(e -> {
                 this.dispose();
-                new CongratsPaymentGUI(totalWeight).setVisible(true);
+                new CongratsCheckInGUI(totalWeight).setVisible(true);
             });
             JButton backButton = new JButton("Back");
             backButton.addActionListener(e -> {
@@ -532,9 +549,14 @@ public class GUI extends JFrame {
         }
 
     }
-
-    class CongratsPaymentGUI extends JFrame {
-        public CongratsPaymentGUI(double totalWeight) {
+    
+    /*
+    Used to generate an interface for the user to successfully check in,
+    and after clicking Finish, check in the next passenger.
+    After clicking Quit, exit the program and generate a report.
+     */
+    class CongratsCheckInGUI extends JFrame {
+        public CongratsCheckInGUI(double totalWeight) {
             setTitle("Congratulation!");
             setSize(500, 130);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
