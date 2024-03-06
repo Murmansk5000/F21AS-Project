@@ -119,7 +119,7 @@ public class Flight implements Comparable<Flight> {
                 getPassengerInFlight().checkInSize(),
                 getBaggageInFlight().getTotalWeight(),
                 getBaggageInFlight().getTotalVolume(),
-                canTakeOff() ? "Ready" : "Overweight",
+                canTakeOff() ? "Ready" : "Overload",
                 getBaggageInFlight().getTotalFee());
     }
 }

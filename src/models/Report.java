@@ -28,11 +28,13 @@ public class Report {
     // write report file
     public void writeReportToFile(FlightList flightList, String filePath) {
         String start =
-                String.format("=====================================================Report====================================================%n");
+                String.format("=============================================================Report============================================================%n");
         String header = String.format("%-5s\t%-15s\t%-12s\t%-10s\t%-15s\t%-15s\t%-15s\t%-20s%n",
                 "#", "Flight Number", "Tickets Sold", "Check ins", "Baggage Weight", "Baggage Volume", "Flight Status", "Total Fees Collected");
         String end =
-                String.format("======================================================END======================================================%n");
+                String.format("==============================================================END==============================================================%n");
+        String note =
+                String.format("Note: If the number of passengers/ total weight of baggage/ total volume of baggage exceeds the corresponding capacity, the flight status will be overload.");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             System.out.print(start);
             writer.write(start);
@@ -46,6 +48,8 @@ public class Report {
             }
             writer.write(end);
             System.out.print(end);
+            writer.write(note);
+            System.out.print(note);
         } catch (IOException e) {
             e.printStackTrace();
         }
