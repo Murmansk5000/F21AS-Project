@@ -365,11 +365,6 @@ public class GUI extends JFrame {
                 String reference = selectedPassenger.getRefCode();
                 try {
                     new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
-                } catch (AllExceptions.NoMatchingRefException | AllExceptions.NoMatchingFlightException ex) {
-                    throw new RuntimeException(ex);
-                }
-                try {
-                    new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
                 } catch (AllExceptions.NoMatchingRefException ex) {
                     throw new RuntimeException(ex);
                 } catch (AllExceptions.NoMatchingFlightException ex) {
