@@ -86,7 +86,6 @@ public class BaggageList {
         if (baggage != null && baggage.getWeight() != 0 && baggage.getSize() != 0) {
             this.baggageList.add(baggage);
         }
-        this.checkBaggageList();
         this.calculateTotalWeight();
         this.calculateTotalVolume();
         this.calculateTotalFee();
@@ -94,30 +93,38 @@ public class BaggageList {
 
     /**
      * Calculates the total weight of all baggage.
+     *
+     * @return total weight.
      */
-    public void calculateTotalWeight() {
+    public double calculateTotalWeight() {
         this.totalWeight = 0.0;
         for (Baggage baggage : this.baggageList) {
             this.totalWeight += baggage.getWeight();
         }
+        return this.totalWeight;
     }
 
     /**
      * Calculates the total volume of all baggage.
+     *
+     * @return total volume.
      */
-    public void calculateTotalVolume() {
+    public double calculateTotalVolume() {
         this.totalVolume = 0.0;
         for (Baggage baggage : this.baggageList) {
             this.totalVolume += baggage.getVolume();
         }
+        return this.totalVolume;
     }
 
     /**
      * Calculates the total fee based on baggage weight.
+     *
+     * @return total fee.
      */
-    public void calculateTotalFee() {
+    public double calculateTotalFee() {
         // Reset the fee to a base value or specific initial charge
-        double Fee = this.BASE_FEE;
+        double Fee = BASE_FEE;
 
         // Check if the baggage is over the weight limit
         if (this.totalWeight > this.totalWeightLimit) {
@@ -125,7 +132,8 @@ public class BaggageList {
         }
 
         // Check if the baggage is over the size limit
-        this.totalFee = this.BASE_FEE + Fee;
+        this.totalFee = Fee;
+        return totalFee;
     }
 
     /**
@@ -137,14 +145,4 @@ public class BaggageList {
         return baggageList.isEmpty();
     }
 
-    /**
-     * Validates total baggage weight against the limit.
-     *
-     * @throws AllExceptions.NumberErrorException if weight limit is exceeded.
-     */
-    public void checkBaggageList() throws AllExceptions.NumberErrorException {
-        if (this.totalWeight > this.getWeightLimit()) {
-            throw new AllExceptions.NumberErrorException();
-        }
-    }
 }

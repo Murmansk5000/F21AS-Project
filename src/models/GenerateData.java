@@ -51,16 +51,16 @@ public class GenerateData {
             String destinationAirport = "Airport " + i;
             String carrier = carriers[random.nextInt(carriers.length)];
             // The number can be set by user
-            int maxPassengerCapacity = 100 + random.nextInt(151);
+            int maxPassengerCapacity = 100 + random.nextInt(201);
             int maxBaggageWeight = 1000 + random.nextInt(4001);
-            int maxBaggageVolume = 100000 + random.nextInt(201);
+            int maxBaggageVolume = 100000000 + random.nextInt(50000001);
 
             flightsWriter.write(flightCode + "," + destinationAirport + "," + carrier + "," + maxPassengerCapacity + "," +
                     maxBaggageWeight + maxBaggageVolume + "\n");
         }
         flightsWriter.close();
 
-        // 然后为每个乘客分配航班号
+        //Generate the code for all passengers
         for (int i = 1; i <= 500; i++) {
             String bookingReference = "B" + String.format("%04d", i);
             String firstName = generateFirstName();

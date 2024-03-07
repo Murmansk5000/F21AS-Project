@@ -526,7 +526,7 @@ public class GUI extends JFrame {
             JPanel topPanel = new JPanel();
             topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
             JLabel congratsLabel = new JLabel(" Congratulations! You have added " + totalWeight + " kg. Please pay extra fee.", SwingConstants.CENTER);
-            JLabel feeLabel1 = new JLabel(" Extra Fee: $" + totalFee, SwingConstants.CENTER);
+            JLabel feeLabel1 = new JLabel(" Extra Fee: GBP " + totalFee, SwingConstants.CENTER);
             JLabel feeLabel2 = new JLabel(" [Extra Fee = (Total Weight - Purchased Baggage Weight) * 50]", SwingConstants.CENTER);
             topPanel.add(congratsLabel);
             topPanel.add(feeLabel1);

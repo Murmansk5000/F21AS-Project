@@ -12,12 +12,10 @@ public class AllExceptions extends Exception {
             super("""
                     Incorrect input number of checked baggage.
                                                                Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).
-                                                               Weight of Checked baggage: not exceeding 23 (kg).
-                                                               Total weight fo checked baggage: not exceeding 40 (kg)""");
+                                                               Weight of Checked baggage: not exceeding 23 (kg).""");
             JOptionPane.showMessageDialog(null, "Incorrect input number.\n" +
                     "Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
-                    "Weight of Checked baggage: not exceeding 23 (kg).\n" +
-                    "Total weight fo checked baggage: not exceeding 40 (kg).", "Error", JOptionPane.ERROR_MESSAGE);
+                    "Weight of Checked baggage: not exceeding 23 (kg).\n", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
