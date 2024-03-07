@@ -4,7 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class PassengerList {
     // Storage for an arbitrary number of details.
@@ -62,9 +65,10 @@ public class PassengerList {
 
 
     public boolean matchPassenger(String ref, String lastName) throws AllExceptions.NoMatchingRefException, AllExceptions.NameCodeMismatchException {
-        if(this.findByRefCode(ref).getLastName().equals(lastName)){
+        if (this.findByRefCode(ref).getLastName().equals(lastName)) {
             return true;
-        }throw new AllExceptions.NameCodeMismatchException(ref, lastName);
+        }
+        throw new AllExceptions.NameCodeMismatchException(ref, lastName);
     }
 
     /**

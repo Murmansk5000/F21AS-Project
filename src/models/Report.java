@@ -25,7 +25,6 @@ public class Report {
     }
 
 
-
     /**
      * Writes the report file containing flight information.
      *
@@ -43,20 +42,20 @@ public class Report {
         String note =
                 String.format("Note: If the number of passengers/ total weight of baggage/ total volume of baggage exceeds the corresponding capacity, the flight status will be overload.");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            if(ifPrint)System.out.print(start);
+            if (ifPrint) System.out.print(start);
             writer.write(start);
-            if(ifPrint)System.out.print(header);
+            if (ifPrint) System.out.print(header);
             writer.write(header);
             for (int i = 0; i < flightList.size(); i++) {
                 Flight flight = flightList.get(i);
                 String reportContent = String.format("%-5d\t%s%n", i + 1, flight.toString());
-                if(ifPrint)System.out.print(reportContent);
+                if (ifPrint) System.out.print(reportContent);
                 writer.write(reportContent);
             }
             writer.write(end);
-            if(ifPrint)System.out.print(end);
+            if (ifPrint) System.out.print(end);
             writer.write(note);
-            if(ifPrint)System.out.print(note);
+            if (ifPrint) System.out.print(note);
         } catch (IOException e) {
             e.printStackTrace();
         }

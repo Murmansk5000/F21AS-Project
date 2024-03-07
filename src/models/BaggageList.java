@@ -3,14 +3,14 @@ package models;
 import java.util.ArrayList;
 
 public class BaggageList {
-    private ArrayList<Baggage> baggageList;
     private static final double BASE_FEE = 0.0;
-    public double totalWeight;
-    private double totalVolume;
-    public double totalFee;
     private final double weightLimit = 40;
     private final double totalWeightLimit = 40; // 40 kg weight limit
     private final double excessWeightFee = 50; // Charge per kg for weight over the limit
+    public double totalWeight;
+    public double totalFee;
+    private ArrayList<Baggage> baggageList;
+    private double totalVolume;
 
     public BaggageList() {
         this.baggageList = new ArrayList<Baggage>();
@@ -18,6 +18,7 @@ public class BaggageList {
         this.totalWeight = 0.0;
         this.totalFee = 0.0;
     }
+
     public ArrayList<Baggage> getBaggageList() {
         return new ArrayList<>(baggageList); // 返回乘客列表的一个副本以保护封装性
     }
@@ -70,12 +71,12 @@ public class BaggageList {
     }
 
     /**
-     *
      * @return The size of the baggage list.
      */
     public int size() {
         return this.baggageList.size();
     }
+
     /**
      * Adds valid baggage to the list and updates totals.
      *
@@ -100,6 +101,7 @@ public class BaggageList {
             this.totalWeight += baggage.getWeight();
         }
     }
+
     /**
      * Calculates the total volume of all baggage.
      */
@@ -141,7 +143,7 @@ public class BaggageList {
      * @throws AllExceptions.NumberErrorException if weight limit is exceeded.
      */
     public void checkBaggageList() throws AllExceptions.NumberErrorException {
-        if (this.totalWeight > this.getWeightLimit()){
+        if (this.totalWeight > this.getWeightLimit()) {
             throw new AllExceptions.NumberErrorException();
         }
     }

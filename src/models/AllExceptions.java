@@ -34,11 +34,10 @@ public class AllExceptions extends Exception {
          * @param name The name associated with the reference code.
          */
         public NameCodeMismatchException(String ref, String name) {
-            super("Mismatch between reference code: "+ ref + " and the name: " + name + ", please check.");
-            JOptionPane.showMessageDialog(null, "Mismatch between reference code: "+ ref + " and the name: " + name + ", please check.", "Error", JOptionPane.ERROR_MESSAGE);
+            super("Mismatch between reference code: " + ref + " and the name: " + name + ", please check.");
+            JOptionPane.showMessageDialog(null, "Mismatch between reference code: " + ref + " and the name: " + name + ", please check.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
 
     /*

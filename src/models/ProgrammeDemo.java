@@ -18,7 +18,10 @@ public class ProgrammeDemo {
         fltList.addPassengersToFlights(paxList);
     }
 
-
+    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
+        ProgrammeDemo sld = new ProgrammeDemo();
+        sld.showGUI(paxList, fltList);
+    }
 
     /**
      * Show GUI
@@ -30,13 +33,6 @@ public class ProgrammeDemo {
 
 
     }
-
-    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
-        ProgrammeDemo sld = new ProgrammeDemo();
-        sld.showGUI(paxList, fltList);
-    }
-
-
 
 
 }

@@ -2,13 +2,13 @@ package models;
 
 public class Baggage {
     private static final double BASE_FEE = 0.0;
+    private final double weightLimit = 23;
+    private final double sizeLimit = 158;
     private double weight = 0.0;
     private double length = 0.0;
     private double width = 0.0;
     private double height = 0.0;
     private double volume = 0.0;
-    private final double weightLimit = 23;
-    private final double sizeLimit = 158;
 
     public Baggage(double weight, double length, double width, double height) throws AllExceptions.NumberErrorException {
         this.weight = weight;
@@ -71,10 +71,11 @@ public class Baggage {
         return volume;
     }
 
-    public double getWeightLimit(){
+    public double getWeightLimit() {
         return this.weightLimit;
     }
-    public double getSizeLimit(){
+
+    public double getSizeLimit() {
         return this.sizeLimit;
     }
 
