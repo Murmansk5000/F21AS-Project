@@ -12,24 +12,34 @@ public class AllExceptions extends Exception {
             super("""
                     Incorrect input number of checked baggage.
                                                                Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).
-                                                               Weight of Checked baggage: not exceeding 23 (kg).""");
+                                                               Weight of Checked baggage: not exceeding 23 (kg).
+                                                               Total weight fo checked baggage: not exceeding 40 (kg)""");
             JOptionPane.showMessageDialog(null, "Incorrect input number.\n" +
                     "Dimensions of Checked baggage: the sum of length, width, and height not exceeding 158 (cm).\n" +
-                    "Weight of Checked baggage: not exceeding 23 (kg).", "Error", JOptionPane.ERROR_MESSAGE);
+                    "Weight of Checked baggage: not exceeding 23 (kg).\n" +
+                    "Total weight fo checked baggage: not exceeding 40 (kg).", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    /*
-    If there is no matching name,
-    a NoMatchingNameException is thrown,
-    a window will pop up reminding the user to retype.
-    */
-    public static class NoMatchingNameException extends Exception {
-        public NoMatchingNameException(String name) {
-            super("There is no matching last name: " + name + ", please check.");
-            JOptionPane.showMessageDialog(null, "There is no matching last name: " + name + ", please check.", "Error", JOptionPane.ERROR_MESSAGE);
+
+    /**
+     * Exception thrown when the provided name and reference code do not match.
+     * A NameCodeMismatchException is thrown to indicate the mismatch.
+     */
+    public static class NameCodeMismatchException extends Exception {
+        /**
+         * Constructs a NameCodeMismatchException with the specified reference code and name.
+         *
+         * @param ref  The reference code.
+         * @param name The name associated with the reference code.
+         */
+        public NameCodeMismatchException(String ref, String name) {
+            super("Mismatch between reference code: "+ ref + " and the name: " + name + ", please check.");
+            JOptionPane.showMessageDialog(null, "Mismatch between reference code: "+ ref + " and the name: " + name + ", please check.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
 
     /*
     If there is no matching booking reference code,

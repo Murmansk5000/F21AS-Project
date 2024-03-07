@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Generate the data. By ChatGPT.
+ */
 public class GenerateData {
     private static final String[] firstNames = {"John", "Emily", "Michael", "Susan", "David", "Lisa", "Karen", "Robert", "Linda", "William"};
     private static final String[] lastNames = {"Smith", "Johnson", "Brown", "Davis", "Lee", "Wilson", "Martinez", "Miller", "Taylor", "Anderson"};
     private static final String[] carriers = {"American Airlines", "Delta Air Lines", "United Airlines", "British Airways"};
     private static final Random random = new Random();
-    private static final String directoryPath = ""; // 文件夹路径
+    private static final String directoryPath = "";
 
     private static String generateFirstName() {
         return firstNames[random.nextInt(firstNames.length)];
@@ -32,7 +35,7 @@ public class GenerateData {
         // 确保txt目录存在
         File directory = new File(directoryPath);
         if (!directory.exists()) {
-            directory.mkdirs(); // 如果目录不存在，则创建它
+            directory.mkdirs();
         }
 
         BufferedWriter passengersWriter = new BufferedWriter(new FileWriter(directoryPath + "PassengerList.txt"));
@@ -41,16 +44,16 @@ public class GenerateData {
         passengersWriter.write("Reference Code,FirstName,LastName,FlightCode,CheckInStatus\n");
         flightsWriter.write("FlightCode,DestinationAirport,Carrier,MaxPassengerCapacity,MaxBaggageWeight,MaxBaggageVolume\n");
 
-        // 首先生成所有航班号
         List<String> flightCodes = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
             String flightCode = generateFlightCode();
             flightCodes.add(flightCode);
             String destinationAirport = "Airport " + i;
             String carrier = carriers[random.nextInt(carriers.length)];
-            int maxPassengerCapacity = 100 + random.nextInt(151); // 100 to 250
-            int maxBaggageWeight = 1000 + random.nextInt(4001); // 1000 to 5000 lbs
-            int maxBaggageVolume = 100 + random.nextInt(201); // 100 to 300 cubic inches
+            // The number can be set by user
+            int maxPassengerCapacity = 100 + random.nextInt(151);
+            int maxBaggageWeight = 1000 + random.nextInt(4001);
+            int maxBaggageVolume = 100000 + random.nextInt(201);
 
             flightsWriter.write(flightCode + "," + destinationAirport + "," + carrier + "," + maxPassengerCapacity + "," +
                     maxBaggageWeight + maxBaggageVolume + "\n");

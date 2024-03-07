@@ -5,29 +5,20 @@ import GUI.GUI;
 public class ProgrammeDemo {
     private static PassengerList paxList;
     private static FlightList fltList;
-    // private PassengerListInterface interaction;
-    // private PassengerListGUI gui;
 
-    public ProgrammeDemo() {
+
+    public ProgrammeDemo() throws AllExceptions.NoMatchingFlightException {
         // Initialize empty list of passengers and flights
         // Load passengers from TXT file directly into paxList
-        // Load flights from TXT file directly into fltList
         paxList = new PassengerList();
         paxList.loadPassengersFromTXT("PassengerList.txt");
+        // Load flights from TXT file directly into fltList
         fltList = new FlightList();
         fltList.loadFlightsFromTXT("FlightList.txt");
-        addPassengersToFlights(paxList, fltList);
+        fltList.addPassengersToFlights(paxList);
     }
 
-    private static void addPassengersToFlights(PassengerList passengerList, FlightList flightList) {
-        for (Passenger passenger : passengerList.getPassengers()) {
-            String hisFlightCode = passenger.getFlightCode();
-            Flight flight = flightList.findByCode(hisFlightCode);
-            if (flight != null) {
-                flight.addPassenger(passenger);
-            }
-        }
-    }
+
 
     /**
      * Show GUI
@@ -40,7 +31,7 @@ public class ProgrammeDemo {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
         ProgrammeDemo sld = new ProgrammeDemo();
         sld.showGUI(paxList, fltList);
     }

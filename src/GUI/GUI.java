@@ -9,16 +9,20 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class GUI extends JFrame {
-    //    private Baggage oneBaggage;
-    //    private BaggageList baggageListOfOne;
     private static Passenger selectedPassenger;
     private boolean shouldExit = false;
     private JTextField lastNameTextField;
     private JTextField referenceTextField;
     private PassengerList passengerList;
     private FlightList flightList;
-    private Flight selectFlight;
+    private Flight selectedFlight;
 
+    /**
+     * Constructs the GUI interface.
+     * Initializes the GUI components and sets up actions to perform when the window is closing, such as saving data or generating reports.
+     * @param passengerList A list of passengers, used for storing and managing passenger information.
+     * @param flightList A list of flights, used for storing and managing flight information.
+     */
     public GUI(PassengerList passengerList, FlightList flightList) {
         this.passengerList = passengerList;
         this.flightList = flightList;
@@ -27,10 +31,9 @@ public class GUI extends JFrame {
             public void windowClosing(WindowEvent e) {
                 try {
                     onExit();
-                } catch (IOException ex) {
+                } catch (IOException | AllExceptions.NumberErrorException ex) {
                     throw new RuntimeException(ex);
                 }
-                //throw new RuntimeException(ex);
             }
         });
     }
@@ -47,34 +50,28 @@ public class GUI extends JFrame {
         return shouldExit;
     }
 
-    private void onExit() throws IOException {
+    /**
+     * Update baggage information for flights on exit and generate reports.
+     * @throws IOException If an I/O error occurs during the exit process.
+     * @throws AllExceptions.NumberErrorException If a number error exception occurs during the exit process.
+     */
+
+    private void onExit() throws IOException, AllExceptions.NumberErrorException {
         this.flightList.renewBaggageInFlight();
         Report report = new Report(this.flightList);
     }
 
-    /*
-    Create a user login interface. Users need to enter their last name
-    and a matching reference code to be allowed to log in.
+    /**
+     * Creates the flight check-in interface.
+     * Builds a user login interface allowing users to log in using their last name and a matching reference code.
      */
+
     public void FlightCheckInGUI() {
 
         setTitle("Airport Check-in System");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
-        // Load background image
-//        JPanel backgroundPanel = new JPanel() {
-//            @Override
-//            protected void paintComponent(Graphics g) {
-//                super.paintComponent(g);
-//                // Draw background image
-//                ImageIcon imageIcon = new ImageIcon("images/background.jpg");
-//                Image image = imageIcon.getImage();
-//                g.drawImage(image, 0, 0, this);
-//            }
-//        };
-//        setContentPane(backgroundPanel);
 
         // Using BoxLayout for panel layout
         JPanel mainPanel = new JPanel();
@@ -96,6 +93,8 @@ public class GUI extends JFrame {
                 onExit();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
+            } catch (AllExceptions.NumberErrorException ex) {
+                throw new RuntimeException(ex);
             }
             System.exit(0);
         });
@@ -104,14 +103,12 @@ public class GUI extends JFrame {
         finishButton.addActionListener(e -> {
 
             // Open flight details window
-
             String lastName = lastNameTextField.getText();
             String reference = referenceTextField.getText();
             try {
                 validateInputs();
-                selectedPassenger = passengerList.findByRefCode(reference);
-                selectedPassenger = passengerList.findByLastName(lastName);
-                if (selectedPassenger.getLastName().equals(lastName)) {
+                if (passengerList.matchPassenger(reference,lastName)) {
+                    selectedPassenger = passengerList.findByRefCode(reference);
                     // If inputs are valid and correct, proceed to the next step
                     new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
                     dispose(); // Close the current window
@@ -120,9 +117,9 @@ public class GUI extends JFrame {
                 ex.printStackTrace();
             } catch (AllExceptions.NoMatchingRefException ex) {
                 ex.printStackTrace();
-            } catch (AllExceptions.NoMatchingNameException ex) {
+            } catch (AllExceptions.NameCodeMismatchException ex){
                 ex.printStackTrace();
-            } catch (AllExceptions.NoMatchingFlightException ex) {
+            }catch (AllExceptions.NoMatchingFlightException ex) {
                 ex.printStackTrace();
             }
 
@@ -131,11 +128,15 @@ public class GUI extends JFrame {
         buttonPanel.add(quitButton);
         buttonPanel.add(finishButton);
 
-        // Add button panel to main panel
         mainPanel.add(buttonPanel);
-        // Add main panel to frame
         add(mainPanel);
     }
+
+    /**
+     * Validates the inputs for emptiness or invalidity.
+     * Checks user input for last name and reference code to ensure they are not empty.
+     * @throws IllegalArgumentException If either last name or reference code is empty.
+     */
 
     private void validateInputs() throws IllegalArgumentException {
         String lastName = lastNameTextField.getText().trim();
@@ -148,6 +149,13 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Creates a login panel for entering last name and booking reference.
+     * Constructs a panel with a label and a text field for user input.
+     * @param label The label for the input field.
+     * @param textField The text field for user input.
+     * @return A panel containing the label and text field.
+     */
     public JPanel createLoginPanel(String label, JTextField textField) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         panel.add(new JLabel(label));
@@ -164,9 +172,9 @@ public class GUI extends JFrame {
         return panel;
     }
 
-    /*
-    Create an interface to display flight information, retrieve the corresponding flight
-    through the user's login information, and display flight-related information on the interface
+    /**
+     * Interface for displaying flight information.
+     * Retrieves and displays flight-related information based on user's login information.
      */
     class FlightDetailsGUI extends JFrame {
 
@@ -191,20 +199,16 @@ public class GUI extends JFrame {
             mainPanel.add(headerLabel);
 
             String flightCode = selectedPassenger.getFlightCode();
-            selectFlight = flightList.findByCode(flightCode);
-            if (selectFlight != null) {
-                selectedPassenger = selectFlight.getPassengerInFlight().findByRefCode(reference);
+            selectedFlight = flightList.findByCode(flightCode);
+                selectedPassenger = selectedFlight.getPassengerInFlight().findByRefCode(reference);
                 //Add flight information
-                mainPanel.add(createDetailPanel("Flight Number: ", selectFlight.getFlightCode()));
-                mainPanel.add(createDetailPanel("Carrier: ", selectFlight.getCarrier()));
-                mainPanel.add(createDetailPanel("Destination Airport: ", selectFlight.getDestination()));
-                mainPanel.add(createDetailPanel("Flight Max Passenger: ", String.valueOf(selectFlight.getMaxPassengers())));
-                mainPanel.add(createDetailPanel("Flight Max Baggage Weight: ", String.valueOf(selectFlight.getMaxBaggageWeight())+" kg"));
-                mainPanel.add(createDetailPanel("Flight Max Baggage Volume: ", String.valueOf(selectFlight.getMaxBaggageVolume()/1000000)+" cubic meters"));
-                mainPanel.add(createDetailPanel("Your Purchased Baggage Weight: ", String.valueOf(selectFlight.getBaggageInFlight().getWeightLimit())));
-            } else {
-                throw new AllExceptions.NoMatchingFlightException();
-            }
+                mainPanel.add(createDetailPanel("Flight Number: ", selectedFlight.getFlightCode()));
+                mainPanel.add(createDetailPanel("Carrier: ", selectedFlight.getCarrier()));
+                mainPanel.add(createDetailPanel("Destination Airport: ", selectedFlight.getDestination()));
+                mainPanel.add(createDetailPanel("Flight Max Passenger: ", String.valueOf(selectedFlight.getMaxPassengers())));
+                mainPanel.add(createDetailPanel("Flight Max Baggage Weight: ", String.valueOf(selectedFlight.getMaxBaggageWeight())+" kg"));
+                mainPanel.add(createDetailPanel("Flight Max Baggage Volume: ", String.valueOf(selectedFlight.getMaxBaggageVolume()/1000000)+" cubic meters"));
+                mainPanel.add(createDetailPanel("Your Purchased Baggage Weight: ", String.valueOf(selectedFlight.getBaggageInFlight().getWeightLimit())));
 
 
             JButton nextButton = new JButton("Next Step");
@@ -237,12 +241,12 @@ public class GUI extends JFrame {
         }
     }
 
-    /*
-    Create a page for users to enter baggage information.
-    On this page, users are allowed to enter up to three pieces of their own baggage information.
-    When the user completes the input, the baggage information will be stored and whether to jump to the payment interface
-    or check-in success page based on the weight of the baggage carried by the user is determined.
-     */
+    /**
+     * Interface for entering baggage information.
+     * On this page, users are allowed to enter up to three pieces of their own baggage information.
+     * When the user completes the input, the baggage information will be stored and whether to jump to the payment interface
+     * or check-in success page based on the weight of the baggage carried by the user is determined.
+      */
     class BaggageDetailsGUI extends JFrame {
         private double totalFee = 0;
         private JTextField
@@ -290,7 +294,7 @@ public class GUI extends JFrame {
             nextButton.addActionListener(e -> {
 
                 // First try adding all luggage information to a temporary luggage list
-                BaggageList tempBaggageList = new BaggageList();
+                BaggageList tempBaggageList = selectedPassenger.getBaggageList();
                 try {
                     if (isValidBaggage(weightField1, lengthField1, widthField1, heightField1)) {
                         Baggage tempBaggage = new Baggage(
@@ -326,8 +330,6 @@ public class GUI extends JFrame {
                     double totalVolume = tempBaggageList.getTotalVolume();
                     double totalWeight = tempBaggageList.getTotalWeight();
                     totalFee = tempBaggageList.getTotalFee();
-//                    System.out.println(totalWeight);
-//                    System.out.println(totalFee);
 
                     if (totalFee > 0) {
                         dispose();
@@ -359,6 +361,11 @@ public class GUI extends JFrame {
                 String reference = selectedPassenger.getRefCode();
                 try {
                     new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
+                } catch (AllExceptions.NoMatchingRefException | AllExceptions.NoMatchingFlightException ex) {
+                    throw new RuntimeException(ex);
+                }
+                try {
+                    new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
                 } catch (AllExceptions.NoMatchingRefException ex) {
                     throw new RuntimeException(ex);
                 } catch (AllExceptions.NoMatchingFlightException ex) {
@@ -382,7 +389,9 @@ public class GUI extends JFrame {
             }
         }
 
-        // Clear the entered baggage information
+        /**
+         * Clear the entered baggage information.
+         */
         private void clearBaggageFields() {
             weightField1.setText("");
             lengthField1.setText("");
@@ -400,7 +409,17 @@ public class GUI extends JFrame {
             heightField3.setText("");
         }
 
-        // A helper method to check whether the baggage information is valid
+        /**
+         * Check whether the baggage information is valid.
+         *
+         * @param weightField The text field for weight.
+         * @param lengthField The text field for length.
+         * @param widthField  The text field for width.
+         * @param heightField The text field for height.
+         * @return True if the baggage information is valid, false otherwise.
+         * @throws AllExceptions.IncompleteBaggageInfoException If any of the baggage information fields are incomplete.
+         * @throws AllExceptions.InvalidBaggageInfoException    If any of the baggage information is invalid.
+         */
         private boolean isValidBaggage(JTextField weightField, JTextField lengthField, JTextField widthField, JTextField heightField) throws AllExceptions.IncompleteBaggageInfoException, AllExceptions.InvalidBaggageInfoException {
             String weight = weightField.getText().trim();
             String length = lengthField.getText().trim();
@@ -435,8 +454,6 @@ public class GUI extends JFrame {
             JPanel weightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
             weightPanel.add(new JLabel(labelText));
             JTextField weightField = new JTextField(5);
-            //weightPanel.add(new JTextField(5));
-
             weightPanel.add(weightField);
 
             switch (baggageNumber) {
@@ -487,9 +504,9 @@ public class GUI extends JFrame {
         }
     }
 
-    /*
-    Create an interface where users need to pay for luggage and
-    display the fees passengers need to pay and the weight of checked luggage
+    /**
+     * Interface for paying extra luggage fees.
+     * Displays the fees passengers need to pay for their luggage and the weight of the checked luggage.
      */
     class PaymentExtraFeeGUI extends JFrame {
         public PaymentExtraFeeGUI(double totalWeight, double totalFee) {
@@ -550,12 +567,12 @@ public class GUI extends JFrame {
         }
 
     }
-    
-    /*
-    Used to generate an interface for the user to successfully check in,
-    and after clicking Finish, check in the next passenger.
-    After clicking Quit, exit the program and generate a report.
+
+    /**
+     * Interface for successful check-in confirmation.
+     * Generates an interface for users to confirm successful check-in and provides options to check in the next passenger or exit the application.
      */
+
     class CongratsCheckInGUI extends JFrame {
         public CongratsCheckInGUI(double totalWeight) {
             setTitle("Congratulation!");

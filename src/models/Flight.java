@@ -68,11 +68,17 @@ public class Flight implements Comparable<Flight> {
         return passengerInFlight;
     }
 
-
+    /**
+     * Determines if the flight can take off based on passengers and their baggage.
+     * Checks if the number of checked-in passengers is less than the maximum allowed,
+     * and if the total weight and volume of baggage are within their respective limits.
+     *
+     * @return true if all conditions for takeoff are met (passenger count, baggage weight, and baggage volume), false otherwise.
+     */
     public boolean canTakeOff() {
-        boolean checkPassengers = passengerInFlight.checkInSize() < this.maxPassengers;
-        boolean checkBaggageWeight = baggageInFlight.getTotalWeight() < this.maxBaggageWeight;
-        boolean checkBaggageVolume = baggageInFlight.getTotalVolume() < this.maxBaggageVolume;
+        boolean checkPassengers = this.passengerInFlight.checkInSize() < this.maxPassengers;
+        boolean checkBaggageWeight = this.baggageInFlight.getTotalWeight() < this.maxBaggageWeight;
+        boolean checkBaggageVolume = this.baggageInFlight.getTotalVolume() < this.maxBaggageVolume;
         return checkPassengers && checkBaggageWeight && checkBaggageVolume;
     }
 
@@ -82,7 +88,7 @@ public class Flight implements Comparable<Flight> {
      * @param passenger The passenger to add to the flight.
      */
     public void addPassenger(Passenger passenger) {
-        passengerInFlight.addPassenger(passenger);
+        this.passengerInFlight.addPassenger(passenger);
     }
 
     /**
@@ -90,27 +96,43 @@ public class Flight implements Comparable<Flight> {
      *
      * @param baggage The baggage to add to the flight.
      */
-    public void addBaggageToFlight(Baggage baggage) {
-        baggageInFlight.addBaggage(baggage);
+    public void addBaggageToFlight(Baggage baggage) throws AllExceptions.NumberErrorException {
+        this.baggageInFlight.addBaggage(baggage);
     }
 
-    public void addAllPassengerBaggageToFlight() {
-        // 遍历passengerInFlight中的每一个乘客
-        for (Passenger passenger : passengerInFlight.getPassengers()) {
-            // 假设每个乘客有一个getBaggageList()方法返回其所有行李的列表
+    /**
+     * Adds baggage from all passengers in the flight to the flight's baggage list.
+     * Iterates over each passenger, retrieves their baggage list, and adds each baggage to the flight.
+     * Renew the weight, volume and fee.
+     */
+    public void addAllBaggageToFlight() throws AllExceptions.NumberErrorException {
+        // Iterate over each passenger in the flight
+        for (Passenger passenger : this.getPassengerInFlight().getPassengers()) {
+            // Assume each passenger has a method to return their baggage list
             BaggageList passengerBaggageList = passenger.getBaggageList();
-            // 然后遍历这个乘客的所有行李
+            // Iterate over each baggage of the passenger and add it to the flight
             for (Baggage baggage : passengerBaggageList.getBaggageList()) {
                 this.addBaggageToFlight(baggage);
+
             }
         }
+        this.getBaggageInFlight().calculateTotalWeight();
+        this.getBaggageInFlight().calculateTotalVolume();
+        this.getBaggageInFlight().calculateTotalFee();
     }
+
 
     @Override
     public int compareTo(Flight other) {
-        return this.flightCode.compareTo(other.flightCode);
+        return 0;
     }
 
+    /**
+     * Returns a string representation of this flight, including flight code, passenger counts,
+     * total baggage weight and volume, flight status (ready or overload), and total baggage fee.
+     *
+     * @return Formatted string containing flight details.
+     */
     @Override
     public String toString() {
         return String.format("%-15s\t%-12d\t%-10d\t%-15.2f\t%-15.2f\t%-15s\t%-20.2f",

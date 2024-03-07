@@ -46,6 +46,11 @@ public class Baggage {
         updateVolume();
     }
 
+    /**
+     * Returns the size of the baggage.
+     *
+     * @return double value representing the sum of the height, width, and length.
+     */
     public double getSize() {
         return this.height + this.width + this.length;
     }
@@ -73,6 +78,13 @@ public class Baggage {
         return this.sizeLimit;
     }
 
+    /**
+     * This method check the baggage against predefined weight and size limits.
+     * It throws a NumberErrorException if the baggage exceeds either limit.
+     * This ensures that all baggage adheres to the specified restrictions before being accepted.
+     *
+     * @throws AllExceptions.NumberErrorException if the baggage exceeds the weight limit or the size limit.
+     */
     public void checkBaggage() throws AllExceptions.NumberErrorException {
         //Check if the baggage is over the weight limit
         if (this.weight > this.getWeightLimit()) {

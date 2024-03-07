@@ -4,10 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class PassengerList {
     // Storage for an arbitrary number of details.
@@ -27,10 +24,8 @@ public class PassengerList {
      *
      * @param fileName Path to the txt file.
      */
-
     public void loadPassengersFromTXT(String fileName) {
         this.passengerList.clear();
-
         try {
             List<String> lines = Files.readAllLines(Paths.get(fileName));
             for (String line : lines.subList(1, lines.size())) {
@@ -65,13 +60,11 @@ public class PassengerList {
         throw new AllExceptions.NoMatchingRefException(referenceCode);
     }
 
-    public Passenger findByLastName(String lastName) throws AllExceptions.NoMatchingNameException {
-        for (Passenger p : passengerList) {
-            if (p.getLastName().equals(lastName)) {
-                return p;
-            }
-        }
-        throw new AllExceptions.NoMatchingNameException(lastName);
+
+    public boolean matchPassenger(String ref, String lastName) throws AllExceptions.NoMatchingRefException, AllExceptions.NameCodeMismatchException {
+        if(this.findByRefCode(ref).getLastName().equals(lastName)){
+            return true;
+        }throw new AllExceptions.NameCodeMismatchException(ref, lastName);
     }
 
     /**
@@ -88,7 +81,7 @@ public class PassengerList {
      *
      * @param referenceCode the reference code identifying the models.Passenger to be removed.
      */
-    public void removeDetails(String referenceCode) {
+    public void removePassengerByCode(String referenceCode) {
         int index = findIndex(referenceCode);
         if (index != -1) {
             passengerList.remove(index);
@@ -102,7 +95,6 @@ public class PassengerList {
      * @return The index of the models.Passenger, -1 if not found.
      */
     private int findIndex(String referenceCode) {
-
         int size = passengerList.size();
         for (int i = 0; i < size; i++) {
             Passenger p = passengerList.get(i);
@@ -122,7 +114,7 @@ public class PassengerList {
     public String listDetails() {
         StringBuffer allEntries = new StringBuffer();
         for (Passenger details : passengerList) {
-            allEntries.append(details);
+            allEntries.append(details.toString());
             allEntries.append('\n');
         }
         return allEntries.toString();
@@ -155,11 +147,15 @@ public class PassengerList {
      *
      * @return The size of the passenger list.
      */
-
     public int size() {
         return this.passengerList.size();
     }
 
+    /**
+     * Calculates the number of passengers who have checked in.
+     *
+     * @return The count of passengers who have checked in.
+     */
     public int checkInSize() {
         int checkInSize = 0;
         for (int i = 0; i < passengerList.size(); i++) {
@@ -170,8 +166,14 @@ public class PassengerList {
         return checkInSize;
     }
 
+    /**
+     * Provides a copy of the passenger list.
+     * This method is used to maintain the encapsulation of the passenger list.
+     *
+     * @return A copy of the passenger list.
+     */
     public ArrayList<Passenger> getPassengers() {
-        return new ArrayList<>(passengerList); // 返回乘客列表的一个副本以保护封装性
+        return new ArrayList<>(this.passengerList);
     }
 
     public Passenger get(int i) {

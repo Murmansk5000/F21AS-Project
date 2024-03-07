@@ -48,19 +48,31 @@ public class FlightList {
         }
     }
 
+    public void addPassengersToFlights(PassengerList passengerList) throws AllExceptions.NoMatchingFlightException {
+        for (Passenger passenger : passengerList.getPassengers()) {
+            String hisFlightCode = passenger.getFlightCode();
+            Flight flight = this.findByCode(hisFlightCode);
+            if (flight != null) {
+                flight.addPassenger(passenger);
+            }
+        }
+    }
+
+
     /**
-     * Look up a flight code and return the corresponding models.Flight object.
+     * Searches for a flight by its code.
      *
-     * @param flightCode The flight code to be looked up.
-     * @return The models.Flight object corresponding to the flight code, null if none found.
+     * @param flightCode The code of the flight to find.
+     * @return The Flight matching the given code.
+     * @throws AllExceptions.NoMatchingFlightException If no flight matches the given code.
      */
-    public Flight findByCode(String flightCode) {
+    public Flight findByCode(String flightCode) throws AllExceptions.NoMatchingFlightException {
         for (Flight f : flightList) {
             if (f.getFlightCode().equals(flightCode)) {
                 return f;
             }
         }
-        return null;//TODO 这里抛出异常
+        throw new AllExceptions.NoMatchingFlightException();
     }
 
     /**
@@ -123,14 +135,15 @@ public class FlightList {
         return flightList.get(i);
     }
 
-    public void renewBaggageInFlight() {
+    /**
+     * Updates baggage for each flight in the flight list and checks if they can take off.
+     * Iterates through all flights, adding all passenger baggage to each flight
+     * and then evaluating if the flight meets the criteria to take off.
+     */
+    public void renewBaggageInFlight() throws AllExceptions.NumberErrorException {
         for (int i = 0; i < this.flightList.size(); i++) {
-            flightList.get(i).addAllPassengerBaggageToFlight();
-            flightList.get(i).getBaggageInFlight().calculateTotalWeight();
-            flightList.get(i).getBaggageInFlight().calculateTotalVolume();
-            flightList.get(i).canTakeOff();
+            flightList.get(i).addAllBaggageToFlight();
         }
     }
-
 
 }

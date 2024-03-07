@@ -19,7 +19,6 @@ public class Passenger implements Comparable<Passenger> {
      * @param ifCheck       Boolean flag indicating whether the passenger has checked in.
      */
     public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean ifCheck) {
-        //这个异常写在ShowGUI里了，这边的不知道要不要删掉
         if (firstName.trim().length() == 0 || lastName.trim().length() == 0 || referenceCode.trim().length() == 0) {
             throw new IllegalStateException(
                     "Cannot have blank name or reference code");
@@ -58,7 +57,7 @@ public class Passenger implements Comparable<Passenger> {
     }
 
     /**
-     * @return A string containing the passenger's reference code, first name, and last name.
+     * @return A string containing the passenger's reference code, first name, last name, flight code and check status.
      */
     @Override
     public String toString() {
@@ -71,15 +70,26 @@ public class Passenger implements Comparable<Passenger> {
                 '}';
     }
 
+
     @Override
     public int compareTo(Passenger other) {
         return this.referenceCode.compareTo(other.referenceCode);
     }
 
+    /**
+     * Retrieves the list of baggage associated with this passenger.
+     *
+     * @return The BaggageList belonging to the passenger.
+     */
     public BaggageList getBaggageList() {
         return this.baggageOfPassenger;
     }
 
+    /**
+     * Sets or updates the list of baggage for this passenger.
+     *
+     * @param baggageList The new BaggageList to be associated with the passenger.
+     */
     public void setBaggageList(BaggageList baggageList) {
         this.baggageOfPassenger = baggageList;
     }
