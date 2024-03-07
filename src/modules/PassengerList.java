@@ -1,4 +1,4 @@
-package models;
+package modules;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

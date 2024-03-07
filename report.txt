@@ -1,6 +1,6 @@
 =============================================================Report============================================================
 #    	Flight Number  	Tickets Sold	Check ins 	Baggage Weight 	Baggage Volume 	Flight Status  	Total Fees Collected
-1    	IV6518         	56          	0         	0.00           	0.00           	Ready          	0.00                
+1    	IV6518         	56          	1         	63.00          	3.00           	Ready          	1150.00             
 2    	NE8389         	59          	0         	0.00           	0.00           	Ready          	0.00                
 3    	VD7018         	55          	0         	0.00           	0.00           	Ready          	0.00                
 4    	BT9441         	42          	0         	0.00           	0.00           	Ready          	0.00                

@@ -1,5 +1,4 @@
-package models;
-
+package modules;
 
 public class Flight implements Comparable<Flight> {
 

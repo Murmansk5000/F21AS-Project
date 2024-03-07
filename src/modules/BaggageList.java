@@ -1,5 +1,4 @@
-package models;
-
+package modules;
 import java.util.ArrayList;
 
 public class BaggageList {

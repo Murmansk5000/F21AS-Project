@@ -1,4 +1,4 @@
-package models;
+package modules;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

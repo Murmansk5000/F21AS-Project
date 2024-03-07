@@ -1,6 +1,6 @@
 package GUI;
 
-import models.*;
+import modules.*;
 
 import javax.swing.*;
 import java.awt.*;

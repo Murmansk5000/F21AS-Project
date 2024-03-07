@@ -1,5 +1,4 @@
-package models;
-
+package modules;
 public class Passenger implements Comparable<Passenger> {
     private String referenceCode;
     private String firstName;
