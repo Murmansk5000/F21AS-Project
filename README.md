@@ -34,11 +34,12 @@ The project is structured as follows:
 
 #### v0.1.(Initial Release)
 
-- Initialisation code, new classes to be used
+- Initialisation code, new classes to be used.
+- Flight class, FlightList class, Passenger class and etc.
 
 #### v0.2 (Feature Enhancements)
 
-- Write the methods that the base class might want to use
+- Write the methods that the base class might want to use.
 
 #### v0.3 (Exception)
 
@@ -46,19 +47,25 @@ The project is structured as follows:
 
 #### v0.4 (GUI)
 
-- GUI framework construction
+- GUI framework construction.
+- A simple GUI.
 
 #### v0.5 (Report)
 
-- Report class is almost complete, change GUI details
+- Report class is almost complete.
+- Generate reports based on FlightList.
+- Change GUI details.
 
 #### v0.6 (test for Report)
 
-- Implementing tests for the Report class
+- Implementing tests for the Report class.
 
 #### v0.8 (Bug Fixes)
 
-- Completing almost all functions and debugging bugs
+- Completing almost all functions and debugging bugs.
+- GUI debugging with data.
+- Change some method when used.
+- Adding method to check and renew.
 
 #### v0.9 
 
