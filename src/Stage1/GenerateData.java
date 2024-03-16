@@ -1,4 +1,4 @@
-package modules;
+package Stage1;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,10 +12,10 @@ import java.util.Random;
  * Generate the data. By ChatGPT.
  */
 public class GenerateData {
+    public static final Random random = new Random();
     private static final String[] firstNames = {"John", "Emily", "Michael", "Susan", "David", "Lisa", "Karen", "Robert", "Linda", "William"};
     private static final String[] lastNames = {"Smith", "Johnson", "Brown", "Davis", "Lee", "Wilson", "Martinez", "Miller", "Taylor", "Anderson"};
     private static final String[] carriers = {"American Airlines", "Delta Air Lines", "United Airlines", "British Airways"};
-    private static final Random random = new Random();
     private static final String directoryPath = "";
 
     private static String generateFirstName() {
@@ -65,9 +65,9 @@ public class GenerateData {
             String firstName = generateFirstName();
             String lastName = generateLastName();
             String flightCode = flightCodes.get(random.nextInt(flightCodes.size()));
-            String checkInStatus = "NotCheckedIn";
+            String vip = "false";
 
-            passengersWriter.write(bookingReference + "," + firstName + "," + lastName + "," + flightCode + "," + checkInStatus + "\n");
+            passengersWriter.write(bookingReference + "," + firstName + "," + lastName + "," + flightCode + "," + vip + "\n");
         }
         passengersWriter.close();
 

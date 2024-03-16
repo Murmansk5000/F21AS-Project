@@ -1,8 +1,9 @@
-package modules;
+package Stage1;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BaggageListTest {
@@ -18,10 +19,10 @@ public class BaggageListTest {
         try {
             // Under weight limit
             baggageList.addBaggage(new Baggage(15.0, 10.0, 20.0, 20.0));
-            assertEquals( 0.0, baggageList.calculateTotalFee(), "Total fee should be 0 for weight within limit");
+            assertEquals(0.0, baggageList.calculateTotalFee(), "Total fee should be 0 for weight within limit");
             // Just under the size limit (158cm) but not over
             baggageList.addBaggage(new Baggage(12.0, 50.0, 50.0, 58.0));
-            assertEquals( 0.0, baggageList.calculateTotalFee(),"Total fee should be 0 for weight within limit");
+            assertEquals(0.0, baggageList.calculateTotalFee(), "Total fee should be 0 for weight within limit");
             // Just under the weight limit (40kg) but not over
             baggageList.addBaggage(new Baggage(13.0, 20.0, 20.0, 20.0));
             assertEquals(0.0, baggageList.calculateTotalFee(), "Total fee should be 0 for weight within limit");
@@ -55,12 +56,14 @@ public class BaggageListTest {
             new Baggage(24.0, 50.0, 30.0, 10.0);
         }, "Expected NumberErrorException due to weight limit exceeded");
     }
+
     @Test
     void testBaggageSizeLimitExceeded() {
         assertThrows(AllExceptions.NumberErrorException.class, () -> {
             new Baggage(20.0, 60.0, 60.0, 60.0);
         }, "Expected NumberErrorException due to size limit exceeded");
     }
+
     @AfterEach
     public void tearDown() {
         baggageList = null;

@@ -1,4 +1,4 @@
-package modules;
+package Stage1;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,8 +18,8 @@ public class PassengerList {
      */
     public PassengerList() {
         this.passengerList = new ArrayList<Passenger>();
-        // Load passengers from TXT file directly into paxList
     }
+
 
     /**
      * Loads passengers from a txt file.
@@ -132,8 +132,8 @@ public class PassengerList {
      */
     public int checkInSize() {
         int checkInSize = 0;
-        for (int i = 0; i < passengerList.size(); i++) {
-            if (passengerList.get(i).getIfCheck()) {
+        for (Passenger p : passengerList) {
+            if (p.getIfCheck()) {
                 checkInSize++;
             }
         }

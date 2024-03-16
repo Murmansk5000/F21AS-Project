@@ -1,7 +1,8 @@
-package modules;
+package Stage1;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FlightTest {
@@ -25,11 +26,12 @@ class FlightTest {
             fail("Baggage should not exceed weight or size limits");
         }
     }
+
     @Test
     void canTakeOffUnderLimitsByPassenger() {
         try {
-            flight.getPassengerInFlight().findByRefCode("B0501").getBaggageList().addBaggage(new Baggage(10.0, 2.0, 2.0, 2.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getBaggageList().addBaggage(new Baggage(5.0, 1.0, 1.0, 5.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(10.0, 2.0, 2.0, 2.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(5.0, 1.0, 1.0, 5.0));
             flight.addAllBaggageToFlight();
             assertTrue(flight.canTakeOff(), "Flight should be able to take off when under limits");
         } catch (AllExceptions.NumberErrorException e) {
@@ -53,9 +55,9 @@ class FlightTest {
     @Test
     void cannotTakeOffDueToExcessBaggageWeight() {
         try {
-            flight.getPassengerInFlight().findByRefCode("B0501").getBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
             flight.addAllBaggageToFlight();
             assertFalse(flight.canTakeOff(), "Flight should be able to take off when under limits");
         } catch (AllExceptions.NumberErrorException e) {
@@ -64,14 +66,14 @@ class FlightTest {
             throw new RuntimeException(e);
         }
     }
-    
+
     // When the total baggage volume exceeds the maximum baggage volume, test whether canTakeOff() returns false or not.
     @Test
     void cannotTakeOffDueToExcessBaggageVolumeByPassenger() {
         try {
-            flight.getPassengerInFlight().findByRefCode("B0501").getBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
             flight.addAllBaggageToFlight();
             assertFalse(flight.canTakeOff(), "Flight should be able to take off when under limits");
         } catch (AllExceptions.NumberErrorException e) {

@@ -1,4 +1,4 @@
-package modules;
+package Stage1;
 
 public class Flight implements Comparable<Flight> {
 
@@ -108,7 +108,7 @@ public class Flight implements Comparable<Flight> {
         // Iterate over each passenger in the flight
         for (Passenger passenger : this.getPassengerInFlight().getPassengers()) {
             // Assume each passenger has a method to return their baggage list
-            BaggageList passengerBaggageList = passenger.getBaggageList();
+            BaggageList passengerBaggageList = passenger.getHisBaggageList();
             // Iterate over each baggage of the passenger and add it to the flight
             for (Baggage baggage : passengerBaggageList.getBaggageList()) {
                 this.addBaggageToFlight(baggage);
@@ -120,6 +120,9 @@ public class Flight implements Comparable<Flight> {
         this.getBaggageInFlight().calculateTotalFee();
     }
 
+    public void fly() {
+        System.out.println(this.flightCode + " fly.");
+    }
 
     @Override
     public int compareTo(Flight other) {

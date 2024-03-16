@@ -1,9 +1,12 @@
-package modules;
+package Stage1;
 
 public class Baggage {
     private static final double BASE_FEE = 0.0;
-    private final double weightLimit = 23;
-    private final double sizeLimit = 158;
+    private static final double WEIGHT_LIMIT = 23;
+    private static final double MAX_LENGTH = 76;
+    private static final double MAX_WIDTH = 51;
+    private static final double MAX_HEIGHT = 31;
+
     private double weight = 0.0;
     private double length = 0.0;
     private double width = 0.0;
@@ -17,6 +20,26 @@ public class Baggage {
         this.height = height;
         this.updateVolume();
         this.checkBaggage();
+    }
+
+    public static double getWeightLimit() {
+        return WEIGHT_LIMIT;
+    }
+
+    public static double getSizeLimit() {
+        return MAX_LENGTH + MAX_WIDTH + MAX_HEIGHT;
+    }
+
+    public static double getMaxLength() {
+        return MAX_LENGTH;
+    }
+
+    public static double getMaxWidth() {
+        return MAX_WIDTH;
+    }
+
+    public static double getMaxHeight() {
+        return MAX_HEIGHT;
     }
 
     public double getLength() {
@@ -71,14 +94,6 @@ public class Baggage {
         return volume;
     }
 
-    public double getWeightLimit() {
-        return this.weightLimit;
-    }
-
-    public double getSizeLimit() {
-        return this.sizeLimit;
-    }
-
     /**
      * This method check the baggage against predefined weight and size limits.
      * It throws a NumberErrorException if the baggage exceeds either limit.
@@ -88,12 +103,21 @@ public class Baggage {
      */
     public void checkBaggage() throws AllExceptions.NumberErrorException {
         //Check if the baggage is over the weight limit
-        if (this.getWeight() > this.getWeightLimit()) {
+        if (this.getWeight() > getWeightLimit()) {
             throw new AllExceptions.NumberErrorException();
         }
         // Check if the baggage is over the size limit
-        if (this.getSize() > this.getSizeLimit()) {
+        if (this.getSize() > getSizeLimit()) {
             throw new AllExceptions.NumberErrorException();
         }
     }
+
+    @Override
+    public String toString() {
+        return "Baggage{" +
+                "weight=" + String.format("%.1f", weight) +
+                ", dimensions=" + String.format("%.1f", length) + "x" + String.format("%.1f", width) + "x" + String.format("%.1f", height) +
+                '}';
+    }
+
 }

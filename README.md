@@ -1,15 +1,16 @@
 # F21AS-Project
 
-This repository contains the source code for an airport check-in system. The system handles passenger bookings, flight management, and baggage processing.
+This repository contains the source code for an airport check-in system. The system handles passenger bookings, flight
+management, and baggage processing.
 
 ## Project Structure
 
 The project is structured as follows:
 
 - `src`: This directory contains all the source code for the application.
-    - `GUI`: Contains the user interface implementation.
-        - `GUI.java`: The main GUI application.
-        - `payWays.jpg`: An image resource used in the payment GUI.
+    - `img`: Contains the user interface implementation.
+        - `img.java`: The main img application.
+        - `payWays.jpg`: An image resource used in the payment img.
     - `models`: Contains the data models and business logic.
         - `AllExceptions.java`: Custom exceptions used throughout the project.
         - `Baggage.java`: The model for baggage-related data.
@@ -29,7 +30,6 @@ The project is structured as follows:
 - `README.md`: The file you are reading right now that provides information about the project.
 - `report.txt`: Report file generate by the Program.
 
-
 ### Release Notes
 
 #### v0.1.(Initial Release)
@@ -45,16 +45,16 @@ The project is structured as follows:
 
 - New exception class and the ability to throw exceptions when calling a method.
 
-#### v0.4 (GUI)
+#### v0.4 (img)
 
-- GUI framework construction.
-- A simple GUI.
+- img framework construction.
+- A simple img.
 
 #### v0.5 (Report)
 
 - Report class is almost complete.
 - Generate reports based on FlightList.
-- Change GUI details.
+- Change img details.
 
 #### v0.6 (test for Report)
 
@@ -63,18 +63,17 @@ The project is structured as follows:
 #### v0.8 (Bug Fixes)
 
 - Completing almost all functions and debugging bugs.
-- GUI debugging with data.
+- img debugging with data.
 - Change some method when used.
 - Adding method to check and renew.
 
-#### v0.9 
+#### v0.9
 
 - Functionality fully realised.
 
 #### v1.0
 
 - Add the required test.
-
 
 ## Acknowledgments
 

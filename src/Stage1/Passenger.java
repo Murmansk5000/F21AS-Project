@@ -1,4 +1,5 @@
-package modules;
+package Stage1;
+
 public class Passenger implements Comparable<Passenger> {
     private String referenceCode;
     private String firstName;
@@ -6,6 +7,7 @@ public class Passenger implements Comparable<Passenger> {
     private String flightCode;
     private boolean ifCheck;
     private BaggageList baggageOfPassenger;
+    private boolean vip;
 
     /**
      * Construct a new models.Passenger with the specified details. All provided information is used
@@ -15,9 +17,9 @@ public class Passenger implements Comparable<Passenger> {
      * @param firstName     The first name of the passenger.
      * @param lastName      The last name of the passenger.
      * @param flightCode    The code of the flight associated with the passenger.
-     * @param ifCheck       Boolean flag indicating whether the passenger has checked in.
+     * @param vip           Boolean flag indicating whether the passenger is first class.
      */
-    public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean ifCheck) {
+    public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean vip) {
         if (firstName.trim().length() == 0 || lastName.trim().length() == 0 || referenceCode.trim().length() == 0) {
             throw new IllegalStateException(
                     "Cannot have blank name or reference code");
@@ -26,7 +28,8 @@ public class Passenger implements Comparable<Passenger> {
         this.firstName = firstName.trim();
         this.lastName = lastName.trim();
         this.flightCode = flightCode.trim();
-        this.ifCheck = ifCheck;
+        this.vip = vip;
+        this.ifCheck = false;
         this.baggageOfPassenger = new BaggageList(); // Initialize the baggage list for the passenger
     }
 
@@ -80,7 +83,7 @@ public class Passenger implements Comparable<Passenger> {
      *
      * @return The BaggageList belonging to the passenger.
      */
-    public BaggageList getBaggageList() {
+    public BaggageList getHisBaggageList() {
         return this.baggageOfPassenger;
     }
 
@@ -93,5 +96,13 @@ public class Passenger implements Comparable<Passenger> {
         this.baggageOfPassenger = baggageList;
     }
 
+    public void addRandomBaggage() throws AllExceptions.NumberErrorException {
+        this.getHisBaggageList().addBaggage(BaggageFactory.generateRandomBaggage());
+    }
+
+
+    public boolean isVIP() {
+        return this.vip;
+    }
 
 }

@@ -1,4 +1,5 @@
-package modules;
+package Stage1;
+
 import java.util.ArrayList;
 
 public class BaggageList {
@@ -19,7 +20,7 @@ public class BaggageList {
     }
 
     public ArrayList<Baggage> getBaggageList() {
-        return new ArrayList<>(baggageList); // 返回乘客列表的一个副本以保护封装性
+        return new ArrayList<>(baggageList);
     }
 
     public double getTotalVolume() {
@@ -144,4 +145,16 @@ public class BaggageList {
         return baggageList.isEmpty();
     }
 
+    public Baggage get(int i) {
+        return this.baggageList.get(i);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (Baggage baggage : baggageList) {
+            result.append(baggage.toString()).append(" ");
+        }
+        return result.toString(); // 返回构建好的字符串
+    }
 }

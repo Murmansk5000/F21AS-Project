@@ -1,4 +1,4 @@
-package modules;
+package Stage1;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -46,6 +46,10 @@ public class FlightList {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Flight> getFlightList() {
+        return new ArrayList<>(flightList);
     }
 
     public void addPassengersToFlights(PassengerList passengerList) throws AllExceptions.NoMatchingFlightException {
@@ -103,7 +107,6 @@ public class FlightList {
      * @return The index of the models.Flight, -1 if not found.
      */
     private int findIndex(String flightCode) {
-
         for (int i = 0; i < flightList.size(); i++) {
             if (flightList.get(i).getFlightCode().equals(flightCode)) {
                 return i;
@@ -131,6 +134,7 @@ public class FlightList {
         return allEntries.toString();
     }
 
+
     public Flight get(int i) {
         return flightList.get(i);
     }
@@ -141,8 +145,8 @@ public class FlightList {
      * and then evaluating if the flight meets the criteria to take off.
      */
     public void renewBaggageInFlight() throws AllExceptions.NumberErrorException {
-        for (int i = 0; i < this.flightList.size(); i++) {
-            flightList.get(i).addAllBaggageToFlight();
+        for (Flight flight : flightList) {
+            flight.addAllBaggageToFlight();
         }
     }
 
