@@ -11,8 +11,10 @@ import java.util.TimerTask;
 public class CheckInCounterManager {
     private final int OPEN_THRESHOLD = 15; // Setting the threshold for adding counters
     private final int CLOSE_THRESHOLD = 10; //Setting the threshold for deleting counters
-    private final int MAX_COUNTER = 8; // Maximum number of counters
-    private final int MIN_COUNTER = 2; // Maximum number of counters
+    private final int MAX_VIP_COUNTER = 3;
+    private final int MAX_REGULAR_COUNTER = 5;
+    private final int MIN_VIP_COUNTER = 1;
+    private final int MIN_REGULAR_COUNTER = 1;
     private List<CheckInCounter> counters; // all counters
     private PassengerQueue vipQueue;
     private PassengerQueue regularQueue;
@@ -21,8 +23,8 @@ public class CheckInCounterManager {
         this.counters = new ArrayList<>();
         this.vipQueue = new PassengerQueue();
         this.regularQueue = new PassengerQueue();
-        this.addCounter(true);
-        this.addCounter(false);
+        this.createNewCounter(true);  // Id: 0
+        this.createNewCounter(false); // Id: 1
         startMonitoring();
     }
 
@@ -33,43 +35,65 @@ public class CheckInCounterManager {
             public void run() {
                 checkAndAdjustCounters();
             }
-        }, 0, 5000); // 每5秒检查一次队列长度并调整柜台数量
+        }, 0, 5000); // Checks queue length every 5 seconds and adjusts the number of counters
     }
 
     private boolean counterIdExists(int counterId) {
-        return counters.stream().anyMatch(counter -> counter.getCounterId() == counterId);
+        for (CheckInCounter counter : counters) {
+            if (counter.getCounterId() == counterId) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    /**
-     * Adds and starts a new counter if allowed. VIP counters have IDs as multiples of 5.
-     * Regular counter IDs are unique and not multiples of 5. The method checks if a new counter can be opened,
-     * calculates an appropriate ID, creates the counter, adds it to the list, and starts it.
-     *
-     * @param isVIP True to add a VIP counter, false for a regular counter.
-     */
-
-    public void addCounter(boolean isVIP) {
-        if (canOpenNewCounter()) {
-            int counterId;
-            if (isVIP) {
-                // Calculate the next VIP counter ID based on the number of VIP counters
-                counterId = getVIPNumber() * 5;
-            } else {
-                // Calculate the next regular counter ID. It should not be a multiple of 5,
-                // and should be higher than the highest regular counter ID.
-                counterId = getRegularNumber();
-                while (counterId % 5 == 0 || counterIdExists(counterId)) {
-                    counterId++;
-                }
+    public boolean reopenCounter(boolean isVIP) {
+        // Try to find an existing closed counter
+        for (CheckInCounter counter : counters) {
+            if (counter.isVIP() == isVIP && !counter.getStatus()) {
+                // Found a matching closed counter. Reopen it.
+                counter.open(); // Assumes start() also sets the counter's state to open.
+                System.out.println("Reopened an existing " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counter.getCounterId());
+                return true; // Exit the method as we've successfully reopened a counter.
             }
+        }
+        // If not find an existing closed counter, return false
+        return false;
+    }
 
-            // Create a new counter with the determined ID
-            CheckInCounter counter = new CheckInCounter(counterId, isVIP ? vipQueue : regularQueue, isVIP);
-            counters.add(counter);
-            counter.start();
-            System.out.println("Added and started a new " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterId);
+    private void createNewCounter(boolean isVIP) {
+        if (!canCreateCounter(isVIP)) {
+            System.out.println("Cannot create new " + (isVIP ? "VIP" : "Regular") + " counter.");
+            return;
+        }
+        int counterId = calculateCounterId(isVIP);
+        CheckInCounter newCounter = new CheckInCounter(counterId, isVIP ? vipQueue : regularQueue, isVIP);
+        counters.add(newCounter);
+        newCounter.open();
+        System.out.println("Open and started a new " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterId);
+    }
+
+
+    private int calculateCounterId(boolean isVIP) {
+        int counterId;
+        if (isVIP) {
+            counterId = getOpenCount(isVIP) * 5;
+        } else {
+            counterId = getOpenCount(isVIP);
+            while (counterId % 5 == 0 || counterIdExists(counterId)) {
+                counterId++;
+            }
+        }
+        return counterId;
+    }
+
+    public void activateCounter(boolean isVIP) {
+        if (!reopenCounter(isVIP)) {
+            // If no closed counter was reopened, try to create a new one.
+            createNewCounter(isVIP);
         }
     }
+
 
     /**
      * Removes a VIP or regular counter if conditions allow.
@@ -78,52 +102,78 @@ public class CheckInCounterManager {
      * @param isVIP True to remove a VIP counter, false for a regular counter.
      */
 
-    public synchronized void removeCounter(boolean isVIP) {
-        if (canCloseNewCounter()) {
-
-            CheckInCounter counterToRemove = null;
-            for (int i = counters.size() - 1; i >= 0; i--) {
-                CheckInCounter counter = counters.get(i);
-                if ((counter.getCounterId() % 5 == 0) == isVIP) {
-                    counterToRemove = counter;
-                    break;
-                }
-            }
-            if (counterToRemove != null) {
-                counterToRemove.close(); //Close the counter thread
-                counters.remove(counterToRemove); // Remove from list
-                System.out.println("Removed a " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterToRemove.getCounterId());
-            } else {
-                System.out.println("No " + (isVIP ? "VIP" : "Regular") + " counters to remove.");
+    public synchronized void closeCounter(boolean isVIP) {
+        if (!canCloseCounter(isVIP)) {
+            System.out.println("Cannot close " + (isVIP ? "VIP" : "Regular") + " counter.");
+            return;
+        }
+        CheckInCounter counterToClose = null;
+        for (int i = counters.size() - 1; i >= 0; i--) {
+            CheckInCounter counter = counters.get(i);
+            if (counter.isVIP() == isVIP && counter.getStatus()) {
+                counterToClose = counter;
+                break;
             }
         }
+        if (counterToClose != null) {
+            counterToClose.close();
+            System.out.println("Close a " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterToClose.getCounterId());
+        } else {
+            System.out.println("No " + (isVIP ? "VIP" : "Regular") + " counters to remove.");
+        }
+
     }
 
-
     private synchronized void checkAndAdjustCounters() {
-        int numPreVIPCounterCount = vipQueue.size() / getVIPNumber();
-        int numPreRegularCounterCount = regularQueue.size() / getRegularNumber();
+        // Calculate the excess or deficit for VIP and regular queues.
+        int vipExcess = Math.max(0, vipQueue.size() - (getOpenCount(true) * OPEN_THRESHOLD));
+        int regularExcess = Math.max(0, regularQueue.size() - (getOpenCount(false) * OPEN_THRESHOLD));
 
-        if (numPreVIPCounterCount >= OPEN_THRESHOLD) {
-            addCounter(true);
-        } else if (numPreVIPCounterCount <= CLOSE_THRESHOLD) {
-            removeCounter(true);
-        }
+        int vipDeficit = Math.max(0, (getOpenCount(true) * CLOSE_THRESHOLD) - vipQueue.size());
+        int regularDeficit = Math.max(0, (getOpenCount(false) * CLOSE_THRESHOLD) - regularQueue.size());
 
-        if (numPreRegularCounterCount >= OPEN_THRESHOLD) {
-            addCounter(false);
-        } else if (numPreRegularCounterCount <= CLOSE_THRESHOLD) {
-            removeCounter(false);
-        }
+        // Determine the number of counters to adjust based on thresholds.
+        int vipCountersToAdjust = vipExcess / OPEN_THRESHOLD - vipDeficit / CLOSE_THRESHOLD;
+        int regularCountersToAdjust = regularExcess / OPEN_THRESHOLD - regularDeficit / CLOSE_THRESHOLD;
+
+        // Adjust VIP counters.
+        adjustCounters(vipCountersToAdjust, true);
+
+        // Adjust regular counters.
+        adjustCounters(regularCountersToAdjust, false);
+
         System.out.println("Regular queue: " + regularQueue.size() + ". VIP queue: " + vipQueue.size() + ".");
     }
 
-    private boolean canOpenNewCounter() {
-        return counters.size() < MAX_COUNTER;
+    private void adjustCounters(int countersToAdjust, boolean isVIP) {
+        if (countersToAdjust > 0) {
+            // Need more counters.
+            for (int i = 0; i < countersToAdjust; i++) {
+                activateCounter(isVIP);
+            }
+        } else if (countersToAdjust < 0) {
+            // Too many counters are open; try to close some.
+            for (int i = countersToAdjust; i < 0; i++) {
+                closeCounter(isVIP);
+            }
+        }
     }
 
-    private boolean canCloseNewCounter() {
-        return counters.size() > MIN_COUNTER;
+
+    private boolean canCreateCounter(boolean isVIP) {
+        if (isVIP) {
+            return getOpenCount(isVIP) < MAX_VIP_COUNTER;
+        } else {
+            return getOpenCount(isVIP) < MAX_REGULAR_COUNTER;
+        }
+    }
+
+    private boolean canCloseCounter(boolean isVIP) {
+        if (isVIP) {
+            return getOpenCount(isVIP) > MIN_VIP_COUNTER;
+        } else {
+            return getOpenCount(isVIP) > MIN_REGULAR_COUNTER;
+        }
     }
 
     public void addPassengerToQueue(Passenger passenger) {
@@ -141,25 +191,14 @@ public class CheckInCounterManager {
         counters.clear();
     }
 
-    public int getVIPNumber() {
-        int vipCount = 0;
+
+    public int getOpenCount(boolean isVIP) {
+        int count = 0;
         for (CheckInCounter counter : counters) {
-            if (counter.isVIP()) {
-                vipCount++;
+            if (counter.isVIP() == isVIP && counter.getStatus()) {
+                count++;
             }
         }
-        return vipCount;
+        return count;
     }
-
-
-    public int getRegularNumber() {
-        int regularCount = 0;
-        for (CheckInCounter counter : counters) {
-            if (!counter.isVIP()) {
-                regularCount++;
-            }
-        }
-        return regularCount;
-    }
-
 }

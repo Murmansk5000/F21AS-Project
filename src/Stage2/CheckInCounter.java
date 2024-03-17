@@ -11,7 +11,7 @@ public class CheckInCounter extends Thread {
     private final int counterId;
     private final PassengerQueue queue;
     private final boolean isVIP;
-    private boolean isOpen = true;
+    private boolean isOpen;
 
     /**
      * Constructs a CheckInCounter with specified ID, passenger queue, and VIP status.
@@ -24,6 +24,7 @@ public class CheckInCounter extends Thread {
         this.counterId = counterId;
         this.queue = queue;
         this.isVIP = isVIP;
+        this.isOpen = false;
     }
 
     public boolean isVIP() {
@@ -96,8 +97,16 @@ public class CheckInCounter extends Thread {
     }
 
 
+    public void open() {
+        isOpen = true;
+    }
+
     public void close() {
         isOpen = false;
+    }
+
+    public boolean getStatus() {
+        return this.isOpen;
     }
 
     public int getCounterId() {
