@@ -47,6 +47,7 @@ public class Log {
     public static void main(String[] args) {
         Log.getLog("This is an info message.");
         Log.getLog("This is another log entry.");
+        Log.getLog("中文测试");
     }
 
 }
