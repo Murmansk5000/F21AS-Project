@@ -2,11 +2,31 @@ package Stage2;
 
 import Stage1.Passenger;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class PassengerQueue {
+public class PassengerQueue implements Subject{
     private final ConcurrentLinkedQueue<Passenger> queue;
+    private List<Observer> observers = new ArrayList<>();
+
+    // 实现 Subject 接口的方法
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
 
     public PassengerQueue() {
         this.queue = new ConcurrentLinkedQueue<>();
