@@ -40,7 +40,7 @@ public class GenerateData {
         BufferedWriter passengersWriter = new BufferedWriter(new FileWriter(directoryPath + "PassengerList.txt"));
         BufferedWriter flightsWriter = new BufferedWriter(new FileWriter(directoryPath + "FlightList.txt"));
 
-        passengersWriter.write("Reference Code, FirstName, LastName, FlightCode, Baggage Weight, Baggage Volume, VIP\n");
+        passengersWriter.write("Reference Code,FirstName,LastName,FlightCode,CheckInStatus\n");
         flightsWriter.write("FlightCode,DestinationAirport,Carrier,MaxPassengerCapacity,MaxBaggageWeight,MaxBaggageVolume\n");
 
         List<String> flightCodes = new ArrayList<>();
@@ -66,13 +66,8 @@ public class GenerateData {
             String lastName = generateLastName();
             String flightCode = flightCodes.get(random.nextInt(flightCodes.size()));
             String vip = "false";
-            Random random = new Random();
-            int randomInt1 = random.nextInt(600); // 生成0到600之间的随机整数
-            int randomInt2 = random.nextInt(300); // 生成0到200之间的随机整数
-            double baggageWeight = (double) randomInt1 / 10;// 转换为double并除以10以保留一位小数
-            double baggageVolume = (double) randomInt2 / 100;// 转换为double并除以100以保留两位小数
 
-            passengersWriter.write(bookingReference + "," + firstName + "," + lastName + "," + flightCode + "," + baggageWeight + "," + baggageVolume + "," + vip + "\n");
+            passengersWriter.write(bookingReference + "," + firstName + "," + lastName + "," + flightCode + "," + vip + "\n");
         }
         passengersWriter.close();
 

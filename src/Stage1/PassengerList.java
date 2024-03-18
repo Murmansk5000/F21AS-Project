@@ -37,7 +37,7 @@ public class PassengerList {
                     System.out.println("Skipping malformed line: " + line);
                     continue;
                 }
-                Passenger passenger = new Passenger(data[0], data[1], data[2], data[3], Double.parseDouble(data[4]), Double.parseDouble(data[5]), Boolean.parseBoolean(data[4]));
+                Passenger passenger = new Passenger(data[0], data[1], data[2], data[3], Boolean.parseBoolean(data[4]));
                 this.passengerList.add(passenger);
             }
         } catch (FileNotFoundException e) {
@@ -153,5 +153,4 @@ public class PassengerList {
     public Passenger get(int i) {
         return passengerList.get(i);
     }
-
 }

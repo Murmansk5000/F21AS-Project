@@ -3,7 +3,6 @@ package Stage2;
 import Stage1.Passenger;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PassengerQueue {
@@ -60,4 +59,5 @@ public class PassengerQueue {
     public Iterator<Passenger> iterator() {
         return this.getQueue().iterator();
     }
+
 }

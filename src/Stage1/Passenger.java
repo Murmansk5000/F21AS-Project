@@ -5,8 +5,6 @@ public class Passenger implements Comparable<Passenger> {
     private String firstName;
     private String lastName;
     private String flightCode;
-    private double baggageWeight;
-    private double baggageVolume;
     private boolean ifCheck;
     private BaggageList baggageOfPassenger;
     private boolean vip;
@@ -21,7 +19,7 @@ public class Passenger implements Comparable<Passenger> {
      * @param flightCode    The code of the flight associated with the passenger.
      * @param vip           Boolean flag indicating whether the passenger is first class.
      */
-    public Passenger(String referenceCode, String firstName, String lastName, String flightCode, double baggageWeight, double baggageVolume, boolean vip) {
+    public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean vip) {
         if (firstName.trim().length() == 0 || lastName.trim().length() == 0 || referenceCode.trim().length() == 0) {
             throw new IllegalStateException(
                     "Cannot have blank name or reference code");
@@ -30,8 +28,6 @@ public class Passenger implements Comparable<Passenger> {
         this.firstName = firstName.trim();
         this.lastName = lastName.trim();
         this.flightCode = flightCode.trim();
-        this.baggageWeight = baggageWeight;
-        this.baggageVolume = baggageVolume;
         this.vip = vip;
         this.ifCheck = false;
         this.baggageOfPassenger = new BaggageList(); // Initialize the baggage list for the passenger
@@ -49,15 +45,10 @@ public class Passenger implements Comparable<Passenger> {
     public String getLastName() {
         return lastName;
     }
-    public String getName() {return firstName + " " + lastName;}
 
     public String getFlightCode() {
         return flightCode;
     }
-
-    public double getBaggageWeight() {return baggageWeight;}
-
-    public double getBaggageVolume() {return baggageVolume;}
 
     public boolean getIfCheck() {
         return ifCheck;

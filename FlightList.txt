@@ -1,11 +1,11 @@
 FlightCode,DestinationAirport,Carrier,MaxPassengerCapacity,MaxBaggageWeight,MaxBaggageVolume
-BT0967,Airport 1,British Airways,156,4618144346995
-GJ0168,Airport 2,United Airlines,219,2748100992100
-PD1435,Airport 3,American Airlines,259,4096147160921
-SC5904,Airport 4,American Airlines,159,1710129632929
-BO9371,Airport 5,American Airlines,276,3779135747270
-UK5421,Airport 6,United Airlines,147,1847143560512
-GG9510,Airport 7,Delta Air Lines,145,1563114739279
-UT3256,Airport 8,Delta Air Lines,295,1782115446305
-HY7425,Airport 9,American Airlines,294,1135143382120
-FY7237,Airport 10,American Airlines,209,1216124421549
+IV6518,Airport 1,Delta Air Lines,240,1268,121000000
+NE8389,Airport 2,American Airlines,144,2674,136000000
+VD7018,Airport 3,United Airlines,246,3585,298000000
+BT9441,Airport 4,Delta Air Lines,185,1758,230000000
+XQ3326,Airport 5,British Airways,229,1864,113000000
+GC3217,Airport 6,United Airlines,242,3043,176000000
+WJ7955,Airport 7,American Airlines,216,3590,170000000
+ZK8692,Airport 8,Delta Air Lines,128,1660,126000000
+LQ3059,Airport 9,Delta Air Lines,123,2413,271000000
+DQ2692,Airport 10,United Airlines,219,3398,266000000
