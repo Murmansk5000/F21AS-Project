@@ -2,7 +2,10 @@ package Stage2;
 
 import Stage1.Passenger;
 import Stage1.PassengerList;
+import Stage2.GUI.FlightStatusGUI;
+import Stage2.GUI.PassengerQueueGUI;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -25,6 +28,8 @@ public class CheckInCounterManager {
         this.regularQueue = new PassengerQueue();
         this.createNewCounter(true);  // Id: 0
         this.createNewCounter(false); // Id: 1
+        this.createNewCounter(false); // Id: 2
+        SwingUtilities.invokeLater(() -> new PassengerQueueGUI(vipQueue));
         startMonitoring();
     }
 
@@ -49,28 +54,28 @@ public class CheckInCounterManager {
 
     public boolean reopenCounter(boolean isVIP) {
         // Try to find an existing closed counter
-        for (CheckInCounter counter : counters) {
-            if (counter.isVIP() == isVIP && !counter.getStatus()) {
-                // Found a matching closed counter. Reopen it.
-                counter.open(); // Assumes start() also sets the counter's state to open.
-                System.out.println("Reopened an existing " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counter.getCounterId());
-                return true; // Exit the method as we've successfully reopened a counter.
-            }
-        }
+//        for (CheckInCounter counter : counters) {
+//            if (counter.isVIP() == isVIP && !counter.getStatus()) {
+//                // Found a matching closed counter. Reopen it.
+//                counter.open(); // Assumes start() also sets the counter's state to open.
+//                System.out.println("Reopened an existing " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counter.getCounterId());
+//                return true; // Exit the method as we've successfully reopened a counter.
+//            }
+//        }
         // If not find an existing closed counter, return false
         return false;
     }
 
     private void createNewCounter(boolean isVIP) {
         if (!canCreateCounter(isVIP)) {
-            System.out.println("Cannot create new " + (isVIP ? "VIP" : "Regular") + " counter.");
+//            System.out.println("Cannot create new " + (isVIP ? "VIP" : "Regular") + " counter.");
             return;
         }
         int counterId = calculateCounterId(isVIP);
-        CheckInCounter newCounter = new CheckInCounter(counterId, isVIP ? vipQueue : regularQueue, isVIP);
+        CheckInCounter newCounter = new CheckInCounter(counterId, isVIP ? vipQueue.dequeue() : regularQueue.dequeue(), isVIP);
+        newCounter.start();
         counters.add(newCounter);
-        newCounter.open();
-        System.out.println("Open and started a new " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterId);
+//        System.out.println("Open and started a new " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterId);
     }
 
 
@@ -102,7 +107,7 @@ public class CheckInCounterManager {
      * @param isVIP True to remove a VIP counter, false for a regular counter.
      */
 
-    public synchronized void closeCounter(boolean isVIP) {
+    public synchronized void deleteCounter(boolean isVIP) {
         if (!canCloseCounter(isVIP)) {
             System.out.println("Cannot close " + (isVIP ? "VIP" : "Regular") + " counter.");
             return;
@@ -116,7 +121,7 @@ public class CheckInCounterManager {
             }
         }
         if (counterToClose != null) {
-            counterToClose.close();
+            counterToClose.shutdown();
             System.out.println("Close a " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterToClose.getCounterId());
         } else {
             System.out.println("No " + (isVIP ? "VIP" : "Regular") + " counters to remove.");
@@ -154,7 +159,7 @@ public class CheckInCounterManager {
         } else if (countersToAdjust < 0) {
             // Too many counters are open; try to close some.
             for (int i = countersToAdjust; i < 0; i++) {
-                closeCounter(isVIP);
+                deleteCounter(isVIP);
             }
         }
     }
@@ -186,7 +191,7 @@ public class CheckInCounterManager {
 
     public void stopAllCounters() {
         for (CheckInCounter counter : counters) {
-            counter.close();
+            counter.shutdown();
         }
         counters.clear();
     }

@@ -1,9 +1,8 @@
 package Stage2.GUI;
 
-import Stage1.PassengerList;
+import Stage1.*;
 import Stage2.Observer;
 import Stage2.PassengerQueue;
-import Stage1.Passenger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,10 +18,10 @@ import java.util.ArrayList;
 public class PassengerQueueGUI extends JFrame implements Observer {
     private JPanel mainPanel;
     private PassengerQueue passengerQueue;
-    public PassengerQueueGUI() {
+    public PassengerQueueGUI(PassengerQueue passengerQueue) {
         this.mainPanel = new JPanel();
         //TODO 获取队列信息
-        this.passengerQueue = new PassengerQueue();
+        this.passengerQueue = passengerQueue;
         this.passengerQueue.registerObserver(this);
         setTitle("Passenger Queue");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,13 +84,10 @@ public class PassengerQueueGUI extends JFrame implements Observer {
 
     @Override
     public void update() {
-        // 在这里更新 GUI 显示以反映新的乘客队列状态
-        // 您可以根据需要重新加载乘客信息或更新显示
-        // 清除现有信息并重新加载乘客信息
-        // 然后重新绘制 GUI 中的乘客信息
 
-        // 示例代码：
-        // 清空主面板中的组件
+        // 在这里更新 GUI 显示以反映新的乘客队列状态
+        SwingUtilities.invokeLater(() -> {
+
         mainPanel.removeAll();
 
         // 重新加载乘客信息
@@ -105,8 +101,20 @@ public class PassengerQueueGUI extends JFrame implements Observer {
             JLabel flightCode = new JLabel(passenger.getFlightCode());
             flightCode.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // 添加左边距
             JLabel passengerName = new JLabel(passenger.getLastName());
-            JLabel baggageWeight = new JLabel(String.valueOf(passenger.getHisBaggageList().get(0).getWeight()));
-            JLabel baggageVolume = new JLabel(String.valueOf(passenger.getHisBaggageList().get(0).getVolume()));
+            JLabel baggageWeight;
+            JLabel baggageVolume;
+
+            if (!passenger.getHisBaggageList().isEmpty()) {
+                Baggage firstBaggage = passenger.getHisBaggageList().get(0);
+                String weightFormatted = String.format("%.2f", firstBaggage.getWeight());
+                String volumeFormatted = String.format("%.2f", firstBaggage.getVolume());
+
+                baggageWeight = new JLabel(weightFormatted);
+                baggageVolume = new JLabel(volumeFormatted);
+            } else {
+                baggageWeight = new JLabel("N/A"); // 表示没有行李
+                baggageVolume = new JLabel("N/A");
+            }
 
             // 将标签添加到乘客面板
             passengerPanel.add(flightCode);
@@ -122,9 +130,14 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         // 重新绘制 GUI
         mainPanel.revalidate();
         mainPanel.repaint();
+        });
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(PassengerQueueGUI::new);
-    }
+//    public static void main(String[] args) {
+//        // 创建 PassengerQueue 实例
+//        PassengerQueue passengerQueue = new PassengerQueue();
+//
+//        // 使用 SwingUtilities.invokeLater 来确保 GUI 更新在正确的线程上执行
+//        SwingUtilities.invokeLater(() -> new PassengerQueueGUI(passengerQueue));
+//    }
 }

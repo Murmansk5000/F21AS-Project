@@ -51,9 +51,12 @@ public class Simulation {
 
                     // Assign passengers to the appropriate queue
                     //System.out.println( (passenger.isVIP() ? "VIP" : "Regular") + " passenger " + passenger.getRefCode() + " arrived and is being added to the queue.");
+                    passenger.addRandomBaggage();
                     counterManager.addPassengerToQueue(passenger);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                } catch (AllExceptions.NumberErrorException e) {
+                    throw new RuntimeException(e);
                 }
             });
         }

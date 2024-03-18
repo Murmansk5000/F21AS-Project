@@ -3,6 +3,7 @@ package Stage2;
 import Stage1.Passenger;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -39,6 +40,7 @@ public class PassengerQueue implements Subject{
      */
     public void enqueue(Passenger passenger) {
         queue.offer(passenger);
+        notifyObservers();
     }
 
     /**
@@ -47,7 +49,9 @@ public class PassengerQueue implements Subject{
      * @return The passenger at the front of the queue, or null if the queue is empty.
      */
     public Passenger dequeue() {
-        return queue.poll();
+        Passenger passenger = queue.poll();
+        notifyObservers();
+        return passenger;
     }
 
     /**

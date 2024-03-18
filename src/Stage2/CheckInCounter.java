@@ -9,22 +9,21 @@ import static Stage1.GenerateData.random;
 
 public class CheckInCounter extends Thread {
     private final int counterId;
-    private final PassengerQueue queue;
+    private final Passenger passenger;
     private final boolean isVIP;
-    private boolean isOpen;
+    private volatile boolean running = true;
 
     /**
      * Constructs a CheckInCounter with specified ID, passenger queue, and VIP status.
      *
      * @param counterId Unique ID for the counter.
-     * @param queue     Queue of passengers for this counter.
+     * @param passenger Passengers for this counter.
      * @param isVIP     True if it's a VIP counter, false otherwise.
      */
-    public CheckInCounter(int counterId, PassengerQueue queue, boolean isVIP) {
+    public CheckInCounter(int counterId, Passenger passenger, boolean isVIP) {
         this.counterId = counterId;
-        this.queue = queue;
+        this.passenger = passenger;
         this.isVIP = isVIP;
-        this.isOpen = false;
     }
 
     public boolean isVIP() {
@@ -33,15 +32,14 @@ public class CheckInCounter extends Thread {
 
     @Override
     public void run() {
-        while (isOpen) {
+        while (running) {
             try {
-                Passenger passenger = queue.dequeue();
                 if (passenger != null) {
 //                    System.out.println((isVIP ? "VIP" : "Regular") + " Counter " + counterId + " is processing passenger " + passenger.getRefCode());
                     processPassenger(passenger);
 
                     // random time for process
-                    int processTime = 5000 + random.nextInt(9000);
+                    int processTime = 1000;//5000 + random.nextInt(9000);
                     Thread.sleep(processTime);
 
 //                    System.out.println("Passenger " + passenger.getRefCode() + " has been processed by " + (isVIP ? "VIP" : "Regular") + " Counter " + counterId);
@@ -71,9 +69,9 @@ public class CheckInCounter extends Thread {
         if (verifyPassenger(passenger)) {
             handleBaggage(passenger.getHisBaggageList());
             passenger.setIfCheck(true);
-//            System.out.println((passenger.isVIP() ? "VIP " : "Regular ") + "passenger " +
-//                    passenger.getRefCode() + " with the baggage of " + passenger.getHisBaggageList().toString() +
-//                    "has successfully checked in at counter "+this.counterId+".");
+            System.out.println((passenger.isVIP() ? "VIP " : "Regular ") + "passenger " +
+                    passenger.getRefCode() + " with the baggage of " + passenger.getHisBaggageList().toString() +
+                    "has successfully checked in at counter "+this.counterId+".");
         } else {
             System.out.println("Passenger verification failed for: " + passenger.getRefCode());
         }
@@ -96,17 +94,12 @@ public class CheckInCounter extends Thread {
         }
     }
 
-
-    public void open() {
-        isOpen = true;
-    }
-
-    public void close() {
-        isOpen = false;
+    public void shutdown() {
+        running = false;
     }
 
     public boolean getStatus() {
-        return this.isOpen;
+        return this.running;
     }
 
     public int getCounterId() {
