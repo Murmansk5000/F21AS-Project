@@ -1,6 +1,7 @@
 package Stage2.GUI;
 
 import Stage1.PassengerList;
+import Stage2.Observer;
 import Stage2.PassengerQueue;
 import Stage1.Passenger;
 
@@ -15,18 +16,19 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-public class PassengerQueueGUI extends JFrame {
+public class PassengerQueueGUI extends JFrame implements Observer {
     private JPanel mainPanel;
     private PassengerQueue passengerQueue;
     public PassengerQueueGUI() {
+        this.mainPanel = new JPanel();
         //TODO 获取队列信息
         this.passengerQueue = new PassengerQueue();
-        PassengerQueue queue = new PassengerQueue();
+        this.passengerQueue.registerObserver(this);
         setTitle("Passenger Queue");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
 
-        mainPanel = new JPanel();
+        //mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         // Create header panel
@@ -73,15 +75,30 @@ public class PassengerQueueGUI extends JFrame {
 //            e.printStackTrace();
 //        }
 
-        // 使用迭代器读取前五个乘客的信息
-        // TODO 加载列表
-        // 使用列表的 iterator() 方法来获取迭代器
-        Iterator<Passenger> iterator = queue.iterator();
+        // Add main panel to scroll pane for scrolling if needed
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        add(scrollPane);
 
+        setLocationRelativeTo(null); // Center the frame
+        setVisible(true);
+    }
+
+    @Override
+    public void update() {
+        // 在这里更新 GUI 显示以反映新的乘客队列状态
+        // 您可以根据需要重新加载乘客信息或更新显示
+        // 清除现有信息并重新加载乘客信息
+        // 然后重新绘制 GUI 中的乘客信息
+
+        // 示例代码：
+        // 清空主面板中的组件
+        mainPanel.removeAll();
+
+        // 重新加载乘客信息
+        Iterator<Passenger> iterator = passengerQueue.iterator();
         int count = 0;
-        while(iterator.hasNext() && count < 5) {
+        while (iterator.hasNext() && count < 5) {
             Passenger passenger = iterator.next();
-
             JPanel passengerPanel = new JPanel(new GridLayout(0, 4)); // 为每个乘客创建一个面板
 
             // 根据Passenger对象创建标签
@@ -99,15 +116,12 @@ public class PassengerQueueGUI extends JFrame {
 
             mainPanel.add(passengerPanel);
 
-            count++; // 增加计数器
+            count++;
         }
 
-        // Add main panel to scroll pane for scrolling if needed
-        JScrollPane scrollPane = new JScrollPane(mainPanel);
-        add(scrollPane);
-
-        setLocationRelativeTo(null); // Center the frame
-        setVisible(true);
+        // 重新绘制 GUI
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
     public static void main(String[] args) {
