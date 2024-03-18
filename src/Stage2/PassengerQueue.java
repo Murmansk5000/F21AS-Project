@@ -4,7 +4,6 @@ import Stage1.Passenger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PassengerQueue implements Subject{
@@ -80,4 +79,5 @@ public class PassengerQueue implements Subject{
     public Iterator<Passenger> iterator() {
         return this.getQueue().iterator();
     }
+
 }

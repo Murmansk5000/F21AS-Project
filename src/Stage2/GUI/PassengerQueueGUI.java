@@ -104,9 +104,9 @@ public class PassengerQueueGUI extends JFrame implements Observer {
             // 根据Passenger对象创建标签
             JLabel flightCode = new JLabel(passenger.getFlightCode());
             flightCode.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // 添加左边距
-            JLabel passengerName = new JLabel(passenger.getName());
-            JLabel baggageWeight = new JLabel(String.valueOf(passenger.getBaggageWeight()));
-            JLabel baggageVolume = new JLabel(String.valueOf(passenger.getBaggageVolume()));
+            JLabel passengerName = new JLabel(passenger.getLastName());
+            JLabel baggageWeight = new JLabel(String.valueOf(passenger.getHisBaggageList().get(0).getWeight()));
+            JLabel baggageVolume = new JLabel(String.valueOf(passenger.getHisBaggageList().get(0).getVolume()));
 
             // 将标签添加到乘客面板
             passengerPanel.add(flightCode);

@@ -37,7 +37,7 @@ public class Simulation {
         simulation.startSimulation();
     }
 
-    public void startSimulation() throws InterruptedException {
+    public void startSimulation() throws AllExceptions.NumberErrorException, InterruptedException {
 
 
         Random random = new Random();
