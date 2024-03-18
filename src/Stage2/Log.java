@@ -14,7 +14,7 @@ public class Log {
     private static final String LOG_FILE_SUFFIX = ".log"; // file suffix
     private static final long MAX_LOG_FILE_SIZE = 1024 * 1024; // log capacity
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static ExecutorService executor = Executors.newSingleThreadExecutor(); // 单线程执行器
+    private static final ExecutorService executor = Executors.newSingleThreadExecutor(); // 单线程执行器
 
     // Log module
     public static void log(String message) {
