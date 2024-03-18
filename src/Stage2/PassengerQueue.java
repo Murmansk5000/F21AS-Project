@@ -9,29 +9,6 @@ public class PassengerQueue implements Subject {
     private final Queue<Passenger> queue = new LinkedList<>();
     private List<Observer> observers = new ArrayList<>();
 
-    @Override
-    public void registerObserver(Observer observer) {
-        synchronized (observers) {
-            observers.add(observer);
-        }
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
-        synchronized (observers) {
-            observers.remove(observer);
-        }
-    }
-
-    @Override
-    public void notifyObservers() {
-        synchronized (observers) {
-            for (Observer observer : observers) {
-                observer.update();
-            }
-        }
-    }
-
     public PassengerQueue() {
     }
 
@@ -42,7 +19,7 @@ public class PassengerQueue implements Subject {
      */
     public void enqueue(Passenger passenger) {
         synchronized (this.queue) {
-            queue.offer(passenger);
+            queue.add(passenger);
             notifyObservers();
         }
     }
@@ -54,7 +31,10 @@ public class PassengerQueue implements Subject {
      */
     public Passenger dequeue() {
         synchronized (this.queue) {
-            Passenger passenger = queue.poll();
+            if (queue.isEmpty()) {
+                return null;
+            }
+            Passenger passenger = queue.remove();
             notifyObservers();
             return passenger;
         }
@@ -89,5 +69,28 @@ public class PassengerQueue implements Subject {
     }
     public Iterator<Passenger> iterator() {
         return this.getQueue().iterator();
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        synchronized (observers) {
+            observers.add(observer);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        synchronized (observers) {
+            observers.remove(observer);
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        synchronized (observers) {
+            for (Observer observer : observers) {
+                observer.update();
+            }
+        }
     }
 }

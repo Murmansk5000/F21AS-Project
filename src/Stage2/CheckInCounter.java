@@ -47,7 +47,7 @@ public class CheckInCounter extends Thread {
                     processPassenger(passenger);
 
                     // random time for process
-                    int processTime = 1000;//5000 + random.nextInt(9000);
+                    int processTime = 4000;//5000 + random.nextInt(9000);
                     Thread.sleep(processTime);
 
 //                    System.out.println("Passenger " + passenger.getRefCode() + " has been processed by " + (isVIP ? "VIP" : "Regular") + " Counter " + counterId);
