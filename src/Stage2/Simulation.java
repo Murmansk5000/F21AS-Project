@@ -5,10 +5,9 @@ import Stage1.FlightList;
 import Stage1.Passenger;
 import Stage1.PassengerList;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Simulation {
     private static final String PASSENGER_DATA_FILE = "passengerList.txt";
@@ -16,7 +15,7 @@ public class Simulation {
     private static PassengerList paxList;
     private static FlightList fltList;
     private static CheckInCounterManager counterManager;
-    private ExecutorService executor;
+    private List<Thread> threads;
 
     public Simulation() throws AllExceptions.NoMatchingFlightException {
         // Initialise passenger and flight lists
@@ -28,8 +27,7 @@ public class Simulation {
 
         // Initialise the counter manager
         counterManager = new CheckInCounterManager(paxList);
-        // Create a new thread pool
-        executor = Executors.newCachedThreadPool();
+        threads = new ArrayList<>();
     }
 
     public static void main(String[] args) throws AllExceptions.NoMatchingFlightException, AllExceptions.NumberErrorException, InterruptedException {
@@ -38,19 +36,16 @@ public class Simulation {
     }
 
     public void startSimulation() throws AllExceptions.NumberErrorException, InterruptedException {
-
-
         Random random = new Random();
 
         for (Passenger passenger : paxList.getPassengers()) {
-            executor.submit(() -> {
+            Thread thread = new Thread(() -> {
                 try {
                     // Random time of arrival of simulated passengers at the airport
-                    int arrivalDelay = random.nextInt(100);
-                    TimeUnit.SECONDS.sleep(arrivalDelay);
+                    int arrivalDelay = random.nextInt(100) * 1000; // convert to milliseconds
+                    Thread.sleep(arrivalDelay);
 
                     // Assign passengers to the appropriate queue
-                    //System.out.println( (passenger.isVIP() ? "VIP" : "Regular") + " passenger " + passenger.getRefCode() + " arrived and is being added to the queue.");
                     passenger.addRandomBaggage();
                     counterManager.addPassengerToQueue(passenger);
                 } catch (InterruptedException e) {
@@ -59,9 +54,13 @@ public class Simulation {
                     throw new RuntimeException(e);
                 }
             });
+            threads.add(thread);
+            thread.start(); // Start the thread
         }
 
-        executor.shutdown();
-        executor.awaitTermination(1, TimeUnit.HOURS); // Wait for all tasks to be completed
+        // Wait for all threads to complete
+        for (Thread thread : threads) {
+            thread.join();
+        }
     }
 }

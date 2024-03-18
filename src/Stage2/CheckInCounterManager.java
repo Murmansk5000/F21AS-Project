@@ -72,7 +72,7 @@ public class CheckInCounterManager {
             return;
         }
         int counterId = calculateCounterId(isVIP);
-        CheckInCounter newCounter = new CheckInCounter(counterId, isVIP ? vipQueue.dequeue() : regularQueue.dequeue(), isVIP);
+        CheckInCounter newCounter = new CheckInCounter(counterId, isVIP ? vipQueue: regularQueue, isVIP);
         newCounter.start();
         counters.add(newCounter);
 //        System.out.println("Open and started a new " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterId);

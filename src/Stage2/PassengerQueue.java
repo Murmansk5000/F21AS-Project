@@ -2,35 +2,37 @@ package Stage2;
 
 import Stage1.Passenger;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class PassengerQueue implements Subject{
-    private final ConcurrentLinkedQueue<Passenger> queue;
+public class PassengerQueue implements Subject {
+    private final Queue<Passenger> queue = new LinkedList<>();
     private List<Observer> observers = new ArrayList<>();
 
-    // 实现 Subject 接口的方法
     @Override
     public void registerObserver(Observer observer) {
-        observers.add(observer);
+        synchronized (observers) {
+            observers.add(observer);
+        }
     }
 
     @Override
     public void removeObserver(Observer observer) {
-        observers.remove(observer);
+        synchronized (observers) {
+            observers.remove(observer);
+        }
     }
 
     @Override
     public void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update();
+        synchronized (observers) {
+            for (Observer observer : observers) {
+                observer.update();
+            }
         }
     }
 
     public PassengerQueue() {
-        this.queue = new ConcurrentLinkedQueue<>();
     }
 
     /**
@@ -39,8 +41,10 @@ public class PassengerQueue implements Subject{
      * @param passenger The passenger to be added.
      */
     public void enqueue(Passenger passenger) {
-        queue.offer(passenger);
-        notifyObservers();
+        synchronized (this.queue) {
+            queue.offer(passenger);
+            notifyObservers();
+        }
     }
 
     /**
@@ -49,9 +53,11 @@ public class PassengerQueue implements Subject{
      * @return The passenger at the front of the queue, or null if the queue is empty.
      */
     public Passenger dequeue() {
-        Passenger passenger = queue.poll();
-        notifyObservers();
-        return passenger;
+        synchronized (this.queue) {
+            Passenger passenger = queue.poll();
+            notifyObservers();
+            return passenger;
+        }
     }
 
     /**
@@ -60,7 +66,9 @@ public class PassengerQueue implements Subject{
      * @return True if the queue is empty, false otherwise.
      */
     public boolean isEmpty() {
-        return queue.isEmpty();
+        synchronized (this.queue) {
+            return queue.isEmpty();
+        }
     }
 
     /**
@@ -69,19 +77,17 @@ public class PassengerQueue implements Subject{
      * @return The number of passengers in the queue.
      */
     public int size() {
-        return queue.size();
+        synchronized (this.queue) {
+            return queue.size();
+        }
     }
 
-    /**
-     * Simply return the internal queue object.
-     */
-    public ConcurrentLinkedQueue<Passenger> getQueue() {
-        return queue;
+    public Iterable<Passenger> getQueue() {
+        synchronized (this.queue) {
+            return new LinkedList<>(queue); // Return a copy to avoid concurrent modification
+        }
     }
-
-
     public Iterator<Passenger> iterator() {
         return this.getQueue().iterator();
     }
-
 }

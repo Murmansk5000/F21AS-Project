@@ -9,7 +9,7 @@ import static Stage1.GenerateData.random;
 
 public class CheckInCounter extends Thread {
     private final int counterId;
-    private final Passenger passenger;
+    private final PassengerQueue queue; // Shared queue among all counters
     private final boolean isVIP;
     private volatile boolean running = true;
 
@@ -17,12 +17,12 @@ public class CheckInCounter extends Thread {
      * Constructs a CheckInCounter with specified ID, passenger queue, and VIP status.
      *
      * @param counterId Unique ID for the counter.
-     * @param passenger Passengers for this counter.
+     * @param queue     Passengers queue for this counter.
      * @param isVIP     True if it's a VIP counter, false otherwise.
      */
-    public CheckInCounter(int counterId, Passenger passenger, boolean isVIP) {
+    public CheckInCounter(int counterId, PassengerQueue queue, boolean isVIP) {
         this.counterId = counterId;
-        this.passenger = passenger;
+        this.queue = queue;
         this.isVIP = isVIP;
     }
 
@@ -33,7 +33,15 @@ public class CheckInCounter extends Thread {
     @Override
     public void run() {
         while (running) {
+
             try {
+                Passenger passenger = null;
+                // Synchronized block to ensure thread-safe access to the queue
+                synchronized (queue) {
+                    if (!queue.isEmpty()) {
+                        passenger = queue.dequeue(); // dequeue the next passenger
+                    }
+                }
                 if (passenger != null) {
 //                    System.out.println((isVIP ? "VIP" : "Regular") + " Counter " + counterId + " is processing passenger " + passenger.getRefCode());
                     processPassenger(passenger);
@@ -49,6 +57,7 @@ public class CheckInCounter extends Thread {
                 }
             } catch (InterruptedException e) {
                 System.out.println("Counter " + counterId + " interrupted.");
+                Thread.currentThread().interrupt();
             } catch (AllExceptions.NumberErrorException e) {
                 throw new RuntimeException(e);
             }
@@ -69,8 +78,7 @@ public class CheckInCounter extends Thread {
         if (verifyPassenger(passenger)) {
             handleBaggage(passenger.getHisBaggageList());
             passenger.setIfCheck(true);
-            System.out.println((passenger.isVIP() ? "VIP " : "Regular ") + "passenger " +
-                    passenger.getRefCode() + " with the baggage of " + passenger.getHisBaggageList().toString() +
+            System.out.println("Passenger " + passenger.getRefCode() + " with the baggage of " + passenger.getHisBaggageList().toString() +
                     "has successfully checked in at counter "+this.counterId+".");
         } else {
             System.out.println("Passenger verification failed for: " + passenger.getRefCode());

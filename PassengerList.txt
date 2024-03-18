@@ -1,4 +1,4 @@
-Reference Code,FirstName,LastName,FlightCode,CheckInStatus
+Reference Code,FirstName,LastName,FlightCode,IsVIP
 B0001,Robert,Lee,IV6518,false
 B0002,Robert,Miller,NE8389,false
 B0003,John,Martinez,NE8389,false
