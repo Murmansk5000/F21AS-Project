@@ -20,6 +20,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
     private JPanel regularMainPanel;
     private PassengerQueue vipQueue;
     private PassengerQueue regularQueue;
+    private JScrollPane scrollPane;
 
     public PassengerQueueGUI(PassengerQueue vipQueue, PassengerQueue regularQueue) {
         this.vipQueue = vipQueue;
@@ -28,7 +29,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         this.regularQueue.registerObserver(this);
         setTitle("Passenger Queue");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1050, 400);
+        setSize(1050, 200);
 
         mainPanel = new JPanel(new BorderLayout());
 
@@ -37,9 +38,20 @@ public class PassengerQueueGUI extends JFrame implements Observer {
 
         // 创建用于存放乘客信息部分的面板
         vipPanel = new JPanel();
-        vipPanel.setLayout(new BoxLayout(vipPanel, BoxLayout.Y_AXIS));
+        vipPanel.setLayout(new GridLayout(20, 1, 10, 10)); // 使用 GridLayout，垂直方向自动扩展
+
         regularPanel = new JPanel();
-        regularPanel.setLayout(new BoxLayout(regularPanel, BoxLayout.Y_AXIS));
+        regularPanel.setLayout(new GridLayout(20,1,10,10));
+
+// 创建 JScrollPane 来包装 vipPanel，以便添加垂直滚动条
+        JScrollPane vipScrollPane = new JScrollPane(vipPanel);
+        vipScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        vipScrollPane.setPreferredSize(new Dimension(400, 400)); // 设置滚动面板大小
+
+// 创建 JScrollPane 来包装 regularPanel，以便添加垂直滚动条
+        JScrollPane regularScrollPane = new JScrollPane(regularPanel);
+        regularScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        regularScrollPane.setPreferredSize(new Dimension(400, 200)); // 设置滚动面板大小
 
         vipMainPanel = new JPanel(new BorderLayout());
         // 创建包含原始头部和 "VIP Queue" 标签的新面板
@@ -50,7 +62,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         vipHeaderPanel.add(createHeaderPanel(), BorderLayout.CENTER); // 原始头部面板位于中心
 
         vipMainPanel.add(vipHeaderPanel, BorderLayout.NORTH);
-        vipMainPanel.add(vipPanel, BorderLayout.CENTER);
+        vipMainPanel.add(vipScrollPane, BorderLayout.CENTER);
 
         regularMainPanel = new JPanel(new BorderLayout());
         JPanel regularHeaderPanel = new JPanel(new BorderLayout());
@@ -60,10 +72,10 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         regularHeaderPanel.add(createHeaderPanel(), BorderLayout.CENTER); // 原始头部面板位于中心
 
         regularMainPanel.add(regularHeaderPanel, BorderLayout.NORTH);
-        regularMainPanel.add(regularPanel, BorderLayout.CENTER);
+        regularMainPanel.add(regularScrollPane, BorderLayout.CENTER);
         // 将抬头部分和乘客信息部分的面板添加到主面板
-        mainPanel.add(vipMainPanel,BorderLayout.WEST);
-        mainPanel.add(regularMainPanel, BorderLayout.EAST);
+        mainPanel.add(vipMainPanel,BorderLayout.EAST);
+        mainPanel.add(regularMainPanel, BorderLayout.WEST);
 
         add(mainPanel);
         setLocationRelativeTo(null); // Center the frame
@@ -114,14 +126,14 @@ public class PassengerQueueGUI extends JFrame implements Observer {
             // 重新加载乘客信息
             Iterator<Passenger> vipIterator = vipQueue.iterator();
             Iterator<Passenger> regularIterator = regularQueue.iterator();
-            for (int i = 0; i < 5 && vipIterator.hasNext(); i++) {
+            for (int i = 0; i < 20 && vipIterator.hasNext(); i++) {
                 Passenger passenger = vipIterator.next();
                 JPanel panel = new JPanel(new GridLayout(1, 4)); // 为每个乘客创建一个面板
 
                 // 根据Passenger对象创建标签
                 JLabel flightCode = new JLabel(passenger.getFlightCode());
-                //flightCode.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // 添加左边距
-                JLabel passengerName = new JLabel(passenger.getLastName());
+                flightCode.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0)); // 添加左边距
+                JLabel passengerName = new JLabel(passenger.getName());
                 JLabel baggageWeight;
                 JLabel baggageVolume;
 
@@ -132,10 +144,14 @@ public class PassengerQueueGUI extends JFrame implements Observer {
                     String volumeFormatted = String.format("%.2f", firstBaggage.getVolume());
 
                     baggageWeight = new JLabel(weightFormatted);
+                    baggageWeight.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
                     baggageVolume = new JLabel(volumeFormatted);
+                    baggageVolume.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
                 } else {
                     baggageWeight = new JLabel("N/A"); // 表示没有行李
+                    baggageWeight.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
                     baggageVolume = new JLabel("N/A");
+                    baggageVolume.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
                 }
 
 
@@ -146,7 +162,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
                 panel.add(baggageVolume);
 
                 vipPanel.add(panel);
-                vipPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
+                vipPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
 
             }
 
@@ -156,8 +172,8 @@ public class PassengerQueueGUI extends JFrame implements Observer {
 
                 // 根据Passenger对象创建标签
                 JLabel flightCode = new JLabel(passenger.getFlightCode());
-                //flightCode.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // 添加左边距
-                JLabel passengerName = new JLabel(passenger.getLastName());
+                flightCode.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0)); // 添加左边距
+                JLabel passengerName = new JLabel(passenger.getName());
                 JLabel baggageWeight;
                 JLabel baggageVolume;
 
@@ -167,10 +183,14 @@ public class PassengerQueueGUI extends JFrame implements Observer {
                     String volumeFormatted = String.format("%.2f", firstBaggage.getVolume());
 
                     baggageWeight = new JLabel(weightFormatted);
+                    baggageWeight.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
                     baggageVolume = new JLabel(volumeFormatted);
+                    baggageVolume.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
                 } else {
                     baggageWeight = new JLabel("N/A"); // 表示没有行李
+                    baggageWeight.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
                     baggageVolume = new JLabel("N/A");
+                    baggageVolume.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
                 }
 
                 // 将标签添加到乘客面板
@@ -180,7 +200,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
                 panel.add(baggageVolume);
 
                 regularPanel.add(panel);
-                regularPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
+                regularPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
                 // 重新绘制 GUI
 
             }

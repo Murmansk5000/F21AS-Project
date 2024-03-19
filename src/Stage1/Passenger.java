@@ -4,6 +4,7 @@ public class Passenger implements Comparable<Passenger> {
     private String referenceCode;
     private String firstName;
     private String lastName;
+    private String Name;
     private String flightCode;
     private boolean ifCheck;
     private BaggageList baggageOfPassenger;
@@ -44,6 +45,9 @@ public class Passenger implements Comparable<Passenger> {
 
     public String getLastName() {
         return lastName;
+    }
+    public String getName(){
+        return firstName+" "+lastName;
     }
 
     public String getFlightCode() {
