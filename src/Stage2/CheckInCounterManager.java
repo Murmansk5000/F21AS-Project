@@ -29,6 +29,7 @@ public class CheckInCounterManager {
         this.createNewCounter(true);  // Id: 0
         this.createNewCounter(false); // Id: 1
         this.createNewCounter(false); // Id: 2
+        SwingUtilities.invokeLater(() -> new PassengerQueueGUI(regularQueue));
         SwingUtilities.invokeLater(() -> new PassengerQueueGUI(vipQueue));
         startMonitoring();
     }
