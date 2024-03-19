@@ -12,6 +12,7 @@ public class Baggage {
     private double width = 0.0;
     private double height = 0.0;
     private double volume = 0.0;
+    private String volumePrint;
 
     public Baggage(double weight, double length, double width, double height) throws AllExceptions.NumberErrorException {
         this.weight = weight;
@@ -93,6 +94,7 @@ public class Baggage {
     public double getVolume() {
         return volume;
     }
+    public String getVolumePrint() {return String.format("%.2f",length)+"*"+String.format("%.2f",width)+"*"+String.format("%.2f",height);}
 
     /**
      * This method check the baggage against predefined weight and size limits.
