@@ -1,19 +1,26 @@
 package Stage1;
 
+import Stage2.GUI.FlightStatusGUI;
+import Stage2.Observer;
+import Stage2.Subject;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class FlightList {
+public class FlightList implements Subject {
     // Storage for an arbitrary number of models.Flight objects.
     private ArrayList<Flight> flightList;
-
+    private List<Observer> observers;
 
     public FlightList() {
+
         flightList = new ArrayList<Flight>();
+        observers = new ArrayList<>();
     }
 
     /**
@@ -49,6 +56,7 @@ public class FlightList {
     }
 
     public ArrayList<Flight> getFlightList() {
+
         return new ArrayList<>(flightList);
     }
 
@@ -85,7 +93,9 @@ public class FlightList {
      * @param flight The models.Flight object to be added.
      */
     public void addFlight(Flight flight) {
+
         flightList.add(flight);
+        notifyObservers();
     }
 
     /**
@@ -97,7 +107,9 @@ public class FlightList {
         int index = findIndex(flightCode);
         if (index != -1) {
             flightList.remove(index);
+            notifyObservers();
         }
+
     }
 
     /**
@@ -150,4 +162,30 @@ public class FlightList {
         }
     }
 
+    public Iterator<Flight> iterator() {
+        return this.getFlightList().iterator();
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+        // 通知 FlightStatusGUI
+        for (Observer observer : observers) {
+            if (observer instanceof FlightStatusGUI) {
+                observer.update();
+            }
+        }
+    }
 }

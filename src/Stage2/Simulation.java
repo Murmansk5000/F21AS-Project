@@ -26,8 +26,10 @@ public class Simulation {
         fltList.addPassengersToFlights(paxList);
 
         // Initialise the counter manager
-        counterManager = new CheckInCounterManager(paxList);
+        counterManager = new CheckInCounterManager(paxList,fltList);
         threads = new ArrayList<>();
+
+
     }
 
     public static void main(String[] args) throws AllExceptions.NoMatchingFlightException, AllExceptions.NumberErrorException, InterruptedException {

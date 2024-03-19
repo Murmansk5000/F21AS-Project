@@ -1,5 +1,6 @@
 package Stage2;
 
+import Stage1.FlightList;
 import Stage1.Passenger;
 import Stage1.PassengerList;
 import Stage2.GUI.FlightStatusGUI;
@@ -21,17 +22,35 @@ public class CheckInCounterManager {
     private List<CheckInCounter> counters; // all counters
     private PassengerQueue vipQueue;
     private PassengerQueue regularQueue;
+    private FlightList flightList;
+    private List<Observer> observers;
 
-    public CheckInCounterManager(PassengerList passengerList) {
+    public CheckInCounterManager(PassengerList passengerList,FlightList flightList) {
         this.counters = new ArrayList<>();
         this.vipQueue = new PassengerQueue();
         this.regularQueue = new PassengerQueue();
+        this.flightList = flightList;
+        this.observers = new ArrayList<>();
         this.createNewCounter(true);  // Id: 0
         this.createNewCounter(false); // Id: 1
         this.createNewCounter(false); // Id: 2
         SwingUtilities.invokeLater(() -> new PassengerQueueGUI(vipQueue, regularQueue));
-        SwingUtilities.invokeLater(() -> new PassengerQueueGUI(vipQueue, regularQueue));
+        SwingUtilities.invokeLater(() -> new FlightStatusGUI(flightList));
         startMonitoring();
+    }
+
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
     }
 
     private void startMonitoring() {

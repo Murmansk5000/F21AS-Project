@@ -29,7 +29,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         this.regularQueue.registerObserver(this);
         setTitle("Passenger Queue");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1250, 200);
+        setSize(1300, 200);
 
         mainPanel = new JPanel(new BorderLayout());
 
@@ -57,7 +57,10 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         // 创建包含原始头部和 "VIP Queue" 标签的新面板
         JPanel vipHeaderPanel = new JPanel(new BorderLayout());
         JLabel vipLabel = new JLabel("VIP Queue");
-        vipLabel.setHorizontalAlignment(SwingConstants.CENTER); // 居中显示 "VIP Queue" 文本
+        Font boldFont = new Font(vipLabel.getFont().getName(), Font.BOLD, (int)(vipLabel.getFont().getSize() * 1.3)); // 将字体大小增大为原来大小的1.5倍
+        vipLabel.setFont(boldFont); // 设置字体为加粗且增大字号
+        vipLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        vipLabel.setForeground(Color.BLACK); // 设置字体颜色为黑色
         vipHeaderPanel.add(vipLabel, BorderLayout.NORTH); // "VIP Queue" 标签位于北部
         vipHeaderPanel.add(createHeaderPanel(), BorderLayout.CENTER); // 原始头部面板位于中心
 
@@ -66,8 +69,9 @@ public class PassengerQueueGUI extends JFrame implements Observer {
 
         regularMainPanel = new JPanel(new BorderLayout());
         JPanel regularHeaderPanel = new JPanel(new BorderLayout());
-        JLabel regularLabel = new JLabel("Regular Queue");
+        JLabel regularLabel = new JLabel("Regular Queue");regularLabel.setFont(boldFont); // 设置字体为加粗且增大字号
         regularLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        regularLabel.setForeground(Color.BLACK); // 设置字体颜色为黑色
         regularHeaderPanel.add(regularLabel, BorderLayout.NORTH);
         regularHeaderPanel.add(createHeaderPanel(), BorderLayout.CENTER); // 原始头部面板位于中心
 
@@ -96,22 +100,6 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         headerPanel.add(BaggageWeightLabel);
         headerPanel.add(BaggageVolumeLabel);
         return headerPanel;
-    }
-
-
-    @Override
-    public void registerObserver(Observer observer) {
-
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
-
-    }
-
-    @Override
-    public void notifyObservers() {
-
     }
 
     @Override
