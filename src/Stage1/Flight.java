@@ -1,6 +1,12 @@
 package Stage1;
 
-public class Flight implements Comparable<Flight> {
+import Stage2.Observer;
+import Stage2.Subject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Flight implements Comparable<Flight>, Subject {
 
     private String flightCode;
     private String destination;
@@ -10,6 +16,8 @@ public class Flight implements Comparable<Flight> {
     private double maxBaggageWeight;
     private BaggageList baggageInFlight;
     private PassengerList passengerInFlight;
+    private List<Observer> observers;
+
 
     /**
      * Construct a new models.Flight with the specified details. All provided information is used
@@ -32,6 +40,7 @@ public class Flight implements Comparable<Flight> {
 
         this.passengerInFlight = new PassengerList();
         this.baggageInFlight = new BaggageList();
+        this.observers = new ArrayList<>();
     }
 
     // Getter methods
@@ -64,8 +73,26 @@ public class Flight implements Comparable<Flight> {
     }
 
     public PassengerList getPassengerInFlight() {
+        notifyObservers();
         return passengerInFlight;
     }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+
 
     /**
      * Determines if the flight can take off based on passengers and their baggage.

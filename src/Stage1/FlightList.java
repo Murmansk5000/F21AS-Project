@@ -181,11 +181,5 @@ public class FlightList implements Subject {
         for (Observer observer : observers) {
             observer.update();
         }
-        // 通知 FlightStatusGUI
-        for (Observer observer : observers) {
-            if (observer instanceof FlightStatusGUI) {
-                observer.update();
-            }
-        }
     }
 }
