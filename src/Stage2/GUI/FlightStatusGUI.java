@@ -92,4 +92,5 @@ public class FlightStatusGUI extends JFrame implements Observer{
             mainPanel.repaint();
         });
     }
+
 }

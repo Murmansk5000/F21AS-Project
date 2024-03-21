@@ -197,11 +197,11 @@ public class PassengerQueueGUI extends JFrame implements Observer {
             mainPanel.repaint();
         });
     }
+
+
 //    public static void main(String[] args) {
-//        // 创建 PassengerQueue 实例
 //        PassengerQueue passengerQueue = new PassengerQueue();
 //
-//        // 使用 SwingUtilities.invokeLater 来确保 GUI 更新在正确的线程上执行
 //        SwingUtilities.invokeLater(() -> new PassengerQueueGUI(passengerQueue));
 //    }
     }

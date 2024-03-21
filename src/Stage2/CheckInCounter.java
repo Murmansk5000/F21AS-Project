@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CheckInCounter extends Thread {
+public class CheckInCounter extends Thread implements Observer {
     private final int counterId;
     private final PassengerQueue queue; // Shared queue among all counters
+    private Passenger currentPassenger;
     private final boolean isVIP;
-    private volatile boolean running = true;
+    private volatile boolean running;
     private FlightList fltList;
-    private List<Observer> observers = new ArrayList<>();
+    private List<Observer> observers;
 
     /**
      * Constructs a CheckInCounter with specified ID, passenger queue, and VIP status.
@@ -26,6 +27,14 @@ public class CheckInCounter extends Thread {
         this.queue = queue;
         this.isVIP = isVIP;
         this.fltList = fltList;
+        running = true;
+        observers = new ArrayList<>();
+        currentPassenger = null;
+    }
+
+    @Override
+    public void update() {
+
     }
 
     public void registerObserver(Observer observer) {
@@ -51,22 +60,21 @@ public class CheckInCounter extends Thread {
         while (running) {
 
             try {
-                Passenger passenger = null;
                 // Synchronized block to ensure thread-safe access to the queue
                 synchronized (queue) {
                     if (!queue.isEmpty()) {
-                        passenger = queue.dequeue(); // dequeue the next passenger
+                        currentPassenger = queue.dequeue(); // dequeue the next currentPassenger
                     }
                 }
-                if (passenger != null) {
-//                    System.out.println((isVIP ? "VIP" : "Regular") + " Counter " + counterId + " is processing passenger " + passenger.getRefCode());
-                    processPassenger(passenger);
+                if (currentPassenger != null) {
+//                    System.out.println((isVIP ? "VIP" : "Regular") + " Counter " + counterId + " is processing currentPassenger " + currentPassenger.getRefCode());
+                    processPassenger(currentPassenger);
 
                     // random time for process
                     int processTime = 4000;//5000 + random.nextInt(9000);
                     Thread.sleep(processTime);
 
-//                    System.out.println("Passenger " + passenger.getRefCode() + " has been processed by " + (isVIP ? "VIP" : "Regular") + " Counter " + counterId);
+//                    System.out.println("Passenger " + currentPassenger.getRefCode() + " has been processed by " + (isVIP ? "VIP" : "Regular") + " Counter " + counterId);
                 } else {
                     // wait for passengers
                     Thread.sleep(1000);
@@ -144,4 +152,9 @@ public class CheckInCounter extends Thread {
     public int getCounterId() {
         return this.counterId;
     }
+
+    public Passenger getCurrentPassenger(){
+        return  currentPassenger;
+    }
+
 }
