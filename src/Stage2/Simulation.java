@@ -1,10 +1,13 @@
 package Stage2;
 
 import Stage1.AllExceptions;
+import Stage1.Flight;
 import Stage1.FlightList;
 import Stage1.Passenger;
 import Stage1.PassengerList;
 
+import java.time.Instant;
+import java.time.Duration;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,7 +18,8 @@ public class Simulation {
     private static PassengerList paxList;
     private static FlightList fltList;
     private static CheckInCounterManager counterManager;
-    private List<Thread> threads;
+    private Instant startTime; // Record the time when the programme starts running
+    // private List<Thread> threads;
 
     public Simulation() throws AllExceptions.NoMatchingFlightException {
         // Initialise passenger and flight lists
@@ -25,11 +29,10 @@ public class Simulation {
         fltList.loadFlightsFromTXT(FLIGHT_DATA_FILE);
         fltList.addPassengersToFlights(paxList);
 
+        this.startTime = Instant.now();
         // Initialise the counter manager
         counterManager = new CheckInCounterManager(paxList,fltList);
-        threads = new ArrayList<>();
-
-
+        // threads = new ArrayList<>();
     }
 
     public static void main(String[] args) throws AllExceptions.NoMatchingFlightException, AllExceptions.NumberErrorException, InterruptedException {
@@ -37,32 +40,59 @@ public class Simulation {
         simulation.startSimulation();
     }
 
-    public void startSimulation() throws AllExceptions.NumberErrorException, InterruptedException {
-        Random random = new Random();
-
-        for (Passenger passenger : paxList.getPassengers()) {
-            Thread thread = new Thread(() -> {
+    private void passengerProcessing(){
+        new Thread(() -> {
+            // System.out.println(Thread.currentThread().getName() + " is now running.");
+            Random random = new Random();
+            for (Passenger passenger : paxList.getPassengers()) {
                 try {
-                    // Random time of arrival of simulated passengers at the airport
-                    int arrivalDelay = random.nextInt(100) * 1000; // convert to milliseconds
+                    int arrivalDelay = random.nextInt(100) * 10; // Random time of arrival at the airport in milliseconds
                     Thread.sleep(arrivalDelay);
-
-                    // Assign passengers to the appropriate queue
                     passenger.addRandomBaggage();
                     counterManager.addPassengerToQueue(passenger);
+                    // System.out.println(Thread.currentThread().getName() + " is performing work.");
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 } catch (AllExceptions.NumberErrorException e) {
                     throw new RuntimeException(e);
                 }
-            });
-            threads.add(thread);
-            thread.start(); // Start the thread
-        }
+            }
+        }).start();
+    }
 
-        // Wait for all threads to complete
-        for (Thread thread : threads) {
-            thread.join();
+    private void monitorFlightTakeoff() {
+        new Thread(() -> {
+            boolean allFlightsTakenOff = false;
+            while (!allFlightsTakenOff) {
+                updateFlightTakeoffStatus();
+                // Check if all flights have departed
+                allFlightsTakenOff = fltList.getFlightList().stream().allMatch(Flight::getIsTakenOff);
+                if (allFlightsTakenOff) {
+                    System.out.println("All flights have taken off.");
+                    break;
+                }
+                try {
+                    Thread.sleep(1000); // Check flight departure status every second
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+            }
+        }).start();
+    }
+
+    private void updateFlightTakeoffStatus() {
+        long elapsedTimeInMinutes = Duration.between(startTime, Instant.now()).toMinutes();
+        for (Flight flight : fltList.getFlightList()) {
+            if (!flight.getIsTakenOff() && elapsedTimeInMinutes >= flight.getTakeOffTime()) {
+                flight.fly();
+                System.out.println("Flight " + flight.getFlightCode() + " has now taken off.");
+            }
         }
+    }
+
+    public void startSimulation() throws AllExceptions.NumberErrorException, InterruptedException {
+        passengerProcessing();
+        monitorFlightTakeoff();
     }
 }

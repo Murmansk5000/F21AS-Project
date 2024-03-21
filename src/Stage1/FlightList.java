@@ -1,6 +1,5 @@
 package Stage1;
 
-import Stage2.GUI.FlightStatusGUI;
 import Stage2.Observer;
 import Stage2.Subject;
 
@@ -44,7 +43,8 @@ public class FlightList implements Subject {
                         data[2], // Carrier
                         Integer.parseInt(data[3]), // MaxPassengers
                         Double.parseDouble(data[4].trim()), // MaxBaggageWeight
-                        Double.parseDouble(data[5].trim()) // MaxBaggageVolume
+                        Double.parseDouble(data[5].trim()), // MaxBaggageVolume
+                        Integer.parseInt(data[6].trim()) // TakeOffTime
                 );
                 this.flightList.add(flight);
             }

@@ -379,7 +379,7 @@ public class GUI extends JFrame {
         }
 
         private static void removeBaggage() {
-            // Assume selectedPassenger is the currently selected Passenger object
+            // SelectedPassenger is the currently selected Passenger object
             if (selectedPassenger != null && selectedPassenger.getHisBaggageList() != null) {
                 selectedPassenger.getHisBaggageList().clear();
                 JOptionPane.showMessageDialog(null, "All baggage has been cleared.", "Baggage Cleared", JOptionPane.INFORMATION_MESSAGE);
@@ -590,7 +590,7 @@ public class GUI extends JFrame {
             JButton finishButton = new JButton("Finish");
             finishButton.addActionListener(e ->
             {
-                selectedPassenger.setIfCheck(true);
+                selectedPassenger.checkIn();
                 this.dispose();
                 GUI gui = new GUI(passengerList, flightList);
                 gui.FlightCheckInGUI();

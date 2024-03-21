@@ -12,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.time.Instant;
 
-public class CheckInCounterManager {
+public class CheckInCounterManager implements Observer {
     private final int OPEN_THRESHOLD = 15; // Setting the threshold for adding counters
     private final int CLOSE_THRESHOLD = 10; //Setting the threshold for deleting counters
     private final int MAX_VIP_COUNTER = 3;
@@ -27,6 +28,9 @@ public class CheckInCounterManager {
     private Flight flight;
     private List<Observer> observers;
 
+    private FlightStatusGUI flightStatusGUI;
+    private PassengerQueueGUI passengerQueueGUI;
+
     public CheckInCounterManager(PassengerList passengerList,FlightList flightList) {
         this.counters = new ArrayList<>();
         this.vipQueue = new PassengerQueue();
@@ -37,8 +41,8 @@ public class CheckInCounterManager {
         this.createNewCounter(true);  // Id: 0
         this.createNewCounter(false); // Id: 1
         this.createNewCounter(false); // Id: 2
-        SwingUtilities.invokeLater(() -> new PassengerQueueGUI(vipQueue, regularQueue));
-        SwingUtilities.invokeLater(() -> new FlightStatusGUI(flightList,flight));
+        passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
+        flightStatusGUI = new FlightStatusGUI(flightList, flight);
         startMonitoring();
     }
 
@@ -54,6 +58,18 @@ public class CheckInCounterManager {
         for (Observer observer : observers) {
             observer.update();
         }
+    }
+    @Override
+    public void update() {
+        // 当航班信息被更新时，执行以下代码来刷新航班状态GUI
+        if (flightStatusGUI != null) {
+            SwingUtilities.invokeLater(() -> {
+                flightStatusGUI.update(); // 假设你的FlightStatusGUI有一个refresh方法来更新显示
+            });
+        }
+        SwingUtilities.invokeLater(() -> {
+            passengerQueueGUI.update();
+        });
     }
 
     private void startMonitoring() {
@@ -95,7 +111,8 @@ public class CheckInCounterManager {
             return;
         }
         int counterId = calculateCounterId(isVIP);
-        CheckInCounter newCounter = new CheckInCounter(counterId, isVIP ? vipQueue: regularQueue, isVIP);
+        CheckInCounter newCounter = new CheckInCounter(counterId, isVIP ? vipQueue : regularQueue, isVIP, flightList);
+        newCounter.registerObserver(this);
         newCounter.start();
         counters.add(newCounter);
 //        System.out.println("Open and started a new " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterId);
@@ -132,7 +149,7 @@ public class CheckInCounterManager {
 
     public synchronized void deleteCounter(boolean isVIP) {
         if (!canCloseCounter(isVIP)) {
-            System.out.println("Cannot close " + (isVIP ? "VIP" : "Regular") + " counter.");
+            // System.out.println("Cannot close " + (isVIP ? "VIP" : "Regular") + " counter.");
             return;
         }
         CheckInCounter counterToClose = null;
@@ -204,7 +221,7 @@ public class CheckInCounterManager {
         }
     }
 
-    public void addPassengerToQueue(Passenger passenger) {
+    public synchronized void addPassengerToQueue(Passenger passenger) {
         if (passenger.isVIP()) {
             vipQueue.enqueue(passenger);
         } else {
@@ -218,7 +235,6 @@ public class CheckInCounterManager {
         }
         counters.clear();
     }
-
 
     public int getOpenCount(boolean isVIP) {
         int count = 0;

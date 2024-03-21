@@ -16,6 +16,8 @@ public class Flight implements Comparable<Flight>, Subject {
     private double maxBaggageWeight;
     private BaggageList baggageInFlight;
     private PassengerList passengerInFlight;
+    private int takeOffTime;
+    private boolean isTakenOff;
     private List<Observer> observers;
 
 
@@ -30,14 +32,15 @@ public class Flight implements Comparable<Flight>, Subject {
      * @param maxBaggageVolume The maximum volume of baggage allowed on the flight.
      * @param maxBaggageWeight The maximum weight of baggage allowed on the flight.
      */
-    public Flight(String flightCode, String destination, String carrier, int maxPassengers, double maxBaggageWeight, double maxBaggageVolume) {
+    public Flight(String flightCode, String destination, String carrier, int maxPassengers, double maxBaggageWeight, double maxBaggageVolume, int takeOffTime) {
         this.flightCode = flightCode.trim();
         this.destination = destination.trim();
         this.carrier = carrier.trim();
         this.maxPassengers = maxPassengers;
         this.maxBaggageVolume = maxBaggageVolume;
         this.maxBaggageWeight = maxBaggageWeight;
-
+        this.takeOffTime = takeOffTime;
+        this.isTakenOff = false;
         this.passengerInFlight = new PassengerList();
         this.baggageInFlight = new BaggageList();
         this.observers = new ArrayList<>();
@@ -66,6 +69,12 @@ public class Flight implements Comparable<Flight>, Subject {
 
     public double getMaxBaggageWeight() {
         return maxBaggageWeight;
+    }
+    public int getTakeOffTime() {
+        return takeOffTime;
+    }
+    public boolean getIsTakenOff() {
+        return isTakenOff;
     }
 
     public BaggageList getBaggageInFlight() {
@@ -148,6 +157,7 @@ public class Flight implements Comparable<Flight>, Subject {
     }
 
     public void fly() {
+        this.isTakenOff=true;
         System.out.println(this.flightCode + " fly.");
     }
 

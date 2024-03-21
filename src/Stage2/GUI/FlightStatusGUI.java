@@ -1,6 +1,5 @@
 package Stage2.GUI;
 
-import Stage1.Baggage;
 import Stage1.Flight;
 import Stage1.FlightList;
 import Stage1.Passenger;
@@ -59,19 +58,20 @@ public class FlightStatusGUI extends JFrame implements Observer{
 
             for (int i = 0; i < 10 && flightIterator.hasNext(); i++) {
                 Flight flight1 = flightIterator.next();
-                JPanel panel = new JPanel(); // 为每个乘客创建一个面板
+                JPanel panel = new JPanel();
                 panel.setLayout(new GridLayout(3, 1, 10, 10));
                 panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
                 // 根据Flight对象创建标签
-                JLabel flightCode = new JLabel(flight1.getFlightCode()+" "+flight1.getDestination());
+                JLabel flightCode = new JLabel(flight1.getFlightCode()+" "+flight1.getCarrier());
                 Font boldFont1 = new Font(flightCode.getFont().getName(), Font.BOLD, (int)(flightCode.getFont().getSize() * 1.1)); // 将字体大小增大为原来大小的1.5倍
                 flightCode.setFont(boldFont1); // 设置字体为加粗且增大字号
                 flightCode.setHorizontalAlignment(SwingConstants.CENTER);
                 flightCode.setForeground(Color.BLACK); // 设置字体颜色为黑色
                 //flightCode.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0)); // 添加左边距
 
-                JLabel checkIn = new JLabel((int)flight1.getPassengerInFlight().checkInSize()+" checked in of "+(int)flight1.getPassengerInFlight().size());
+                JLabel checkIn = new JLabel(flight1.getPassengerInFlight().checkInSize()+" checked in of "+ flight1.getPassengerInFlight().size());
+
                 checkIn.setHorizontalAlignment(SwingConstants.CENTER);
                 double percentage = ((double)flight1.getPassengerInFlight().checkInSize() / (double)flight1.getPassengerInFlight().size() * 100.0);
                 String per = String.format("%.2f", percentage);

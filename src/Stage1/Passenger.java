@@ -4,7 +4,6 @@ public class Passenger implements Comparable<Passenger> {
     private String referenceCode;
     private String firstName;
     private String lastName;
-    private String Name;
     private String flightCode;
     private boolean ifCheck;
     private BaggageList baggageOfPassenger;
@@ -58,8 +57,8 @@ public class Passenger implements Comparable<Passenger> {
         return ifCheck;
     }
 
-    public void setIfCheck(boolean ifCheck) {
-        this.ifCheck = ifCheck;
+    public void checkIn() {
+        this.ifCheck = true;
     }
 
     /**
