@@ -2,8 +2,8 @@ package Stage2.GUI;
 
 import Stage1.Flight;
 import Stage1.FlightList;
-import Stage1.Passenger;
 import Stage2.Observer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
@@ -92,5 +92,7 @@ public class FlightStatusGUI extends JFrame implements Observer{
             mainPanel.repaint();
         });
     }
-
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
 }

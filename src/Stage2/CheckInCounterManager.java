@@ -6,6 +6,7 @@ import Stage1.Passenger;
 import Stage1.PassengerList;
 import Stage2.GUI.CheckInCounterGUI;
 import Stage2.GUI.FlightStatusGUI;
+import Stage2.GUI.GUI;
 import Stage2.GUI.PassengerQueueGUI;
 
 import javax.swing.*;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.time.Instant;
 
 public class CheckInCounterManager implements Observer {
     private final int OPEN_THRESHOLD = 15; // Setting the threshold for adding counters
@@ -33,6 +33,8 @@ public class CheckInCounterManager implements Observer {
     private PassengerQueueGUI passengerQueueGUI;
     private CheckInCounterGUI checkInCounterGUI;
 
+    private GUI gui;
+
     public CheckInCounterManager(PassengerList passengerList,FlightList flightList) {
         this.counters = new ArrayList<>();
         this.vipQueue = new PassengerQueue();
@@ -43,9 +45,13 @@ public class CheckInCounterManager implements Observer {
         this.createNewCounter(true);  // Id: 0
         this.createNewCounter(false); // Id: 1
         this.createNewCounter(false); // Id: 2
-        passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
-        flightStatusGUI = new FlightStatusGUI(flightList, flight);
-        checkInCounterGUI = new CheckInCounterGUI(counters);
+        this.passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
+        this.checkInCounterGUI = new CheckInCounterGUI(counters);
+        this.flightStatusGUI = new FlightStatusGUI(flightList, flight);
+//        passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
+//        flightStatusGUI = new FlightStatusGUI(flightList, flight);
+//        checkInCounterGUI = new CheckInCounterGUI(counters);
+        this.gui = new GUI(passengerQueueGUI, checkInCounterGUI, flightStatusGUI);
         startMonitoring();
     }
 

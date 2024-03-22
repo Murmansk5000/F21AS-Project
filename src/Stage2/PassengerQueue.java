@@ -61,15 +61,19 @@ public class PassengerQueue implements Subject {
             return queue.size();
         }
     }
-
+    public Passenger peek() {
+        synchronized (this.queue) {
+            return queue.peek();
+        }
+    }
     public Iterable<Passenger> getQueue() {
         synchronized (this.queue) {
             return new LinkedList<>(queue); // Return a copy to avoid concurrent modification
         }
-    }
-    public Iterator<Passenger> iterator() {
+    }public Iterator<Passenger> iterator() {
         return this.getQueue().iterator();
     }
+
 
     @Override
     public void registerObserver(Observer observer) {
@@ -93,4 +97,6 @@ public class PassengerQueue implements Subject {
             }
         }
     }
+
+
 }

@@ -107,11 +107,11 @@ public class CheckInCounter extends Thread implements Observer {
         // The flight has not departed.
         if (fltList.findByCode(flightCode) != null && !fltList.findByCode(flightCode).getIsTakenOff()) {
             if (verifyPassenger(passenger)) {
-                handleBaggage(passenger.getHisBaggageList());
+                handleBaggage(passenger.getTheBaggageList());
                 passenger.checkIn();
                 fltList.findByCode(flightCode).getPassengerInFlight().findByRefCode(passenger.getRefCode()).checkIn();
-                fltList.findByCode(flightCode).getPassengerInFlight().findByRefCode(passenger.getRefCode()).setBaggageList(passenger.getHisBaggageList());
-                System.out.println("Passenger " + passenger.getRefCode() + " with the baggage of " + passenger.getHisBaggageList().toString() +
+                fltList.findByCode(flightCode).getPassengerInFlight().findByRefCode(passenger.getRefCode()).setBaggageList(passenger.getTheBaggageList());
+                System.out.println("Passenger " + passenger.getRefCode() + " with the baggage of " + passenger.getTheBaggageList().toString() +
                         "has successfully checked in at counter " + this.counterId + ".");
             } else {
                 System.out.println("Passenger verification failed for: " + passenger.getRefCode());

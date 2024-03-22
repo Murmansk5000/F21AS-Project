@@ -22,8 +22,8 @@ public class CheckInCounterGUI extends JFrame implements Observer {
 
         mainPanel = new JPanel(new GridLayout(1, 2));
 
-        allVipPanel = new JPanel(new GridLayout(0, 1, 10, 10));
-        allRegularPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        allVipPanel = new JPanel(new GridLayout(1, 0, 10, 10));
+        allRegularPanel = new JPanel(new GridLayout(1, 0, 10, 10));
 
         initCounterPanels();
 
@@ -33,14 +33,15 @@ public class CheckInCounterGUI extends JFrame implements Observer {
     }
 
     private void initCounterPanels() {
-        JPanel vipMainPanel = createMainPanel("VIP Counter");
         JPanel regularMainPanel = createMainPanel("Regular Counter");
+        JPanel vipMainPanel = createMainPanel("VIP Counter");
 
-        vipMainPanel.add(new JScrollPane(allVipPanel), BorderLayout.CENTER);
         regularMainPanel.add(new JScrollPane(allRegularPanel), BorderLayout.CENTER);
+        vipMainPanel.add(new JScrollPane(allVipPanel), BorderLayout.CENTER);
 
-        mainPanel.add(vipMainPanel);
         mainPanel.add(regularMainPanel);
+        mainPanel.add(vipMainPanel);
+
     }
 
     private JPanel createMainPanel(String title) {
@@ -83,7 +84,12 @@ public class CheckInCounterGUI extends JFrame implements Observer {
         Passenger passenger = counter.getCurrentPassenger();
         if (passenger != null) {
             JLabel passengerNameLabel = new JLabel("Passenger: " + passenger.getName());
+            String weight = String.format("%.2f", passenger.getTheBaggageList().getTotalWeight());
+            JLabel passengerBaggage = new JLabel("Baggage: " + weight);
+            JLabel baggageFee = new JLabel("Fee: "+ passenger.getTheBaggageList().getTotalFee());
             panel.add(passengerNameLabel);
+            panel.add(passengerBaggage);
+            panel.add(baggageFee);
         } else {
             JLabel noPassengerLabel = new JLabel("No current passenger");
             panel.add(noPassengerLabel);
@@ -92,5 +98,7 @@ public class CheckInCounterGUI extends JFrame implements Observer {
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return panel;
     }
-
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
 }
