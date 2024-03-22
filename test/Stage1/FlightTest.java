@@ -11,7 +11,7 @@ class FlightTest {
 
     @BeforeEach
     void setUp() {
-        flight = new Flight("FL123", "New York", "AirTest", 5, 50.0, 100.0,10);
+        flight = new Flight("FL123", "New York", "AirTest", 5, 50.0, 100.0, 10);
         flight.addPassenger(new Passenger("B0501", "John", "Doe", "VD7018", false));
     }
 

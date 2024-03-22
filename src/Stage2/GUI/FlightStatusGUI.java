@@ -2,13 +2,13 @@ package Stage2.GUI;
 
 import Stage1.Flight;
 import Stage1.FlightList;
-import Stage1.Passenger;
 import Stage2.Observer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 
-public class FlightStatusGUI extends JFrame implements Observer{
+public class FlightStatusGUI extends JFrame implements Observer {
     private JPanel mainPanel;
     private JPanel flightPanels;
     private FlightList flightList;
@@ -26,7 +26,7 @@ public class FlightStatusGUI extends JFrame implements Observer{
         mainPanel = new JPanel(new GridLayout(3, 1)); // Arrange flight panels horizontally
 
         JLabel headerLabel = new JLabel("Flight Status");
-        Font boldFont = new Font(headerLabel.getFont().getName(), Font.BOLD, (int)(headerLabel.getFont().getSize() * 1.3)); // 将字体大小增大为原来大小的1.5倍
+        Font boldFont = new Font(headerLabel.getFont().getName(), Font.BOLD, (int) (headerLabel.getFont().getSize() * 1.3)); // 将字体大小增大为原来大小的1.5倍
         headerLabel.setFont(boldFont); // 设置字体为加粗且增大字号
         headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         headerLabel.setForeground(Color.BLACK); // 设置字体颜色为黑色
@@ -63,17 +63,17 @@ public class FlightStatusGUI extends JFrame implements Observer{
                 panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
                 // 根据Flight对象创建标签
-                JLabel flightCode = new JLabel(flight1.getFlightCode()+" "+flight1.getCarrier());
-                Font boldFont1 = new Font(flightCode.getFont().getName(), Font.BOLD, (int)(flightCode.getFont().getSize() * 1.1)); // 将字体大小增大为原来大小的1.5倍
+                JLabel flightCode = new JLabel(flight1.getFlightCode() + " " + flight1.getCarrier());
+                Font boldFont1 = new Font(flightCode.getFont().getName(), Font.BOLD, (int) (flightCode.getFont().getSize() * 1.1)); // 将字体大小增大为原来大小的1.5倍
                 flightCode.setFont(boldFont1); // 设置字体为加粗且增大字号
                 flightCode.setHorizontalAlignment(SwingConstants.CENTER);
                 flightCode.setForeground(Color.BLACK); // 设置字体颜色为黑色
                 //flightCode.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0)); // 添加左边距
 
-                JLabel checkIn = new JLabel(flight1.getPassengerInFlight().checkInSize()+" checked in of "+ flight1.getPassengerInFlight().size());
+                JLabel checkIn = new JLabel(flight1.getPassengerInFlight().checkInSize() + " checked in of " + flight1.getPassengerInFlight().size());
 
                 checkIn.setHorizontalAlignment(SwingConstants.CENTER);
-                double percentage = ((double)flight1.getPassengerInFlight().checkInSize() / (double)flight1.getPassengerInFlight().size() * 100.0);
+                double percentage = ((double) flight1.getPassengerInFlight().checkInSize() / (double) flight1.getPassengerInFlight().size() * 100.0);
                 String per = String.format("%.2f", percentage);
 //                System.out.println("0000"+flight.getPassengerInFlight().checkInSize());
                 JLabel percentageLabel = new JLabel("Hold is " + per + "% full");

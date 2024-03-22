@@ -3,7 +3,6 @@ package Stage2;
 import Stage1.Passenger;
 
 import java.util.*;
-import java.util.List;
 
 public class PassengerQueue implements Subject {
     private final Queue<Passenger> queue = new LinkedList<>();
@@ -67,6 +66,7 @@ public class PassengerQueue implements Subject {
             return new LinkedList<>(queue); // Return a copy to avoid concurrent modification
         }
     }
+
     public Iterator<Passenger> iterator() {
         return this.getQueue().iterator();
     }

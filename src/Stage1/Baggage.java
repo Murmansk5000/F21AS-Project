@@ -94,7 +94,10 @@ public class Baggage {
     public double getVolume() {
         return volume;
     }
-    public String getVolumePrint() {return String.format("%.2f",length)+"*"+String.format("%.2f",width)+"*"+String.format("%.2f",height);}
+
+    public String getVolumePrint() {
+        return String.format("%.2f", length) + "*" + String.format("%.2f", width) + "*" + String.format("%.2f", height);
+    }
 
     /**
      * This method check the baggage against predefined weight and size limits.

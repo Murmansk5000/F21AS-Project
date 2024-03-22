@@ -70,9 +70,11 @@ public class Flight implements Comparable<Flight>, Subject {
     public double getMaxBaggageWeight() {
         return maxBaggageWeight;
     }
+
     public int getTakeOffTime() {
         return takeOffTime;
     }
+
     public boolean getIsTakenOff() {
         return isTakenOff;
     }
@@ -157,7 +159,7 @@ public class Flight implements Comparable<Flight>, Subject {
     }
 
     public void fly() {
-        if(!this.getIsTakenOff()) {
+        if (!this.getIsTakenOff()) {
             this.isTakenOff = true;
             System.out.println(this.flightCode + " fly.");
         }

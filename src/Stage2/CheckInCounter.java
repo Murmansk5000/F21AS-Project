@@ -9,8 +9,8 @@ import java.util.List;
 public class CheckInCounter extends Thread implements Observer {
     private final int counterId;
     private final PassengerQueue queue; // Shared queue among all counters
-    private Passenger currentPassenger;
     private final boolean isVIP;
+    private Passenger currentPassenger;
     private volatile boolean running;
     private FlightList fltList;
     private List<Observer> observers;
@@ -64,6 +64,8 @@ public class CheckInCounter extends Thread implements Observer {
                 synchronized (queue) {
                     if (!queue.isEmpty()) {
                         currentPassenger = queue.dequeue(); // dequeue the next currentPassenger
+                    } else {
+                        currentPassenger = null;
                     }
                 }
                 if (currentPassenger != null) {
@@ -71,22 +73,19 @@ public class CheckInCounter extends Thread implements Observer {
                     processPassenger(currentPassenger);
 
                     // random time for process
-                    int processTime = 4000;//5000 + random.nextInt(9000);
+                    int processTime = 100;//5000 + random.nextInt(9000);
                     Thread.sleep(processTime);
 
 //                    System.out.println("Passenger " + currentPassenger.getRefCode() + " has been processed by " + (isVIP ? "VIP" : "Regular") + " Counter " + counterId);
                 } else {
                     // wait for passengers
-                    Thread.sleep(1000);
+                    Thread.sleep(10000);
                 }
             } catch (InterruptedException e) {
                 System.out.println("Counter " + counterId + " interrupted.");
                 Thread.currentThread().interrupt();
-            } catch (AllExceptions.NumberErrorException e) {
-                throw new RuntimeException(e);
-            } catch (AllExceptions.NoMatchingFlightException e) {
-                throw new RuntimeException(e);
-            } catch (AllExceptions.NoMatchingRefException e) {
+            } catch (AllExceptions.NumberErrorException | AllExceptions.NoMatchingFlightException |
+                     AllExceptions.NoMatchingRefException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -124,6 +123,7 @@ public class CheckInCounter extends Thread implements Observer {
         notifyObservers();
         return true;
     }
+
     private boolean verifyPassenger(Passenger passenger) {
         return passenger.getFlightCode() != null;
     }
@@ -142,6 +142,7 @@ public class CheckInCounter extends Thread implements Observer {
     }
 
     public void shutdown() {
+        currentPassenger = null;
         running = false;
     }
 
@@ -153,8 +154,8 @@ public class CheckInCounter extends Thread implements Observer {
         return this.counterId;
     }
 
-    public Passenger getCurrentPassenger(){
-        return  currentPassenger;
+    public Passenger getCurrentPassenger() {
+        return currentPassenger;
     }
 
 }

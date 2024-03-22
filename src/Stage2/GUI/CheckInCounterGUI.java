@@ -66,7 +66,7 @@ public class CheckInCounterGUI extends JFrame implements Observer {
         parentPanel.removeAll();
 
         for (CheckInCounter counter : counters) {
-            if (counter.isVIP() == isVip) {
+            if (counter.isVIP() == isVip && counter.getStatus()) {
                 JPanel counterPanel = createCounterPanel(counter);
                 parentPanel.add(counterPanel);
             }

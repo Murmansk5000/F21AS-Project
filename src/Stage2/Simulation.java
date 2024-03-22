@@ -1,15 +1,11 @@
 package Stage2;
 
-import Stage1.AllExceptions;
-import Stage1.Flight;
-import Stage1.FlightList;
-import Stage1.Passenger;
-import Stage1.PassengerList;
+import Stage1.*;
 
-import java.time.Instant;
 import java.time.Duration;
-import java.util.List;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Simulation {
@@ -31,7 +27,7 @@ public class Simulation {
 
         this.startTime = Instant.now();
         // Initialise the counter manager
-        counterManager = new CheckInCounterManager(paxList,fltList);
+        counterManager = new CheckInCounterManager(paxList, fltList);
         // threads = new ArrayList<>();
     }
 
@@ -50,7 +46,7 @@ public class Simulation {
                     int randomIndex = random.nextInt(passengerListCopy.size());
                     // Get the passenger at the random index
                     Passenger passenger = passengerListCopy.get(randomIndex);
-                    int arrivalDelay = random.nextInt(100) * 10;
+                    int arrivalDelay = random.nextInt(10) * 1;
                     Thread.sleep(arrivalDelay);
                     passenger.addRandomBaggage();
                     counterManager.addPassengerToQueue(passenger);

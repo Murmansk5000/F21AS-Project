@@ -1,13 +1,11 @@
 package Stage2;
 
-import Stage1.AllExceptions;
+import Stage1.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import Stage1.Passenger;
-import Stage1.PassengerList;
-import Stage1.Flight;
-import Stage1.FlightList;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FlightTest {
     private FlightList flightList;

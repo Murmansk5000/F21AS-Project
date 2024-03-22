@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.time.Instant;
 
 public class CheckInCounterManager implements Observer {
     private final int OPEN_THRESHOLD = 15; // Setting the threshold for adding counters
@@ -33,18 +32,20 @@ public class CheckInCounterManager implements Observer {
     private PassengerQueueGUI passengerQueueGUI;
     private CheckInCounterGUI checkInCounterGUI;
 
-    public CheckInCounterManager(PassengerList passengerList,FlightList flightList) {
+    public CheckInCounterManager(PassengerList passengerList, FlightList flightList) {
         this.counters = new ArrayList<>();
         this.vipQueue = new PassengerQueue();
         this.regularQueue = new PassengerQueue();
         this.flightList = flightList;
         this.flight = flight;
         this.observers = new ArrayList<>();
-        this.createNewCounter(true);  // Id: 0
-        this.createNewCounter(false); // Id: 1
+
         passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
         flightStatusGUI = new FlightStatusGUI(flightList, flight);
         checkInCounterGUI = new CheckInCounterGUI(counters);
+
+//        this.createNewCounter(true);  // Id: 0
+//        this.createNewCounter(false); // Id: 1
         startMonitoring();
     }
 
@@ -61,6 +62,7 @@ public class CheckInCounterManager implements Observer {
             observer.update();
         }
     }
+
     @Override
     public void update() {
         if (flightStatusGUI != null) {
@@ -85,7 +87,7 @@ public class CheckInCounterManager implements Observer {
             public void run() {
                 checkAndAdjustCounters();
             }
-        }, 0, 5000); // Checks queue length every 5 seconds and adjusts the number of counters
+        }, 0, 500); // Checks queue length every 5 seconds and adjusts the number of counters
     }
 
     private boolean counterIdExists(int counterId) {
@@ -97,19 +99,6 @@ public class CheckInCounterManager implements Observer {
         return false;
     }
 
-    public boolean reopenCounter(boolean isVIP) {
-        // Try to find an existing closed counter
-//        for (CheckInCounter counter : counters) {
-//            if (counter.isVIP() == isVIP && !counter.getStatus()) {
-//                // Found a matching closed counter. Reopen it.
-//                counter.open(); // Assumes start() also sets the counter's state to open.
-//                System.out.println("Reopened an existing " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counter.getCounterId());
-//                return true; // Exit the method as we've successfully reopened a counter.
-//            }
-//        }
-        // If not find an existing closed counter, return false
-        return false;
-    }
 
     private void createNewCounter(boolean isVIP) {
         if (!canCreateCounter(isVIP)) {
@@ -138,13 +127,6 @@ public class CheckInCounterManager implements Observer {
         return counterId;
     }
 
-    public void activateCounter(boolean isVIP) {
-        if (!reopenCounter(isVIP)) {
-            // If no closed counter was reopened, try to create a new one.
-            createNewCounter(isVIP);
-        }
-    }
-
 
     /**
      * Removes a VIP or regular counter if conditions allow.
@@ -153,7 +135,7 @@ public class CheckInCounterManager implements Observer {
      * @param isVIP True to remove a VIP counter, false for a regular counter.
      */
 
-    public synchronized void deleteCounter(boolean isVIP) {
+    public synchronized void closeCounter(boolean isVIP) {
         if (!canCloseCounter(isVIP)) {
             // System.out.println("Cannot close " + (isVIP ? "VIP" : "Regular") + " counter.");
             return;
@@ -200,14 +182,15 @@ public class CheckInCounterManager implements Observer {
         if (countersToAdjust > 0) {
             // Need more counters.
             for (int i = 0; i < countersToAdjust; i++) {
-                activateCounter(isVIP);
+                createNewCounter(isVIP);
             }
         } else if (countersToAdjust < 0) {
             // Too many counters are open; try to close some.
             for (int i = countersToAdjust; i < 0; i++) {
-                deleteCounter(isVIP);
+                closeCounter(isVIP);
             }
         }
+        update();
     }
 
 

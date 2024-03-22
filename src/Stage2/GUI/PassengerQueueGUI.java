@@ -41,7 +41,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         vipPanel.setLayout(new GridLayout(20, 1, 10, 10)); // 使用 GridLayout，垂直方向自动扩展
 
         regularPanel = new JPanel();
-        regularPanel.setLayout(new GridLayout(20,1,10,10));
+        regularPanel.setLayout(new GridLayout(20, 1, 10, 10));
 
 // 创建 JScrollPane 来包装 vipPanel，以便添加垂直滚动条
         JScrollPane vipScrollPane = new JScrollPane(vipPanel);
@@ -57,7 +57,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         // 创建包含原始头部和 "VIP Queue" 标签的新面板
         JPanel vipHeaderPanel = new JPanel(new BorderLayout());
         JLabel vipLabel = new JLabel("VIP Queue");
-        Font boldFont = new Font(vipLabel.getFont().getName(), Font.BOLD, (int)(vipLabel.getFont().getSize() * 1.3)); // 将字体大小增大为原来大小的1.5倍
+        Font boldFont = new Font(vipLabel.getFont().getName(), Font.BOLD, (int) (vipLabel.getFont().getSize() * 1.3)); // 将字体大小增大为原来大小的1.5倍
         vipLabel.setFont(boldFont); // 设置字体为加粗且增大字号
         vipLabel.setHorizontalAlignment(SwingConstants.CENTER);
         vipLabel.setForeground(Color.BLACK); // 设置字体颜色为黑色
@@ -69,7 +69,8 @@ public class PassengerQueueGUI extends JFrame implements Observer {
 
         regularMainPanel = new JPanel(new BorderLayout());
         JPanel regularHeaderPanel = new JPanel(new BorderLayout());
-        JLabel regularLabel = new JLabel("Regular Queue");regularLabel.setFont(boldFont); // 设置字体为加粗且增大字号
+        JLabel regularLabel = new JLabel("Regular Queue");
+        regularLabel.setFont(boldFont); // 设置字体为加粗且增大字号
         regularLabel.setHorizontalAlignment(SwingConstants.CENTER);
         regularLabel.setForeground(Color.BLACK); // 设置字体颜色为黑色
         regularHeaderPanel.add(regularLabel, BorderLayout.NORTH);
@@ -78,7 +79,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         regularMainPanel.add(regularHeaderPanel, BorderLayout.NORTH);
         regularMainPanel.add(regularScrollPane, BorderLayout.CENTER);
         // 将抬头部分和乘客信息部分的面板添加到主面板
-        mainPanel.add(vipMainPanel,BorderLayout.EAST);
+        mainPanel.add(vipMainPanel, BorderLayout.EAST);
         mainPanel.add(regularMainPanel, BorderLayout.WEST);
 
         add(mainPanel);
@@ -204,4 +205,4 @@ public class PassengerQueueGUI extends JFrame implements Observer {
 //
 //        SwingUtilities.invokeLater(() -> new PassengerQueueGUI(passengerQueue));
 //    }
-    }
+}
