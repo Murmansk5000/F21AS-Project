@@ -23,17 +23,24 @@ public class FlightStatusGUI extends JFrame implements Observer{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300, 300);
 
-        mainPanel = new JPanel(new GridLayout(3, 1)); // Arrange flight panels horizontally
+        mainPanel = new JPanel(new GridBagLayout()); // 使用GridBagLayout
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
 
         JLabel headerLabel = new JLabel("Flight Status");
-        Font boldFont = new Font(headerLabel.getFont().getName(), Font.BOLD, (int)(headerLabel.getFont().getSize() * 1.3)); // 将字体大小增大为原来大小的1.5倍
-        headerLabel.setFont(boldFont); // 设置字体为加粗且增大字号
+        Font boldFont = new Font(headerLabel.getFont().getName(), Font.BOLD, (int) (headerLabel.getFont().getSize() * 1.3));
+        headerLabel.setFont(boldFont);
         headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        headerLabel.setForeground(Color.BLACK); // 设置字体颜色为黑色
-        flightPanels = new JPanel();
-        flightPanels.setLayout(new GridLayout(1, 10, 10, 10));
-        mainPanel.add(headerLabel);
-        mainPanel.add(flightPanels);
+        headerLabel.setForeground(Color.BLACK);
+        mainPanel.add(headerLabel, gbc);
+
+        flightPanels = new JPanel(new GridLayout(2, 5, 10, 10));
+        gbc.gridy = 1;
+        mainPanel.add(flightPanels, gbc);
 
         // Add main panel to frame
         add(mainPanel);
