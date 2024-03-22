@@ -40,25 +40,32 @@ public class Simulation {
         simulation.startSimulation();
     }
 
-    private void passengerProcessing(){
+    private void passengerProcessing() {
         new Thread(() -> {
-            // System.out.println(Thread.currentThread().getName() + " is now running.");
             Random random = new Random();
-            for (Passenger passenger : paxList.getPassengers()) {
+            // Create a copy of the passenger list to work with
+            List<Passenger> passengerListCopy = new ArrayList<>(paxList.getPassengers());
+            while (!passengerListCopy.isEmpty()) {
                 try {
-                    int arrivalDelay = random.nextInt(100) * 10; // Random time of arrival at the airport in milliseconds
+                    int randomIndex = random.nextInt(passengerListCopy.size());
+                    // Get the passenger at the random index
+                    Passenger passenger = passengerListCopy.get(randomIndex);
+                    int arrivalDelay = random.nextInt(100) * 10;
                     Thread.sleep(arrivalDelay);
                     passenger.addRandomBaggage();
                     counterManager.addPassengerToQueue(passenger);
-                    // System.out.println(Thread.currentThread().getName() + " is performing work.");
+                    // Remove the processed passenger from the list to avoid reprocessing
+                    passengerListCopy.remove(randomIndex);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                    return;
                 } catch (AllExceptions.NumberErrorException e) {
                     throw new RuntimeException(e);
                 }
             }
         }).start();
     }
+
 
     private void monitorFlightTakeoff() {
         new Thread(() -> {

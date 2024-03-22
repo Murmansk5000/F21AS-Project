@@ -59,7 +59,7 @@ public class FlightStatusGUI extends JFrame implements Observer{
             for (int i = 0; i < 10 && flightIterator.hasNext(); i++) {
                 Flight flight1 = flightIterator.next();
                 JPanel panel = new JPanel();
-                panel.setLayout(new GridLayout(3, 1, 10, 10));
+                panel.setLayout(new GridLayout(4, 1, 10, 10));
                 panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
                 // 根据Flight对象创建标签
@@ -79,13 +79,17 @@ public class FlightStatusGUI extends JFrame implements Observer{
                 JLabel percentageLabel = new JLabel("Hold is " + per + "% full");
                 percentageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-                // 将标签添加到乘客面板
+                // 根据isTakenOff参数更新航班起飞状态标签
+                String departureStatus = flight1.getIsTakenOff() ? "Flight has departed" : "Flight not departed";
+                JLabel departureStatusLabel = new JLabel(departureStatus);
+                departureStatusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
                 panel.add(flightCode);
                 panel.add(checkIn);
                 panel.add(percentageLabel);
+                panel.add(departureStatusLabel);
 
                 flightPanels.add(panel);
-
             }
 
             mainPanel.revalidate();

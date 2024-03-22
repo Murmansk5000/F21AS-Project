@@ -157,8 +157,10 @@ public class Flight implements Comparable<Flight>, Subject {
     }
 
     public void fly() {
-        this.isTakenOff=true;
-        System.out.println(this.flightCode + " fly.");
+        if(!this.getIsTakenOff()) {
+            this.isTakenOff = true;
+            System.out.println(this.flightCode + " fly.");
+        }
     }
 
     @Override

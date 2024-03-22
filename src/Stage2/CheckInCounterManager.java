@@ -42,7 +42,6 @@ public class CheckInCounterManager implements Observer {
         this.observers = new ArrayList<>();
         this.createNewCounter(true);  // Id: 0
         this.createNewCounter(false); // Id: 1
-        this.createNewCounter(false); // Id: 2
         passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
         flightStatusGUI = new FlightStatusGUI(flightList, flight);
         checkInCounterGUI = new CheckInCounterGUI(counters);
@@ -64,10 +63,9 @@ public class CheckInCounterManager implements Observer {
     }
     @Override
     public void update() {
-        // 当航班信息被更新时，执行以下代码来刷新航班状态GUI
         if (flightStatusGUI != null) {
             SwingUtilities.invokeLater(() -> {
-                flightStatusGUI.update(); // 假设你的FlightStatusGUI有一个refresh方法来更新显示
+                flightStatusGUI.update();
             });
         }
         SwingUtilities.invokeLater(() -> {
