@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 public class BaggageList {
     private static final double BASE_FEE = 0.0;
-    private final double weightLimit = 40;
-    private final double totalWeightLimit = 40; // 40 kg weight limit
+    private final double totalWeightLimit = 15; // 15 kg weight limit
     private final double excessWeightFee = 50; // Charge per kg for weight over the limit
     public double totalWeight;
     public double totalFee;
@@ -56,7 +55,7 @@ public class BaggageList {
     }
 
     public double getWeightLimit() {
-        return weightLimit;
+        return totalWeightLimit;
     }
 
     /**

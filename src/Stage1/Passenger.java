@@ -87,7 +87,7 @@ public class Passenger implements Comparable<Passenger> {
      *
      * @return The BaggageList belonging to the passenger.
      */
-    public BaggageList getHisBaggageList() {
+    public BaggageList getTheBaggageList() {
         return this.baggageOfPassenger;
     }
 
@@ -101,7 +101,7 @@ public class Passenger implements Comparable<Passenger> {
     }
 
     public void addRandomBaggage() throws AllExceptions.NumberErrorException {
-        this.getHisBaggageList().addBaggage(BaggageFactory.generateRandomBaggage());
+        this.getTheBaggageList().addBaggage(BaggageFactory.generateRandomBaggage());
     }
 
 

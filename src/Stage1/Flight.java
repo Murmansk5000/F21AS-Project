@@ -146,7 +146,7 @@ public class Flight implements Comparable<Flight>, Subject {
         // Iterate over each passenger in the flight
         for (Passenger passenger : this.getPassengerInFlight().getPassengers()) {
             // Assume each passenger has a method to return their baggage list
-            BaggageList passengerBaggageList = passenger.getHisBaggageList();
+            BaggageList passengerBaggageList = passenger.getTheBaggageList();
             // Iterate over each baggage of the passenger and add it to the flight
             for (Baggage baggage : passengerBaggageList.getBaggageList()) {
                 this.addBaggageToFlight(baggage);

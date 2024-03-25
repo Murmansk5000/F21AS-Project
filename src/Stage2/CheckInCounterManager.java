@@ -4,9 +4,7 @@ import Stage1.Flight;
 import Stage1.FlightList;
 import Stage1.Passenger;
 import Stage1.PassengerList;
-import Stage2.GUI.CheckInCounterGUI;
-import Stage2.GUI.FlightStatusGUI;
-import Stage2.GUI.PassengerQueueGUI;
+import Stage2.GUI.GUI;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -28,24 +26,19 @@ public class CheckInCounterManager implements Observer {
     private Flight flight;
     private List<Observer> observers;
 
-    private FlightStatusGUI flightStatusGUI;
-    private PassengerQueueGUI passengerQueueGUI;
-    private CheckInCounterGUI checkInCounterGUI;
 
-    public CheckInCounterManager(PassengerList passengerList, FlightList flightList) {
+    private GUI gui;
+
+    public CheckInCounterManager(PassengerList passengerList,FlightList flightList) {
         this.counters = new ArrayList<>();
         this.vipQueue = new PassengerQueue();
         this.regularQueue = new PassengerQueue();
         this.flightList = flightList;
-        this.flight = flight;
         this.observers = new ArrayList<>();
-
-        passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
-        flightStatusGUI = new FlightStatusGUI(flightList, flight);
-        checkInCounterGUI = new CheckInCounterGUI(counters);
-
-//        this.createNewCounter(true);  // Id: 0
-//        this.createNewCounter(false); // Id: 1
+        this.createNewCounter(true);  // Id: 0
+        this.createNewCounter(false); // Id: 1
+//        this.createNewCounter(false); // Id: 2
+        this.gui = new GUI(vipQueue, regularQueue, counters, flightList);
         startMonitoring();
     }
 
@@ -62,21 +55,13 @@ public class CheckInCounterManager implements Observer {
             observer.update();
         }
     }
-
     @Override
     public void update() {
-        if (flightStatusGUI != null) {
+        if (gui != null) {
             SwingUtilities.invokeLater(() -> {
-                flightStatusGUI.update();
+                gui.update();
             });
         }
-        SwingUtilities.invokeLater(() -> {
-            passengerQueueGUI.update();
-        });
-
-        SwingUtilities.invokeLater(() -> {
-            checkInCounterGUI.update();
-        });
     }
 
 
