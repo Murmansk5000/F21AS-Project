@@ -29,7 +29,7 @@ public class CheckInCounterGUI extends JFrame implements Observer {
 
         add(mainPanel);
         setLocationRelativeTo(null);
-        setVisible(true);
+//        setVisible(true);
     }
 
     private void initCounterPanels() {
@@ -86,7 +86,8 @@ public class CheckInCounterGUI extends JFrame implements Observer {
             JLabel passengerNameLabel = new JLabel("Passenger: " + passenger.getName());
             String weight = String.format("%.2f", passenger.getTheBaggageList().getTotalWeight());
             JLabel passengerBaggage = new JLabel("Baggage: " + weight);
-            JLabel baggageFee = new JLabel("Fee: "+ passenger.getTheBaggageList().getTotalFee());
+            String fee = String.format("%.2f", passenger.getTheBaggageList().getTotalFee());
+            JLabel baggageFee = new JLabel("Fee: " + fee);
             panel.add(passengerNameLabel);
             panel.add(passengerBaggage);
             panel.add(baggageFee);

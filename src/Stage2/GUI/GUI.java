@@ -1,15 +1,28 @@
 package Stage2.GUI;
 
+import Stage1.FlightList;
+import Stage2.CheckInCounter;
+import Stage2.PassengerQueue;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class GUI extends JFrame {
     private JPanel mainPanel;
+    PassengerQueueGUI passengerQueueGUI;
+    CheckInCounterGUI checkInCounterGUI;
+    FlightStatusGUI flightStatusGUI;
 
-    public GUI(PassengerQueueGUI passengerQueueGUI, CheckInCounterGUI checkInCounterGUI, FlightStatusGUI flightStatusGUI) {
+    public GUI(PassengerQueue vipQueue, PassengerQueue regularQueue, List<CheckInCounter> checkInCounter, FlightList flightList) {
         setTitle("Merged GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300, 800);
+
+        passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
+        checkInCounterGUI = new CheckInCounterGUI(checkInCounter);
+        flightStatusGUI = new FlightStatusGUI(flightList);
+
 
         mainPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -39,5 +52,25 @@ public class GUI extends JFrame {
         add(mainPanel);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public void update() {
+        if (passengerQueueGUI != null) {
+            SwingUtilities.invokeLater(() -> {
+                passengerQueueGUI.update();
+            });
+        }
+        if (checkInCounterGUI != null) {
+            SwingUtilities.invokeLater(() -> {
+                checkInCounterGUI.update();
+            });
+        }
+        if (flightStatusGUI != null) {
+            SwingUtilities.invokeLater(() -> {
+                flightStatusGUI.update();
+            });
+        }
+
+
     }
 }

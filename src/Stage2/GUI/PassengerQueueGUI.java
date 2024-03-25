@@ -83,7 +83,7 @@ public class PassengerQueueGUI extends JFrame implements Observer {
 
         add(mainPanel);
         setLocationRelativeTo(null); // Center the frame
-        setVisible(true);
+//        setVisible(true);
     }
 
     private JPanel createHeaderPanel() {

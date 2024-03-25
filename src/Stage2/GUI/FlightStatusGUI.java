@@ -12,12 +12,10 @@ public class FlightStatusGUI extends JFrame implements Observer{
     private JPanel mainPanel;
     private JPanel flightPanels;
     private FlightList flightList;
-    private Flight flight;
 
-    public FlightStatusGUI(FlightList flightList, Flight flight) {
+    public FlightStatusGUI(FlightList flightList) {
         this.flightList = flightList;
         this.flightList.registerObserver(this);
-        this.flight = flight;
 
         setTitle("Flight Status");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,7 +44,7 @@ public class FlightStatusGUI extends JFrame implements Observer{
         add(mainPanel);
 
         setLocationRelativeTo(null); // Center the frame
-        setVisible(true);
+//        setVisible(true);
 
         update();
 

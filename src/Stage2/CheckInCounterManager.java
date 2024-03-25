@@ -4,10 +4,7 @@ import Stage1.Flight;
 import Stage1.FlightList;
 import Stage1.Passenger;
 import Stage1.PassengerList;
-import Stage2.GUI.CheckInCounterGUI;
-import Stage2.GUI.FlightStatusGUI;
 import Stage2.GUI.GUI;
-import Stage2.GUI.PassengerQueueGUI;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -29,9 +26,6 @@ public class CheckInCounterManager implements Observer {
     private Flight flight;
     private List<Observer> observers;
 
-    private FlightStatusGUI flightStatusGUI;
-    private PassengerQueueGUI passengerQueueGUI;
-    private CheckInCounterGUI checkInCounterGUI;
 
     private GUI gui;
 
@@ -40,18 +34,11 @@ public class CheckInCounterManager implements Observer {
         this.vipQueue = new PassengerQueue();
         this.regularQueue = new PassengerQueue();
         this.flightList = flightList;
-        this.flight = flight;
         this.observers = new ArrayList<>();
         this.createNewCounter(true);  // Id: 0
         this.createNewCounter(false); // Id: 1
-        this.createNewCounter(false); // Id: 2
-        this.passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
-        this.checkInCounterGUI = new CheckInCounterGUI(counters);
-        this.flightStatusGUI = new FlightStatusGUI(flightList, flight);
-//        passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
-//        flightStatusGUI = new FlightStatusGUI(flightList, flight);
-//        checkInCounterGUI = new CheckInCounterGUI(counters);
-        this.gui = new GUI(passengerQueueGUI, checkInCounterGUI, flightStatusGUI);
+//        this.createNewCounter(false); // Id: 2
+        this.gui = new GUI(vipQueue, regularQueue, counters, flightList);
         startMonitoring();
     }
 
@@ -70,19 +57,11 @@ public class CheckInCounterManager implements Observer {
     }
     @Override
     public void update() {
-        // 当航班信息被更新时，执行以下代码来刷新航班状态GUI
-        if (flightStatusGUI != null) {
+        if (gui != null) {
             SwingUtilities.invokeLater(() -> {
-                flightStatusGUI.update(); // 假设你的FlightStatusGUI有一个refresh方法来更新显示
+                gui.update();
             });
         }
-        SwingUtilities.invokeLater(() -> {
-            passengerQueueGUI.update();
-        });
-
-        SwingUtilities.invokeLater(() -> {
-            checkInCounterGUI.update();
-        });
     }
 
 
