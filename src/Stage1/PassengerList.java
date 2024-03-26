@@ -1,5 +1,7 @@
 package Stage1;
 
+import Stage2.Log;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -45,6 +47,7 @@ public class PassengerList {
         } catch (IOException e) {
             e.printStackTrace(); // Consider more sophisticated error handling or logging
         }
+        Log.getLog("Passengers information file has been loaded.");
     }
 
 

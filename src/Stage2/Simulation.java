@@ -47,6 +47,7 @@ public class Simulation {
                     counterManager.addPassengerToQueue(passenger);
                     // Remove the processed passenger from the list to avoid reprocessing
                     passengerListCopy.remove(randomIndex);
+                    Log.getLog("New passenger has been added to a queue.");
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     return;
@@ -69,6 +70,12 @@ public class Simulation {
                         allFlightsTakenOff = false;
                         break;
                     }
+                // Check if all flights have departed
+                allFlightsTakenOff = fltList.getFlightList().stream().allMatch(Flight::getIsTakenOff);
+                if (allFlightsTakenOff) {
+                    System.out.println("All flights have taken off.");
+                    Log.getLog("No flight waiting.");
+                    break;
                 }
                 if (!allFlightsTakenOff) {
                     try {
@@ -79,8 +86,9 @@ public class Simulation {
                     }
                 }
             } while (!allFlightsTakenOff); // 只要有航班未起飞就继续循环
+                Log.getLog("No flight waiting.");
 
-            System.out.println("All flights have now taken off.");
+                System.out.println("All flights have now taken off.");
         }).start();
 
     }
