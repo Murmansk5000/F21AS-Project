@@ -40,7 +40,7 @@ class FlightTest {
     @Test
     void testCannotCheckInAfterFlightTakeoff() throws AllExceptions.NoMatchingFlightException, AllExceptions.NoMatchingRefException, AllExceptions.NumberErrorException {
         // The flight has taken off
-        flight.fly();
+        flight.takeOff();
         assertTrue(flight.getIsTakenOff(), "Flight should have taken off.");
         // Try to check-in for a flight after departure
         assertFalse(checkInCounter.processPassenger(passenger), "Passenger should not be able to check");

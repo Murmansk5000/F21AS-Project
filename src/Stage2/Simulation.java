@@ -2,7 +2,6 @@ package Stage2;
 
 import Stage1.*;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +13,6 @@ public class Simulation {
     private static PassengerList paxList;
     private static FlightList fltList;
     private static CheckInCounterManager counterManager;
-    private Instant startTime; // Record the time when the programme starts running
-    // private List<Thread> threads;
 
     public Simulation() throws AllExceptions.NoMatchingFlightException {
         // Initialise passenger and flight lists
@@ -24,8 +21,6 @@ public class Simulation {
         paxList.loadPassengersFromTXT(PASSENGER_DATA_FILE);
         fltList.loadFlightsFromTXT(FLIGHT_DATA_FILE);
         fltList.addPassengersToFlights(paxList);
-
-        this.startTime = Instant.now();
         // Initialise the counter manager
         counterManager = new CheckInCounterManager(paxList, fltList);
         // threads = new ArrayList<>();
@@ -46,7 +41,7 @@ public class Simulation {
                     int randomIndex = random.nextInt(passengerListCopy.size());
                     // Get the passenger at the random index
                     Passenger passenger = passengerListCopy.get(randomIndex);
-                    int arrivalDelay = random.nextInt(10) * 1;
+                    int arrivalDelay = random.nextInt(10) * 10;
                     Thread.sleep(arrivalDelay);
                     passenger.addRandomBaggage();
                     counterManager.addPassengerToQueue(passenger);
@@ -65,34 +60,42 @@ public class Simulation {
 
     private void monitorFlightTakeoff() {
         new Thread(() -> {
-            boolean allFlightsTakenOff = false;
-            while (!allFlightsTakenOff) {
+            boolean allFlightsTakenOff;
+            do {
                 updateFlightTakeoffStatus();
-                // Check if all flights have departed
-                allFlightsTakenOff = fltList.getFlightList().stream().allMatch(Flight::getIsTakenOff);
-                if (allFlightsTakenOff) {
-                    System.out.println("All flights have taken off.");
-                    break;
+                allFlightsTakenOff = true;
+                for (Flight flight : fltList.getFlightList()) {
+                    if (!flight.getIsTakenOff()) {
+                        allFlightsTakenOff = false;
+                        break;
+                    }
                 }
-                try {
-                    Thread.sleep(1000); // Check flight departure status every second
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    return;
+                if (!allFlightsTakenOff) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
                 }
-            }
+            } while (!allFlightsTakenOff); // 只要有航班未起飞就继续循环
+
+            System.out.println("All flights have now taken off.");
         }).start();
+
     }
 
+
     private void updateFlightTakeoffStatus() {
-        long elapsedTimeInMinutes = Duration.between(startTime, Instant.now()).toMinutes();
+        Instant now = Instant.now();
         for (Flight flight : fltList.getFlightList()) {
-            if (!flight.getIsTakenOff() && elapsedTimeInMinutes >= flight.getTakeOffTime()) {
-                flight.fly();
+            if (!flight.getIsTakenOff() && !now.isBefore(flight.getTakeOffInstant())) {
+                flight.takeOff();
                 System.out.println("Flight " + flight.getFlightCode() + " has now taken off.");
             }
         }
     }
+
 
     public void startSimulation() throws AllExceptions.NumberErrorException, InterruptedException {
         passengerProcessing();

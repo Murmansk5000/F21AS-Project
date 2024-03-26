@@ -30,8 +30,8 @@ class FlightTest {
     @Test
     void canTakeOffUnderLimitsByPassenger() {
         try {
-            flight.getPassengerInFlight().findByRefCode("B0501").getTheBaggageList().addBaggage(new Baggage(10.0, 2.0, 2.0, 2.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getTheBaggageList().addBaggage(new Baggage(5.0, 1.0, 1.0, 5.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(10.0, 2.0, 2.0, 2.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(5.0, 1.0, 1.0, 5.0));
             flight.addAllBaggageToFlight();
             assertTrue(flight.canTakeOff(), "Flight should be able to take off when under limits");
         } catch (AllExceptions.NumberErrorException e) {
@@ -55,9 +55,9 @@ class FlightTest {
     @Test
     void cannotTakeOffDueToExcessBaggageWeight() {
         try {
-            flight.getPassengerInFlight().findByRefCode("B0501").getTheBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getTheBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getTheBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(20.0, 20.0, 20.0, 20.0));
             flight.addAllBaggageToFlight();
             assertFalse(flight.canTakeOff(), "Flight should be able to take off when under limits");
         } catch (AllExceptions.NumberErrorException e) {
@@ -71,9 +71,9 @@ class FlightTest {
     @Test
     void cannotTakeOffDueToExcessBaggageVolumeByPassenger() {
         try {
-            flight.getPassengerInFlight().findByRefCode("B0501").getTheBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getTheBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
-            flight.getPassengerInFlight().findByRefCode("B0501").getTheBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
+            flight.getPassengerInFlight().findByRefCode("B0501").getHisBaggageList().addBaggage(new Baggage(10.0, 50.0, 50.0, 50.0));
             flight.addAllBaggageToFlight();
             assertFalse(flight.canTakeOff(), "Flight should be able to take off when under limits");
         } catch (AllExceptions.NumberErrorException e) {

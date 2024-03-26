@@ -3,11 +3,15 @@ package Stage1;
 import Stage2.Observer;
 import Stage2.Subject;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Flight implements Comparable<Flight>, Subject {
 
+    Instant startTime;
+    Instant takeOffInstant;
     private String flightCode;
     private String destination;
     private String carrier;
@@ -16,7 +20,6 @@ public class Flight implements Comparable<Flight>, Subject {
     private double maxBaggageWeight;
     private BaggageList baggageInFlight;
     private PassengerList passengerInFlight;
-    private int takeOffTime;
     private boolean isTakenOff;
     private List<Observer> observers;
 
@@ -39,11 +42,13 @@ public class Flight implements Comparable<Flight>, Subject {
         this.maxPassengers = maxPassengers;
         this.maxBaggageVolume = maxBaggageVolume;
         this.maxBaggageWeight = maxBaggageWeight;
-        this.takeOffTime = takeOffTime;
         this.isTakenOff = false;
         this.passengerInFlight = new PassengerList();
         this.baggageInFlight = new BaggageList();
         this.observers = new ArrayList<>();
+        this.startTime = Instant.now();
+        this.takeOffInstant = startTime.plus(Duration.ofMinutes(takeOffTime));
+
     }
 
     // Getter methods
@@ -71,8 +76,8 @@ public class Flight implements Comparable<Flight>, Subject {
         return maxBaggageWeight;
     }
 
-    public int getTakeOffTime() {
-        return takeOffTime;
+    public Instant getTakeOffInstant() {
+        return takeOffInstant;
     }
 
     public boolean getIsTakenOff() {
@@ -146,7 +151,7 @@ public class Flight implements Comparable<Flight>, Subject {
         // Iterate over each passenger in the flight
         for (Passenger passenger : this.getPassengerInFlight().getPassengers()) {
             // Assume each passenger has a method to return their baggage list
-            BaggageList passengerBaggageList = passenger.getTheBaggageList();
+            BaggageList passengerBaggageList = passenger.getHisBaggageList();
             // Iterate over each baggage of the passenger and add it to the flight
             for (Baggage baggage : passengerBaggageList.getBaggageList()) {
                 this.addBaggageToFlight(baggage);
@@ -158,7 +163,7 @@ public class Flight implements Comparable<Flight>, Subject {
         this.getBaggageInFlight().calculateTotalFee();
     }
 
-    public void fly() {
+    public void takeOff() {
         if (!this.getIsTakenOff()) {
             this.isTakenOff = true;
             System.out.println(this.flightCode + " fly.");

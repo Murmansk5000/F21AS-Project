@@ -10,8 +10,7 @@ import java.awt.*;
 import java.util.Iterator;
 
 
-public class PassengerQueueGUI extends JFrame implements Observer {
-    private JPanel mainPanel;
+public class PassengerQueueGUI extends JPanel implements Observer {
 
     //private JPanel passengerPanel;
     private JPanel vipPanel;
@@ -27,11 +26,9 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         this.regularQueue = regularQueue;
         this.vipQueue.registerObserver(this);
         this.regularQueue.registerObserver(this);
-        setTitle("Passenger Queue");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300, 200);
 
-        mainPanel = new JPanel(new BorderLayout());
+        this.setLayout(new BorderLayout());
 
         // 创建抬头部分的面板
         createHeaderPanel();
@@ -79,11 +76,8 @@ public class PassengerQueueGUI extends JFrame implements Observer {
         regularMainPanel.add(regularHeaderPanel, BorderLayout.NORTH);
         regularMainPanel.add(regularScrollPane, BorderLayout.CENTER);
         // 将抬头部分和乘客信息部分的面板添加到主面板
-        mainPanel.add(vipMainPanel, BorderLayout.EAST);
-        mainPanel.add(regularMainPanel, BorderLayout.WEST);
-
-        add(mainPanel);
-        setLocationRelativeTo(null); // Center the frame
+        this.add(vipMainPanel, BorderLayout.EAST);
+        this.add(regularMainPanel, BorderLayout.WEST);
 //        setVisible(true);
     }
 
@@ -127,8 +121,8 @@ public class PassengerQueueGUI extends JFrame implements Observer {
                 JLabel baggageVolume;
 
 
-                if (!passenger.getTheBaggageList().isEmpty()) {
-                    Baggage firstBaggage = passenger.getTheBaggageList().get(0);
+                if (!passenger.getHisBaggageList().isEmpty()) {
+                    Baggage firstBaggage = passenger.getHisBaggageList().get(0);
                     String weightFormatted = String.format("%.2f", firstBaggage.getWeight());
                     //String volumeFormatted = String.format("%.2f", firstBaggage.getVolumePrint());
 
@@ -166,8 +160,8 @@ public class PassengerQueueGUI extends JFrame implements Observer {
                 JLabel baggageWeight;
                 JLabel baggageVolume;
 
-                if (!passenger.getTheBaggageList().isEmpty()) {
-                    Baggage firstBaggage = passenger.getTheBaggageList().get(0);
+                if (!passenger.getHisBaggageList().isEmpty()) {
+                    Baggage firstBaggage = passenger.getHisBaggageList().get(0);
                     String weightFormatted = String.format("%.2f", firstBaggage.getWeight());
                     //String volumeFormatted = String.format("%.2f", firstBaggage.getVolumePrint());
 
@@ -194,18 +188,10 @@ public class PassengerQueueGUI extends JFrame implements Observer {
 
             }
 
-            mainPanel.revalidate();
-            mainPanel.repaint();
+            this.revalidate();
+            this.repaint();
         });
     }
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
 
 
-//    public static void main(String[] args) {
-//        PassengerQueue passengerQueue = new PassengerQueue();
-//
-//        SwingUtilities.invokeLater(() -> new PassengerQueueGUI(passengerQueue));
-//    }
 }

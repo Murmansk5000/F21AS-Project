@@ -296,7 +296,7 @@ public class GUI extends JFrame {
             nextButton.addActionListener(e -> {
 
                 // First try adding all luggage information to a temporary luggage list
-                BaggageList tempBaggageList = selectedPassenger.getTheBaggageList();
+                BaggageList tempBaggageList = selectedPassenger.getHisBaggageList();
                 try {
                     if (isValidBaggage(weightField1, lengthField1, widthField1, heightField1)) {
                         Baggage tempBaggage = new Baggage(
@@ -380,8 +380,8 @@ public class GUI extends JFrame {
 
         private static void removeBaggage() {
             // SelectedPassenger is the currently selected Passenger object
-            if (selectedPassenger != null && selectedPassenger.getTheBaggageList() != null) {
-                selectedPassenger.getTheBaggageList().clear();
+            if (selectedPassenger != null && selectedPassenger.getHisBaggageList() != null) {
+                selectedPassenger.getHisBaggageList().clear();
                 JOptionPane.showMessageDialog(null, "All baggage has been cleared.", "Baggage Cleared", JOptionPane.INFORMATION_MESSAGE);
             }
         }

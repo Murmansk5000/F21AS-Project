@@ -29,14 +29,14 @@ public class CheckInCounterManager implements Observer {
 
     private GUI gui;
 
-    public CheckInCounterManager(PassengerList passengerList,FlightList flightList) {
+    public CheckInCounterManager(PassengerList passengerList, FlightList flightList) {
         this.counters = new ArrayList<>();
         this.vipQueue = new PassengerQueue();
         this.regularQueue = new PassengerQueue();
         this.flightList = flightList;
         this.observers = new ArrayList<>();
-        this.createNewCounter(true);  // Id: 0
-        this.createNewCounter(false); // Id: 1
+//        this.createNewCounter(true);  // Id: 0
+//        this.createNewCounter(false); // Id: 1
 //        this.createNewCounter(false); // Id: 2
         this.gui = new GUI(vipQueue, regularQueue, counters, flightList);
         startMonitoring();
@@ -55,6 +55,7 @@ public class CheckInCounterManager implements Observer {
             observer.update();
         }
     }
+
     @Override
     public void update() {
         if (gui != null) {
@@ -175,23 +176,29 @@ public class CheckInCounterManager implements Observer {
                 closeCounter(isVIP);
             }
         }
+        if (getOpenCount(true) == 0 && !vipQueue.isEmpty()) {
+            createNewCounter(true);
+        }
+        if (getOpenCount(false) == 0 && !regularQueue.isEmpty()) {
+            createNewCounter(false);
+        }
         update();
     }
 
 
     private boolean canCreateCounter(boolean isVIP) {
         if (isVIP) {
-            return getOpenCount(isVIP) < MAX_VIP_COUNTER;
+            return getOpenCount(true) < MAX_VIP_COUNTER;
         } else {
-            return getOpenCount(isVIP) < MAX_REGULAR_COUNTER;
+            return getOpenCount(false) < MAX_REGULAR_COUNTER;
         }
     }
 
     private boolean canCloseCounter(boolean isVIP) {
         if (isVIP) {
-            return getOpenCount(isVIP) > MIN_VIP_COUNTER;
+            return getOpenCount(true) > MIN_VIP_COUNTER;
         } else {
-            return getOpenCount(isVIP) > MIN_REGULAR_COUNTER;
+            return getOpenCount(false) > MIN_REGULAR_COUNTER;
         }
     }
 

@@ -9,15 +9,15 @@ import java.awt.*;
 import java.util.List;
 
 public class GUI extends JFrame {
-    private JPanel mainPanel;
     PassengerQueueGUI passengerQueueGUI;
     CheckInCounterGUI checkInCounterGUI;
     FlightStatusGUI flightStatusGUI;
+    private JPanel mainPanel;
 
     public GUI(PassengerQueue vipQueue, PassengerQueue regularQueue, List<CheckInCounter> checkInCounter, FlightList flightList) {
         setTitle("Merged GUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1300, 800);
+        setSize(1440, 1000);
 
         passengerQueueGUI = new PassengerQueueGUI(vipQueue, regularQueue);
         checkInCounterGUI = new CheckInCounterGUI(checkInCounter);
@@ -30,19 +30,19 @@ public class GUI extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        gbc.weighty = 0.4; // 40% of the vertical space
+        gbc.weighty = 0.2; // 40% of the vertical space
         gbc.fill = GridBagConstraints.BOTH;
-        mainPanel.add(passengerQueueGUI.getMainPanel(), gbc);
+        mainPanel.add(passengerQueueGUI, gbc);
 
         // Add CheckInCounterGUI panel
         gbc.gridy = 1;
-        gbc.weighty = 0.2; // 20% of the vertical space
-        mainPanel.add(checkInCounterGUI.getMainPanel(), gbc);
+        gbc.weighty = 0.4; // 20% of the vertical space
+        mainPanel.add(checkInCounterGUI, gbc);
 
         // Add FlightStatusGUI panel
         gbc.gridy = 2;
-        gbc.weighty = 0.4; // 40% of the vertical space
-        mainPanel.add(flightStatusGUI.getMainPanel(), gbc);
+        gbc.weighty = 0.6; // 60% of the vertical space
+        mainPanel.add(flightStatusGUI, gbc);
 
         add(mainPanel);
         setLocationRelativeTo(null);

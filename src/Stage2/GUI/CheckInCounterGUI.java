@@ -8,41 +8,45 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class CheckInCounterGUI extends JFrame implements Observer {
-    private JPanel mainPanel;
+public class CheckInCounterGUI extends JPanel implements Observer {
     private JPanel allVipPanel;
     private JPanel allRegularPanel;
     private List<CheckInCounter> counters;
 
     public CheckInCounterGUI(List<CheckInCounter> counters) {
         this.counters = counters;
-        setTitle("Check-in Counter");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1300, 200);
+        this.setLayout(new GridLayout(1, 2));
+        this.setSize(1300, 600);
 
-        mainPanel = new JPanel(new GridLayout(1, 2));
 
-        allVipPanel = new JPanel(new GridLayout(1, 0, 10, 10));
-        allRegularPanel = new JPanel(new GridLayout(1, 0, 10, 10));
+        allVipPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        allRegularPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
         initCounterPanels();
 
-        add(mainPanel);
-        setLocationRelativeTo(null);
 //        setVisible(true);
     }
 
+
     private void initCounterPanels() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1.0;
         JPanel regularMainPanel = createMainPanel("Regular Counter");
         JPanel vipMainPanel = createMainPanel("VIP Counter");
 
+        gbc.gridx = 0;
+        gbc.weightx = 0.7;
+        this.add(regularMainPanel, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.3;
+        this.add(vipMainPanel, gbc);
+
         regularMainPanel.add(new JScrollPane(allRegularPanel), BorderLayout.CENTER);
         vipMainPanel.add(new JScrollPane(allVipPanel), BorderLayout.CENTER);
-
-        mainPanel.add(regularMainPanel);
-        mainPanel.add(vipMainPanel);
-
     }
+
 
     private JPanel createMainPanel(String title) {
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -58,8 +62,8 @@ public class CheckInCounterGUI extends JFrame implements Observer {
             updateCounterDisplay(allVipPanel, true);
             updateCounterDisplay(allRegularPanel, false);
 
-            mainPanel.revalidate();
-            mainPanel.repaint();
+            this.revalidate();
+            this.repaint();
         });
     }
 
@@ -77,6 +81,7 @@ public class CheckInCounterGUI extends JFrame implements Observer {
     private JPanel createCounterPanel(CheckInCounter counter) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setPreferredSize(new Dimension(150, 100));
 
         JLabel counterIdLabel = new JLabel("Counter ID: " + counter.getCounterId());
         panel.add(counterIdLabel);
@@ -84,9 +89,9 @@ public class CheckInCounterGUI extends JFrame implements Observer {
         Passenger passenger = counter.getCurrentPassenger();
         if (passenger != null) {
             JLabel passengerNameLabel = new JLabel("Passenger: " + passenger.getName());
-            String weight = String.format("%.2f", passenger.getTheBaggageList().getTotalWeight());
-            JLabel passengerBaggage = new JLabel("Baggage: " + weight);
-            String fee = String.format("%.2f", passenger.getTheBaggageList().getTotalFee());
+            String weight = String.format("%.2f", passenger.getHisBaggageList().getTotalWeight());
+            JLabel passengerBaggage = new JLabel("Baggage weight: " + weight);
+            String fee = String.format("%.2f", passenger.getHisBaggageList().getTotalFee());
             JLabel baggageFee = new JLabel("Fee: " + fee);
             panel.add(passengerNameLabel);
             panel.add(passengerBaggage);
@@ -98,8 +103,5 @@ public class CheckInCounterGUI extends JFrame implements Observer {
 
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return panel;
-    }
-    public JPanel getMainPanel() {
-        return mainPanel;
     }
 }

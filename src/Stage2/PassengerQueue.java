@@ -6,7 +6,7 @@ import java.util.*;
 
 public class PassengerQueue implements Subject {
     private final Queue<Passenger> queue = new LinkedList<>();
-    private List<Observer> observers = new ArrayList<>();
+    private final List<Observer> observers = new ArrayList<>();
 
     public PassengerQueue() {
     }
