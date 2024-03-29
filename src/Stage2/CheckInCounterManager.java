@@ -40,7 +40,7 @@ public class CheckInCounterManager implements Observer {
 //        this.createNewCounter(false); // Id: 2
         this.gui = new GUI(vipQueue, regularQueue, counters, flightList);
         startMonitoring();
-        Log.getLog("A check-in counter system has been crated.");
+        Log.generateLog("A check-in counter system has been crated.");
     }
 
     public void registerObserver(Observer observer) {
@@ -64,7 +64,6 @@ public class CheckInCounterManager implements Observer {
                 gui.update();
             });
         }
-        Log.getLog("Current flight information update.");
     }
 
 
@@ -98,7 +97,7 @@ public class CheckInCounterManager implements Observer {
         newCounter.registerObserver(this);
         newCounter.start();
         counters.add(newCounter);
-        Log.getLog("A new counter open.");
+        Log.generateLog("A " + (isVIP ? "VIP" : "regular") + "new counter with id " + +counterId + "open.");
 //        System.out.println("Open and started a new " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterId);
     }
 

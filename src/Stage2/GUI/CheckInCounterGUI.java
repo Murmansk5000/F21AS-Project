@@ -23,8 +23,6 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         allRegularPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
         initCounterPanels();
-
-//        setVisible(true);
     }
 
 

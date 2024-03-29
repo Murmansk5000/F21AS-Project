@@ -166,7 +166,8 @@ public class Flight implements Comparable<Flight>, Subject {
     public void takeOff() {
         if (!this.getIsTakenOff()) {
             this.isTakenOff = true;
-            System.out.println(this.flightCode + " fly.");
+            System.out.println(this.flightCode + " take off.");
+            //TODO log
         }
     }
 

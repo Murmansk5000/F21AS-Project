@@ -1,6 +1,5 @@
 package Stage1;
 
-import Stage2.Log;
 import Stage2.Observer;
 import Stage2.Subject;
 
@@ -54,7 +53,6 @@ public class FlightList implements Subject {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.getLog("Flights information file has been loaded.");
     }
 
     public ArrayList<Flight> getFlightList() {
@@ -70,7 +68,6 @@ public class FlightList implements Subject {
                 flight.addPassenger(passenger);
             }
         }
-        Log.getLog("New passenger has been added to a Flight.");
     }
 
 
