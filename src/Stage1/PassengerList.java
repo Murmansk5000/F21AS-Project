@@ -10,8 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PassengerList {
-    // Storage for an arbitrary number of details.
-    private ArrayList<Passenger> passengerList;
+    private final ArrayList<Passenger> passengerList;
 
     /**
      * Constructor to initialize the models.PassengerList.
@@ -150,7 +149,4 @@ public class PassengerList {
         return new ArrayList<>(this.passengerList);
     }
 
-    public Passenger get(int i) {
-        return passengerList.get(i);
-    }
 }

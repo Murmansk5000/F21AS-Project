@@ -210,7 +210,7 @@ public class GUI extends JFrame {
             mainPanel.add(createDetailPanel("Flight Max Passenger: ", String.valueOf(selectedFlight.getMaxPassengers())));
             mainPanel.add(createDetailPanel("Flight Max Baggage Weight: ", String.valueOf(selectedFlight.getMaxBaggageWeight()) + " kg"));
             mainPanel.add(createDetailPanel("Flight Max Baggage Volume: ", String.valueOf(selectedFlight.getMaxBaggageVolume() / 1000000) + " cubic meters"));
-            mainPanel.add(createDetailPanel("Your Purchased Baggage Weight: ", String.valueOf(selectedFlight.getBaggageInFlight().getWeightLimit())));
+            mainPanel.add(createDetailPanel("Your Purchased Baggage Weight: ", String.valueOf(selectedFlight.getBaggageInFlight().getFreeQuota())));
 
 
             JButton nextButton = new JButton("Next Step");

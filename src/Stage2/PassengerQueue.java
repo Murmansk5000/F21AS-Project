@@ -5,10 +5,35 @@ import Stage1.Passenger;
 import java.util.*;
 
 public class PassengerQueue implements Subject {
-    private final Queue<Passenger> queue = new LinkedList<>();
-    private final List<Observer> observers = new ArrayList<>();
+    private final Queue<Passenger> queue;
+    private final List<Observer> observers;
 
     public PassengerQueue() {
+        queue = new LinkedList<>();
+        observers = new ArrayList<>();
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        synchronized (observers) {
+            observers.add(observer);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        synchronized (observers) {
+            observers.remove(observer);
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        synchronized (observers) {
+            for (Observer observer : observers) {
+                observer.update();
+            }
+        }
     }
 
     /**
@@ -71,26 +96,5 @@ public class PassengerQueue implements Subject {
         return this.getQueue().iterator();
     }
 
-    @Override
-    public void registerObserver(Observer observer) {
-        synchronized (observers) {
-            observers.add(observer);
-        }
-    }
 
-    @Override
-    public void removeObserver(Observer observer) {
-        synchronized (observers) {
-            observers.remove(observer);
-        }
-    }
-
-    @Override
-    public void notifyObservers() {
-        synchronized (observers) {
-            for (Observer observer : observers) {
-                observer.update();
-            }
-        }
-    }
 }

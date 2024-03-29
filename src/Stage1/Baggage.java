@@ -12,7 +12,6 @@ public class Baggage {
     private double width = 0.0;
     private double height = 0.0;
     private double volume = 0.0;
-    private String volumePrint;
 
     public Baggage(double weight, double length, double width, double height) throws AllExceptions.NumberErrorException {
         this.weight = weight;
@@ -117,12 +116,15 @@ public class Baggage {
         }
     }
 
+
     @Override
     public String toString() {
-        return "Baggage{" +
-                "weight=" + String.format("%.1f", weight) +
-                ", dimensions=" + String.format("%.1f", length) + "x" + String.format("%.1f", width) + "x" + String.format("%.1f", height) +
-                '}';
+        return String.format("Baggage{weight=%4s, dimensions=%4sx%4sx%4s}",
+                String.format("%.1f", weight),
+                String.format("%.1f", length),
+                String.format("%.1f", width),
+                String.format("%.1f", height));
     }
+
 
 }

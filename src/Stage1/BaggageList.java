@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class BaggageList {
     private static final double BASE_FEE = 0.0;
-    private final double totalWeightLimit = 15; // 15 kg weight limit
+    private final double freeQuota = 15;
     private final double excessWeightFee = 50; // Charge per kg for weight over the limit
+
+    private final ArrayList<Baggage> baggageList;
     public double totalWeight;
     public double totalFee;
-    private ArrayList<Baggage> baggageList;
     private double totalVolume;
 
     public BaggageList() {
@@ -30,32 +31,13 @@ public class BaggageList {
         return this.totalWeight;
     }
 
-    /**
-     * Attempts to remove baggage from the baggage list.
-     * If the specified baggage is found in the baggage list, it is removed.
-     * Then the method recalculates the total weight, volume and total fees.
-     *
-     * @param baggage The Baggage object to be removed from the baggage list.
-     * @return boolean Returns true if the baggage was successfully removed.
-     * Returns false if the baggage was not found in the list.
-     */
-    public boolean removeOneBaggage(Baggage baggage) {
-        if (this.baggageList.remove(baggage)) {
-            this.calculateTotalWeight();
-            this.calculateTotalVolume();
-            this.calculateTotalFee();
-            return true;
-        }
-        return false;
-    }
-
 
     public double getTotalFee() {
         return this.totalFee;
     }
 
-    public double getWeightLimit() {
-        return totalWeightLimit;
+    public double getFreeQuota() {
+        return freeQuota;
     }
 
     /**
@@ -88,6 +70,25 @@ public class BaggageList {
         this.calculateTotalWeight();
         this.calculateTotalVolume();
         this.calculateTotalFee();
+    }
+
+    /**
+     * Attempts to remove baggage from the baggage list.
+     * If the specified baggage is found in the baggage list, it is removed.
+     * Then the method recalculates the total weight, volume and total fees.
+     *
+     * @param baggage The Baggage object to be removed from the baggage list.
+     * @return boolean Returns true if the baggage was successfully removed.
+     * Returns false if the baggage was not found in the list.
+     */
+    public boolean removeOneBaggage(Baggage baggage) {
+        if (this.baggageList.remove(baggage)) {
+            this.calculateTotalWeight();
+            this.calculateTotalVolume();
+            this.calculateTotalFee();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -126,8 +127,8 @@ public class BaggageList {
         double Fee = BASE_FEE;
 
         // Check if the baggage is over the weight limit
-        if (this.totalWeight > this.totalWeightLimit) {
-            Fee += (this.totalWeight - this.totalWeightLimit) * this.excessWeightFee;
+        if (this.totalWeight > this.freeQuota) {
+            Fee += (this.totalWeight - this.freeQuota) * this.excessWeightFee;
         }
 
         // Check if the baggage is over the size limit
@@ -135,14 +136,6 @@ public class BaggageList {
         return totalFee;
     }
 
-    /**
-     * Checks if the baggage list is empty.
-     *
-     * @return true if there are no baggage items in the list, false otherwise.
-     */
-    public boolean isEmpty() {
-        return baggageList.isEmpty();
-    }
 
     public Baggage get(int i) {
         return this.baggageList.get(i);
@@ -154,6 +147,6 @@ public class BaggageList {
         for (Baggage baggage : baggageList) {
             result.append(baggage.toString()).append(" ");
         }
-        return result.toString(); // 返回构建好的字符串
+        return result.toString();
     }
 }

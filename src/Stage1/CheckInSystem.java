@@ -18,11 +18,10 @@ package Stage1;
  * @since 2024-03-14
  */
 public class CheckInSystem {
-    private static final String PASSENGER_DATA_FILE = "passengerList.txt";
-    private static final String FLIGHT_DATA_FILE = "FlightList.txt";
     private static PassengerList paxList;
     private static FlightList fltList;
-
+    private static final String PASSENGER_DATA_FILE = "passengerList.txt";
+    private static final String FLIGHT_DATA_FILE = "FlightList.txt";
 
     public CheckInSystem() throws AllExceptions.NoMatchingFlightException {
         // Initialize empty list of passengers and flights

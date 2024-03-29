@@ -12,9 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class FlightList implements Subject {
-    // Storage for an arbitrary number of models.Flight objects.
-    private ArrayList<Flight> flightList;
-    private List<Observer> observers;
+    private final ArrayList<Flight> flightList;
+    private final List<Observer> observers;
 
     public FlightList() {
 

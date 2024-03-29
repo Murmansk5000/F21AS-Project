@@ -12,16 +12,16 @@ public class Flight implements Comparable<Flight>, Subject {
 
     Instant startTime;
     Instant takeOffInstant;
-    private String flightCode;
-    private String destination;
-    private String carrier;
-    private int maxPassengers;
-    private double maxBaggageVolume;
-    private double maxBaggageWeight;
-    private BaggageList baggageInFlight;
-    private PassengerList passengerInFlight;
+    private final String flightCode;
+    private final String destination;
+    private final String carrier;
+    private final int maxPassengers;
+    private final double maxBaggageVolume;
+    private final double maxBaggageWeight;
+    private final BaggageList baggageInFlight;
+    private final PassengerList passengerInFlight;
     private boolean isTakenOff;
-    private List<Observer> observers;
+    private final List<Observer> observers;
 
 
     /**

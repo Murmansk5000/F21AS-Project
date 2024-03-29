@@ -1,13 +1,13 @@
 package Stage1;
 
 public class Passenger implements Comparable<Passenger> {
-    private String referenceCode;
-    private String firstName;
-    private String lastName;
-    private String flightCode;
+    private final String referenceCode;
+    private final String firstName;
+    private final String lastName;
+    private final String flightCode;
     private boolean ifCheck;
     private BaggageList baggageOfPassenger;
-    private boolean vip;
+    private final boolean vip;
 
     /**
      * Construct a new models.Passenger with the specified details. All provided information is used
