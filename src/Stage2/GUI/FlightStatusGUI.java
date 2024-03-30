@@ -71,7 +71,6 @@ public class FlightStatusGUI extends JPanel implements Observer {
                 checkIn.setHorizontalAlignment(SwingConstants.CENTER);
                 double percentage = (flight.getBaggageInFlight().getTotalVolume() / flight.getMaxBaggageVolume() * 100.0);
                 String per = String.format("%.2f", percentage);
-                Log.generateLog("Hold is " + per + "% full");
                 JLabel percentageLabel = new JLabel("Hold is " + per + "% full");
                 percentageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
