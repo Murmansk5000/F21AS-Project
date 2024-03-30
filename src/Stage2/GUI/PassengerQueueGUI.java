@@ -133,7 +133,7 @@ public class PassengerQueueGUI extends JPanel implements Observer {
 
             for (int i = 0; i < 20 && regularIterator.hasNext(); i++) {
                 Passenger passenger = regularIterator.next();
-                JPanel panel = new JPanel(new GridLayout(1, 4)); // 为每个乘客创建一个面板
+                JPanel panel = new JPanel(new GridLayout(1, 4));
 
                 // 根据Passenger对象创建标签
                 JLabel flightCode = new JLabel(passenger.getFlightCode());
