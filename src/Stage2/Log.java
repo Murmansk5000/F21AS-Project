@@ -18,7 +18,7 @@ public class Log {
     private static final ExecutorService executor = Executors.newSingleThreadExecutor(); // 单线程执行器
 
     // Log module
-    public static void getLog(String message) {
+    public static void generateLog(String message) {
         executor.submit(() -> {
             String timestamp = dateFormat.format(new Date());
             String logEntry = timestamp + " " + message;
@@ -46,9 +46,8 @@ public class Log {
 
 
     public static void main(String[] args) {
-        Log.getLog("This is an info message.");
-        Log.getLog("This is another log entry.");
-        Log.getLog("中文测试");
+        Log.generateLog("This is an info message.");
+        Log.generateLog("This is another log entry.");
     }
 
 }

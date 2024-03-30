@@ -78,7 +78,7 @@ public class Simulation {
                         return;
                     }
                 }
-            } while (!allFlightsTakenOff); // 只要有航班未起飞就继续循环
+            } while (!allFlightsTakenOff);
 
             System.out.println("All flights have now taken off.");
         }).start();
@@ -91,7 +91,6 @@ public class Simulation {
         for (Flight flight : fltList.getFlightList()) {
             if (!flight.getIsTakenOff() && !now.isBefore(flight.getTakeOffInstant())) {
                 flight.takeOff();
-                System.out.println("Flight " + flight.getFlightCode() + " has now taken off.");
             }
         }
     }
