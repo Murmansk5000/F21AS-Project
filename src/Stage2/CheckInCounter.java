@@ -147,7 +147,10 @@ public class CheckInCounter extends Thread implements Observer {
         Passenger passengerInFlight = flight.getPassengerInFlight().findByRefCode(passenger.getRefCode());
         handleBaggage(passenger.getHisBaggageList());
         passengerInFlight.checkIn();
-        passengerInFlight.setBaggageList(passenger.getHisBaggageList());
+        for(Baggage baggage: passenger.getHisBaggageList().getBaggageList()){
+            flight.getBaggageInFlight().addBaggage(baggage);
+        }
+
         Log.generateLog("Passenger " + passenger.getRefCode() + " with the baggage of " + passenger.getHisBaggageList().toString() + "has successfully checked in at counter " + this.counterId + ".");
 
         notifyObservers();

@@ -63,7 +63,7 @@ public class BaggageList {
      *
      * @param baggage The Baggage to add.
      */
-    public void addBaggage(Baggage baggage) throws AllExceptions.NumberErrorException {
+    public synchronized void addBaggage(Baggage baggage) throws AllExceptions.NumberErrorException {
         if (baggage != null && baggage.getWeight() != 0 && baggage.getSize() != 0) {
             this.baggageList.add(baggage);
         }
@@ -81,7 +81,7 @@ public class BaggageList {
      * @return boolean Returns true if the baggage was successfully removed.
      * Returns false if the baggage was not found in the list.
      */
-    private boolean removeOneBaggage(Baggage baggage) {
+    private synchronized boolean removeOneBaggage(Baggage baggage) {
         if (this.baggageList.remove(baggage)) {
             this.calculateTotalWeight();
             this.calculateTotalVolume();

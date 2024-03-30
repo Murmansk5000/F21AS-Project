@@ -1,7 +1,9 @@
 package Stage2.GUI;
 
+import Stage1.AllExceptions;
 import Stage1.Flight;
 import Stage1.FlightList;
+import Stage2.Log;
 import Stage2.Observer;
 
 import javax.swing.*;
@@ -44,7 +46,7 @@ public class FlightStatusGUI extends JPanel implements Observer {
     public void update() {
 
         SwingUtilities.invokeLater(() -> {
-            //TODO flightList.renewAllFilght();
+
 
             flightPanels.removeAll(); // 清空航班信息部分的面板
 

@@ -18,7 +18,7 @@ public class Log {
     private static final ExecutorService executor = Executors.newSingleThreadExecutor(); // 单线程执行器
 
     // Log module
-    public static void generateLog(String message) {
+    public static synchronized void generateLog(String message) {
         executor.submit(() -> {
             String timestamp = dateFormat.format(new Date());
             String logEntry = timestamp + " " + message;
