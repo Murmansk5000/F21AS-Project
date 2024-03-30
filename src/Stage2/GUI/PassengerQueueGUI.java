@@ -104,7 +104,7 @@ public class PassengerQueueGUI extends JPanel implements Observer {
                 JLabel baggageWeight;
                 JLabel baggageVolume;
 
-                if (!passenger.getHisBaggageList().isEmpty()) {
+                if (!passenger.getHisBaggageList().getBaggageList().isEmpty()) {
                     Baggage firstBaggage = passenger.getHisBaggageList().get(0);
                     String weightFormatted = String.format("%.2f", firstBaggage.getWeight());
                     //String volumeFormatted = String.format("%.2f", firstBaggage.getVolumePrint());
@@ -142,7 +142,7 @@ public class PassengerQueueGUI extends JPanel implements Observer {
                 JLabel baggageWeight;
                 JLabel baggageVolume;
 
-                if (!passenger.getHisBaggageList().isEmpty()) {
+                if (!passenger.getHisBaggageList().getBaggageList().isEmpty()) {
                     Baggage firstBaggage = passenger.getHisBaggageList().get(0);
                     String weightFormatted = String.format("%.2f", firstBaggage.getWeight());
                     //String volumeFormatted = String.format("%.2f", firstBaggage.getVolumePrint());
