@@ -13,8 +13,8 @@ import java.util.Iterator;
 public class PassengerQueueGUI extends JPanel implements Observer {
     private JPanel vipPanel;
     private JPanel regularPanel;
-    private PassengerQueue vipQueue;
-    private PassengerQueue regularQueue;
+    private final PassengerQueue vipQueue;
+    private final PassengerQueue regularQueue;
     private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
 
     public PassengerQueueGUI(PassengerQueue vipQueue, PassengerQueue regularQueue) {
@@ -26,8 +26,6 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         setSize(1300, 300);
         setLayout(new BorderLayout());
 
-        vipPanel = new JPanel();
-        regularPanel = new JPanel();
 
         JPanel regularMainPanel = createQueuePanel(regularQueue, "Regular Queue");
         JPanel vipMainPanel = createQueuePanel(vipQueue, "VIP Queue");

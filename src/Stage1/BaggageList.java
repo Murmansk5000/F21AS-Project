@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class BaggageList {
     private static final double BASE_FEE = 0.0;
-    private final double freeQuota = 15;
-    private final double excessWeightFee = 50; // Charge per kg for weight over the limit
+    private static final double FREE_QUOTA = 15;
+    private static final double EXCESS_WEIGHT_FEE = 50; // Charge per kg for weight over the limit
 
     private final ArrayList<Baggage> baggageList;
     public double totalWeight;
@@ -37,7 +37,7 @@ public class BaggageList {
     }
 
     public double getFreeQuota() {
-        return freeQuota;
+        return FREE_QUOTA;
     }
 
     /**
@@ -127,8 +127,8 @@ public class BaggageList {
         double Fee = BASE_FEE;
 
         // Check if the baggage is over the weight limit
-        if (this.totalWeight > this.freeQuota) {
-            Fee += (this.totalWeight - this.freeQuota) * this.excessWeightFee;
+        if (this.totalWeight > this.FREE_QUOTA) {
+            Fee += (this.totalWeight - this.FREE_QUOTA) * this.EXCESS_WEIGHT_FEE;
         }
 
         // Check if the baggage is over the size limit

@@ -14,8 +14,8 @@ import java.util.Iterator;
 import javax.swing.border.EmptyBorder;
 
 public class FlightStatusGUI extends JPanel implements Observer {
-    private JPanel flightPanels;
-    private FlightList flightList;
+    private final JPanel flightPanels;
+    private final FlightList flightList;
     private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
 
     public FlightStatusGUI(FlightList flightList) {

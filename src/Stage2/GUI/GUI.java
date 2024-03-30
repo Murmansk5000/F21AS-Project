@@ -9,9 +9,9 @@ import java.awt.*;
 import java.util.List;
 
 public class GUI extends JFrame {
-    PassengerQueueGUI passengerQueueGUI;
-    CheckInCounterGUI checkInCounterGUI;
-    FlightStatusGUI flightStatusGUI;
+    final PassengerQueueGUI passengerQueueGUI;
+    final CheckInCounterGUI checkInCounterGUI;
+    final FlightStatusGUI flightStatusGUI;
 
     public GUI(PassengerQueue vipQueue, PassengerQueue regularQueue, List<CheckInCounter> checkInCounter, FlightList flightList) {
         setTitle("Merged GUI");

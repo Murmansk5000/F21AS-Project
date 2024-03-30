@@ -9,49 +9,46 @@ import java.awt.*;
 import java.util.List;
 
 public class CheckInCounterGUI extends JPanel implements Observer {
-    private JPanel allVipPanel;
-    private JPanel allRegularPanel;
-    private List<CheckInCounter> counters;
+    private final JPanel allVipPanel;
+    private final JPanel allRegularPanel;
+    private final List<CheckInCounter> counters;
     private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
 
     public CheckInCounterGUI(List<CheckInCounter> counters) {
         this.counters = counters;
-        this.setLayout(new GridBagLayout());
+        setLayout(new BorderLayout()); // 改用 BorderLayout
         this.setSize(1300, 120);
 
-        allVipPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        allRegularPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        allVipPanel = new JPanel();
+        allVipPanel.setLayout(new BoxLayout(allVipPanel, BoxLayout.X_AXIS));
+        allRegularPanel = new JPanel();
+        allRegularPanel.setLayout(new BoxLayout(allRegularPanel, BoxLayout.X_AXIS));
 
         initCounterPanels();
     }
 
     private void initCounterPanels() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        // gbc.fill = GridBagConstraints.BOTH;
-        gbc.weighty = 1.0;
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setLeftComponent(createMainPanel("Regular Counter", new JScrollPane(allRegularPanel)));
+        splitPane.setRightComponent(createMainPanel("VIP Counter", new JScrollPane(allVipPanel)));
+        splitPane.setResizeWeight(0.60);
+        splitPane.setDividerLocation(0.60);
+        splitPane.setEnabled(false);
 
-        addCounterPanel(allRegularPanel, "Regular Counter", 0, 0.7);
-        addCounterPanel(allVipPanel, "VIP Counter", 1, 0.3);
+        add(splitPane, BorderLayout.CENTER);
     }
 
-    private void addCounterPanel(JPanel panel, String title, int gridx, double weightx) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = gridx;
-        gbc.weightx = weightx;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weighty = 1.0;
-        add(createMainPanel(title, panel), gbc);
-    }
 
-    private JPanel createMainPanel(String title, JPanel panel) {
+    private JPanel createMainPanel(String title, Component scrollPane) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel label = new JLabel(title, SwingConstants.CENTER);
         label.setFont(LABEL_FONT);
         mainPanel.add(label, BorderLayout.NORTH);
-        mainPanel.add(panel, BorderLayout.CENTER);
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        //mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return mainPanel;
     }
+
 
     @Override
     public void update() {
@@ -59,8 +56,8 @@ public class CheckInCounterGUI extends JPanel implements Observer {
             updateCounterDisplay(allVipPanel, true);
             updateCounterDisplay(allRegularPanel, false);
 
-            this.revalidate();
-            this.repaint();
+            revalidate();
+            repaint();
         });
     }
 
@@ -76,28 +73,39 @@ public class CheckInCounterGUI extends JPanel implements Observer {
     }
 
     private JPanel createCounterPanel(CheckInCounter counter) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setPreferredSize(new Dimension(145, 100));
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.weightx = 1;
 
         JLabel counterIdLabel = new JLabel("Counter ID: " + counter.getCounterId());
-        panel.add(counterIdLabel);
+        gbc.gridy = 0;
+        panel.add(counterIdLabel, gbc);
 
         Passenger passenger = counter.getCurrentPassenger();
         if (passenger != null) {
             JLabel passengerNameLabel = new JLabel("Passenger: " + passenger.getName());
+            gbc.gridy++;
+            panel.add(passengerNameLabel, gbc);
+
             String weight = String.format("%.2f", passenger.getHisBaggageList().getTotalWeight());
             JLabel passengerBaggage = new JLabel("Baggage weight: " + weight);
+            gbc.gridy++;
+            panel.add(passengerBaggage, gbc);
+
             String fee = String.format("%.2f", passenger.getHisBaggageList().getTotalFee());
             JLabel baggageFee = new JLabel("Fee: " + fee);
-            panel.add(passengerNameLabel);
-            panel.add(passengerBaggage);
-            panel.add(baggageFee);
+            gbc.gridy++;
+            panel.add(baggageFee, gbc);
         } else {
             JLabel noPassengerLabel = new JLabel("No current passenger");
-            panel.add(noPassengerLabel);
+            gbc.gridy++;
+            panel.add(noPassengerLabel, gbc);
         }
 
+        panel.setPreferredSize(new Dimension(150, 100));
+        panel.setMaximumSize(panel.getPreferredSize());
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return panel;
     }
