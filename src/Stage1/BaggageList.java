@@ -1,6 +1,7 @@
 package Stage1;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class BaggageList {
     private static final double BASE_FEE = 0.0;
@@ -149,10 +150,19 @@ public class BaggageList {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (Baggage baggage : baggageList) {
-            result.append(baggage.toString()).append(" ");
+        StringBuilder baggageListDetail = new StringBuilder();
+        baggageListDetail.append("Baggage list: {");
+
+        Iterator<Baggage> iterator = baggageList.iterator();
+        while (iterator.hasNext()) {
+            Baggage baggage = iterator.next();
+            baggageListDetail.append(baggage.toString());
+            if (iterator.hasNext()) {
+                baggageListDetail.append(", ");
+            }
         }
-        return result.toString();
+
+        baggageListDetail.append("}");
+        return baggageListDetail.toString();
     }
 }

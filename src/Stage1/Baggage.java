@@ -90,12 +90,20 @@ public class Baggage {
         this.weight = weight;
     }
 
+    public String getWeightPrint() {
+        return String.format("%5s",
+                String.format("%.2f", weight));
+    }
+
     public double getVolume() {
         return volume;
     }
 
     public String getVolumePrint() {
-        return String.format("%.2f", length) + " * " + String.format("%.2f", width) + " * " + String.format("%.2f", height);
+        return String.format("%5s x %5s x %5s",
+                String.format("%.2f", length),
+                String.format("%.2f", width),
+                String.format("%.2f", height));
     }
 
     /**
@@ -119,12 +127,9 @@ public class Baggage {
 
     @Override
     public String toString() {
-        return String.format("Baggage{weight=%4s, dimensions=%4sx%4sx%4s}",
-                String.format("%.1f", weight),
-                String.format("%.1f", length),
-                String.format("%.1f", width),
-                String.format("%.1f", height));
+        return String.format("[weight=%s kg, dimensions=%s]",
+                getWeightPrint(),
+                getVolumePrint());
     }
-
 
 }

@@ -49,7 +49,7 @@ public class Simulation {
         counterManager = new CheckInCounterManager(fltList);
     }
 
-    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException, AllExceptions.NumberErrorException, InterruptedException {
+    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
         Simulation simulation = new Simulation();
         simulation.startSimulation();
     }
@@ -68,12 +68,15 @@ public class Simulation {
                     int randomIndex = random.nextInt(passengerListCopy.size());
                     // Get the passenger at the random index
                     Passenger passenger = passengerListCopy.get(randomIndex);
-                    int arrivalDelay = random.nextInt(10) * 10;
+                    int arrivalDelay = random.nextInt(10) * 10;// TODO change the time
                     Thread.sleep(arrivalDelay);
                     passenger.addRandomBaggage();
-                    Log.generateLog(passenger.getName() + "add a baggage which weight is" + passenger.getHisBaggageList().getTotalWeight() + "and volume is" + passenger.getHisBaggageList().getTotalVolume());//TODO
+                    String addBaggageMsg = String.format("Passenger %s added %s.",
+                            passenger.getRefCode(),
+                            passenger.getHisBaggageList().toString());
+                    Log.generateLog(addBaggageMsg);
                     counterManager.addPassengerToQueue(passenger);
-                    Log.generateLog(passenger.getName() + "is added into current queue.");//TODO
+                    Log.generateLog(String.format("Passenger %s is added into current queue.", passenger.getRefCode()));
                     // Remove the processed passenger from the list to avoid reprocessing
                     passengerListCopy.remove(randomIndex);
                 } catch (InterruptedException e) {
@@ -124,7 +127,7 @@ public class Simulation {
         for (Flight flight : fltList.getFlightList()) {
             if (!flight.getIsTakenOff() && !now.isBefore(flight.getTakeOffInstant())) {
                 flight.takeOff();
-                Log.generateLog("Flight" + flight.getFlightCode() + "has taken off.");//TODO
+                Log.generateLog(String.format("Flight %s has taken off.", flight.getFlightCode()));
             }
         }
     }

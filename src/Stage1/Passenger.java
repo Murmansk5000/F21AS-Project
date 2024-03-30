@@ -20,7 +20,7 @@ public class Passenger implements Comparable<Passenger> {
      * @param vip           Boolean flag indicating whether the passenger is first class.
      */
     public Passenger(String referenceCode, String firstName, String lastName, String flightCode, boolean vip) {
-        if (firstName.trim().length() == 0 || lastName.trim().length() == 0 || referenceCode.trim().length() == 0) {
+        if (firstName.trim().isEmpty() || lastName.trim().isEmpty() || referenceCode.trim().isEmpty()) {
             throw new IllegalStateException(
                     "Cannot have blank name or reference code");
         }
@@ -104,6 +104,20 @@ public class Passenger implements Comparable<Passenger> {
         this.getHisBaggageList().addBaggage(BaggageFactory.generateRandomBaggage());
     }
 
+    /**
+     * Processes the payment for the passenger's baggage.
+     *
+     * @return A string message detailing the payment status or requirement.
+     */
+    public String pay() {
+        double totalFee = this.getHisBaggageList().getTotalFee();
+        String passengerDetail = String.format("Passenger %s ",this.getRefCode());
+        String payDetail = String.format("paid %6s GBP.", String.format("%.2f", this.getHisBaggageList().getTotalFee()));
+        if(totalFee == 0) {
+            payDetail = "is not required to pay.";
+        }
+        return passengerDetail + payDetail;
+    }
 
     public boolean isVIP() {
         return this.vip;

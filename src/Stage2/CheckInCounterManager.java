@@ -11,18 +11,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CheckInCounterManager implements Observer {
-    private final int OPEN_THRESHOLD = 15; // Setting the threshold for adding counters
-    private final int CLOSE_THRESHOLD = 10; //Setting the threshold for deleting counters
-    private final int MAX_VIP_COUNTER = 3;
-    private final int MAX_REGULAR_COUNTER = 5;
-    private final int MIN_VIP_COUNTER = 1;
-    private final int MIN_REGULAR_COUNTER = 1;
-    private List<CheckInCounter> counters; // all counters
-    private PassengerQueue vipQueue;
-    private PassengerQueue regularQueue;
-    private FlightList flightList;
-    private List<Observer> observers;
-    private GUI gui;
+    private static final int OPEN_THRESHOLD = 15; // Setting the threshold for adding counters
+    private static final int CLOSE_THRESHOLD = 10; //Setting the threshold for deleting counters
+    private static final int MAX_VIP_COUNTER = 3;
+    private static final int MAX_REGULAR_COUNTER = 5;
+    private static final int MIN_VIP_COUNTER = 1;
+    private static final int MIN_REGULAR_COUNTER = 1;
+    private final List<CheckInCounter> counters; // all counters
+    private final PassengerQueue vipQueue;
+    private final PassengerQueue regularQueue;
+    private final FlightList flightList;
+    private final List<Observer> observers;
+    private final GUI gui;
 
     /**
      * Constructs a CheckInCounterManager with the specified passenger and flight lists.
@@ -42,6 +42,14 @@ public class CheckInCounterManager implements Observer {
         this.gui = new GUI(this.vipQueue, this.regularQueue, this.counters, this.flightList);
         startMonitoring();
         Log.generateLog("A check-in counter system has been crated.");
+    }
+
+    public static int getMAX_REGULAR_COUNTER() {
+        return MAX_REGULAR_COUNTER;
+    }
+
+    public static int getMaxCounters() {
+        return MAX_REGULAR_COUNTER + MAX_VIP_COUNTER;
     }
 
     @Override
@@ -67,11 +75,7 @@ public class CheckInCounterManager implements Observer {
      * @param passenger the passenger to enqueue.
      */
     public synchronized void addPassengerToQueue(Passenger passenger) {
-        if (passenger.isVIP()) {
-            vipQueue.enqueue(passenger);
-        } else {
-            regularQueue.enqueue(passenger);
-        }
+        getQueueType(passenger.isVIP()).enqueue(passenger);
     }
 
     public void stopAllCounters() {
@@ -95,47 +99,48 @@ public class CheckInCounterManager implements Observer {
      * Periodically checks and adjusts the number of counters for both VIP and regular queues.
      */
     private synchronized void checkAndAdjustCounters() {
-        adjustCountersBasedOnQueueSize(vipQueue, true);
-        adjustCountersBasedOnQueueSize(regularQueue, false);
+        adjustCountersBasedOnQueueSize(true);
+        adjustCountersBasedOnQueueSize(false);
     }
 
     /**
      * Adjusts counters based on the current size of a specific queue.
      *
-     * @param queue The queue to check.
      * @param isVIP Specifies if the queue is for VIP passengers.
      */
-    private void adjustCountersBasedOnQueueSize(PassengerQueue queue, boolean isVIP) {
-        int queueSize = queue.size();
+    private void adjustCountersBasedOnQueueSize(boolean isVIP) {
+        int queueSize = getQueueType(isVIP).size();
         int openCount = getOpenCount(isVIP);
         int excess = Math.max(0, queueSize - (openCount * OPEN_THRESHOLD));
         int deficit = Math.max(0, (openCount * CLOSE_THRESHOLD) - queueSize);
         int countersToAdjust = excess / OPEN_THRESHOLD - deficit / CLOSE_THRESHOLD;
 
         adjustCounters(countersToAdjust, isVIP);
-        Log.generateLog("There are " + queueSize + " people in the " + (isVIP ? "VIP" : "regular") +
-                " queue, and is now open for" + openCount + "counters");//TODO Mimic the form here
+
     }
 
     /**
-     * Opens or closes counters as needed based on the calculated adjustment.
+     * Modifies counter availability for VIP or regular queues to meet demand, ensuring at least one counter is open when necessary.
+     * Adjustments are based on queue presence and specified adjustment needs.
      *
-     * @param countersToAdjust The number of counters to adjust.
-     * @param isVIP            Specifies if the adjustment is for VIP counters.
+     * @param countersToAdjust Suggested adjustment count, may be modified to ensure service availability.
+     * @param isVIP            True for VIP counters, false for regular.
      */
+
     private void adjustCounters(int countersToAdjust, boolean isVIP) {
-        for (int i = 0; i < Math.abs(countersToAdjust); i++) {
-            if (countersToAdjust > 0) {
-                createNewCounter(isVIP);
-            } else {
-                closeCounter(isVIP);
+        PassengerQueue targetQueue = getQueueType(isVIP);
+        if (getOpenCount(isVIP) == 0 && !targetQueue.isEmpty()) {
+            countersToAdjust = 1;
+        }
+        if (countersToAdjust != 0) {
+            for (int i = 0; i < Math.abs(countersToAdjust); i++) {
+                if (countersToAdjust > 0) {
+                    createNewCounter(isVIP);
+                }
+                if (countersToAdjust < 0) {
+                    closeCounter(isVIP);
+                }
             }
-        }
-        if (getOpenCount(true) == 0 && !vipQueue.isEmpty()) {
-            createNewCounter(true);
-        }
-        if (getOpenCount(false) == 0 && !regularQueue.isEmpty()) {
-            createNewCounter(false);
         }
         update();
     }
@@ -159,7 +164,16 @@ public class CheckInCounterManager implements Observer {
         }
         if (counterToClose != null) {
             counterToClose.shutdown();
-            Log.generateLog("Close a " + (isVIP ? "VIP" : "Regular") + " counter with ID: " + counterToClose.getCounterId() + ".");
+            int counterId = counterToClose.getCounterId();
+
+            String closeMsg = String.format("Close a %s counter with ID: %d.", getType(isVIP), counterId);
+            Log.generateLog(closeMsg);
+
+            String counterMsg = String.format("There are %d people in the %s queue and a total of %d counter is now open.",
+                    getQueueType(isVIP).size(), getType(isVIP), getOpenCount(isVIP));
+
+            Log.generateLog(counterMsg);
+
         }
 
     }
@@ -174,11 +188,19 @@ public class CheckInCounterManager implements Observer {
             return;
         }
         int counterId = calculateCounterId(isVIP);
-        CheckInCounter newCounter = new CheckInCounter(counterId, isVIP ? vipQueue : regularQueue, isVIP, flightList);
+        CheckInCounter newCounter = new CheckInCounter(counterId, getQueueType(isVIP), isVIP, flightList);
         newCounter.registerObserver(this);
         newCounter.start();
         counters.add(newCounter);
-        Log.generateLog("Open a new " + (isVIP ? "VIP" : "regular") + " counter with ID: " + counterId + ".");
+
+        String openMsg = String.format("Open a new %s counter with ID: %s.", getType(isVIP), counterId);
+        Log.generateLog(openMsg);
+
+        String counterMsg = String.format("There are %d people in the %s queue and a total of %d counter is now open.",
+                getQueueType(isVIP).size(), getType(isVIP), getOpenCount(isVIP));
+
+        Log.generateLog(counterMsg);
+
     }
 
     private void notifyObservers() {
@@ -231,7 +253,6 @@ public class CheckInCounterManager implements Observer {
         return count;
     }
 
-
     /**
      * Checks if a counter ID already exists to avoid duplicates.
      *
@@ -254,7 +275,7 @@ public class CheckInCounterManager implements Observer {
      * @return A unique counter ID.
      */
     private int calculateCounterId(boolean isVIP) {
-        int counterId = 0;
+        int counterId;
         if (isVIP) {
             counterId = getOpenCount(true) * 5;
         } else {
@@ -265,4 +286,19 @@ public class CheckInCounterManager implements Observer {
         }
         return counterId;
     }
+
+    private String getType(boolean isVIP) {
+        return isVIP ? "VIP" : "regular";
+    }
+
+    /**
+     * Returns the appropriate passenger queue based on VIP status.
+     *
+     * @param isVIP True to the VIP queue, false for the regular queue.
+     * @return The selected PassengerQueue, either VIP or regular.
+     */
+    private PassengerQueue getQueueType(boolean isVIP) {
+        return isVIP ? vipQueue : regularQueue;
+    }
+
 }

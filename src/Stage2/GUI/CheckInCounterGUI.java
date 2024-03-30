@@ -2,6 +2,7 @@ package Stage2.GUI;
 
 import Stage1.Passenger;
 import Stage2.CheckInCounter;
+import Stage2.CheckInCounterManager;
 import Stage2.Observer;
 
 import javax.swing.*;
@@ -13,9 +14,11 @@ public class CheckInCounterGUI extends JPanel implements Observer {
     private final JPanel allVipPanel;
     private final JPanel allRegularPanel;
     private final List<CheckInCounter> counters;
+    private final double percentage;
 
     public CheckInCounterGUI(List<CheckInCounter> counters) {
         this.counters = counters;
+        percentage = (double) CheckInCounterManager.getMAX_REGULAR_COUNTER() / (double) CheckInCounterManager.getMaxCounters();
         setLayout(new BorderLayout());
         this.setSize(1300, 120);
 
@@ -31,7 +34,7 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setLeftComponent(createMainPanel("Regular Counter", new JScrollPane(allRegularPanel)));
         splitPane.setRightComponent(createMainPanel("VIP Counter", new JScrollPane(allVipPanel)));
-        splitPane.setResizeWeight(0.60);
+        splitPane.setResizeWeight(percentage);
         // splitPane.setDividerLocation(0.60);
         splitPane.setEnabled(false);
 

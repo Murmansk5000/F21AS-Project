@@ -101,15 +101,14 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         Iterator<Passenger> iterator = passengerQueue.iterator();
         for (int i = 0; i < 20 && iterator.hasNext(); i++) {
             Passenger passenger = iterator.next();
-            JPanel passengerPanel = new JPanel(new GridLayout(1, 4)); // 为每个乘客创建一个面板
+            JPanel passengerPanel = new JPanel(new GridLayout(1, 4));
 
             passengerPanel.add(createLabelWithBorder(passenger.getFlightCode(), 25, 0));
             passengerPanel.add(createLabelWithBorder(passenger.getName(), 0, 0));
 
             if (!passenger.getHisBaggageList().getBaggageList().isEmpty()) {
                 Baggage firstBaggage = passenger.getHisBaggageList().get(0);
-                String weightFormatted = String.format("%.2f", firstBaggage.getWeight()) + "kg";
-                passengerPanel.add(createLabelWithBorder(weightFormatted, 40, 0));
+                passengerPanel.add(createLabelWithBorder(firstBaggage.getWeightPrint(), 40, 0));
                 passengerPanel.add(createLabelWithBorder(firstBaggage.getVolumePrint(), 18, 0));
             } else {
                 passengerPanel.add(createLabelWithBorder("N/A", 40, 0));

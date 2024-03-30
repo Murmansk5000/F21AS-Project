@@ -11,10 +11,11 @@ public class CheckInCounter extends Thread implements Observer {
     private final int counterId;
     private final PassengerQueue queue; // Shared queue among all counters
     private final boolean isVIP;
+    private final FlightList fltList;
+    private final List<Observer> observers;
     private Passenger currentPassenger;
     private volatile boolean running;
-    private FlightList fltList;
-    private List<Observer> observers;
+    private final String counterType;
 
     /**
      * Constructs a CheckInCounter with specified ID, passenger queue, and VIP status.
@@ -31,6 +32,7 @@ public class CheckInCounter extends Thread implements Observer {
         running = true;
         observers = new ArrayList<>();
         currentPassenger = null;
+        counterType = isVIP ? "VIP" : "regular";
     }
 
     /**
@@ -53,10 +55,12 @@ public class CheckInCounter extends Thread implements Observer {
                 }
                 synchronized (this) {
                     if (currentPassenger != null) {
-                        Log.generateLog("Passenger " + currentPassenger.getRefCode() + " will processed by " + (isVIP ? "VIP" : "Regular") + " Counter " + counterId);
+                        String startMsg = String.format("Passenger %s will be processed by %s Counter %d.",
+                                currentPassenger.getRefCode(), counterType, counterId);
+                        Log.generateLog(startMsg);
                         processPassenger(currentPassenger);
                         // random time for process
-                        int processTime = random.nextInt(1000);
+                        int processTime = random.nextInt(1000); //TODO change the time
                         Thread.sleep(processTime);
                     } else {
                         // wait for passengers
@@ -133,25 +137,27 @@ public class CheckInCounter extends Thread implements Observer {
 
     public synchronized boolean processPassenger(Passenger passenger) throws AllExceptions.NumberErrorException, AllExceptions.NoMatchingFlightException, AllExceptions.NoMatchingRefException {
         if (!verifyPassenger(passenger)) {
-            Log.generateLog("Passenger verification failed for: " + passenger.getRefCode());
+            Log.generateLog(String.format("Passenger verification failed for: %s", passenger.getRefCode()));
             return false;
         }
 
         String flightCode = passenger.getFlightCode();
         Flight flight = fltList.findByCode(flightCode);
         if (flight == null || flight.getIsTakenOff()) {
-            Log.generateLog("Cannot check-in passenger " + passenger.getRefCode() + ": Flight has already taken off or flight info not found.");
+            Log.generateLog(String.format("Cannot check-in passenger %s: Flight has already taken off or flight info not found.", passenger.getRefCode()));
             return false;
         }
 
         Passenger passengerInFlight = flight.getPassengerInFlight().findByRefCode(passenger.getRefCode());
         handleBaggage(passenger.getHisBaggageList());
+        Log.generateLog(passenger.pay());
+
         passengerInFlight.checkIn();
         for (Baggage baggage : passenger.getHisBaggageList().getBaggageList()) {
             flight.getBaggageInFlight().addBaggage(baggage);
         }
 
-        Log.generateLog("Passenger " + passenger.getRefCode() + " with the baggage of " + passenger.getHisBaggageList().toString() + "has successfully checked in at counter " + this.counterId + ".");
+        Log.generateLog(String.format("Passenger %s has successfully checked in at counter %d.", passenger.getRefCode(), this.counterId));
 
         notifyObservers();
         return true;
