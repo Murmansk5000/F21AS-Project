@@ -9,14 +9,14 @@ import java.awt.*;
 import java.util.List;
 
 public class CheckInCounterGUI extends JPanel implements Observer {
+    private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
     private final JPanel allVipPanel;
     private final JPanel allRegularPanel;
     private final List<CheckInCounter> counters;
-    private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
 
     public CheckInCounterGUI(List<CheckInCounter> counters) {
         this.counters = counters;
-        setLayout(new BorderLayout()); // 改用 BorderLayout
+        setLayout(new BorderLayout());
         this.setSize(1300, 120);
 
         allVipPanel = new JPanel();
@@ -32,7 +32,7 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         splitPane.setLeftComponent(createMainPanel("Regular Counter", new JScrollPane(allRegularPanel)));
         splitPane.setRightComponent(createMainPanel("VIP Counter", new JScrollPane(allVipPanel)));
         splitPane.setResizeWeight(0.60);
-        splitPane.setDividerLocation(0.60);
+        // splitPane.setDividerLocation(0.60);
         splitPane.setEnabled(false);
 
         add(splitPane, BorderLayout.CENTER);
@@ -45,7 +45,7 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         label.setFont(LABEL_FONT);
         mainPanel.add(label, BorderLayout.NORTH);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
-        //mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return mainPanel;
     }
 
@@ -55,7 +55,6 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         SwingUtilities.invokeLater(() -> {
             updateCounterDisplay(allVipPanel, true);
             updateCounterDisplay(allRegularPanel, false);
-
             revalidate();
             repaint();
         });

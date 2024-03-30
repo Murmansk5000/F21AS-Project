@@ -10,8 +10,6 @@ import java.util.List;
 
 public class Flight implements Comparable<Flight>, Subject {
 
-    Instant startTime;
-    Instant takeOffInstant;
     private final String flightCode;
     private final String destination;
     private final String carrier;
@@ -20,8 +18,10 @@ public class Flight implements Comparable<Flight>, Subject {
     private final double maxBaggageWeight;
     private final BaggageList baggageInFlight;
     private final PassengerList passengerInFlight;
-    private boolean isTakenOff;
     private final List<Observer> observers;
+    Instant startTime;
+    Instant takeOffInstant;
+    private boolean isTakenOff;
 
 
     /**

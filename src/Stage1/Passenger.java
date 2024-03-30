@@ -5,9 +5,9 @@ public class Passenger implements Comparable<Passenger> {
     private final String firstName;
     private final String lastName;
     private final String flightCode;
+    private final boolean vip;
     private boolean ifCheck;
     private BaggageList baggageOfPassenger;
-    private final boolean vip;
 
     /**
      * Construct a new models.Passenger with the specified details. All provided information is used

@@ -27,10 +27,10 @@ import java.util.Random;
  */
 
 public class Simulation {
-    private static PassengerList paxList;
-    private static FlightList fltList;
     private static final String PASSENGER_DATA_FILE = "passengerList.txt";
     private static final String FLIGHT_DATA_FILE = "FlightList.txt";
+    private static PassengerList paxList;
+    private static FlightList fltList;
     private static CheckInCounterManager counterManager;
 
 

@@ -39,10 +39,11 @@ public class GUI extends JFrame {
         add(passengerQueueGUI, gbc);
 
         gbc.gridy = 1;
-        gbc.weighty = 0.4;
+        gbc.weighty = 0.3;
         add(checkInCounterGUI, gbc);
 
         gbc.gridy = 2;
+        gbc.weighty = 0.5;
         add(flightStatusGUI, gbc);
 
         setLocationRelativeTo(null);
@@ -51,21 +52,13 @@ public class GUI extends JFrame {
 
     public void update() {
         if (passengerQueueGUI != null) {
-            SwingUtilities.invokeLater(() -> {
-                passengerQueueGUI.update();
-            });
+            SwingUtilities.invokeLater(passengerQueueGUI::update);
         }
         if (checkInCounterGUI != null) {
-            SwingUtilities.invokeLater(() -> {
-                checkInCounterGUI.update();
-            });
+            SwingUtilities.invokeLater(checkInCounterGUI::update);
         }
         if (flightStatusGUI != null) {
-            SwingUtilities.invokeLater(() -> {
-                flightStatusGUI.update();
-            });
+            SwingUtilities.invokeLater(flightStatusGUI::update);
         }
-
-
     }
 }

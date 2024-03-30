@@ -147,7 +147,7 @@ public class CheckInCounter extends Thread implements Observer {
         Passenger passengerInFlight = flight.getPassengerInFlight().findByRefCode(passenger.getRefCode());
         handleBaggage(passenger.getHisBaggageList());
         passengerInFlight.checkIn();
-        for(Baggage baggage: passenger.getHisBaggageList().getBaggageList()){
+        for (Baggage baggage : passenger.getHisBaggageList().getBaggageList()) {
             flight.getBaggageInFlight().addBaggage(baggage);
         }
 

@@ -11,11 +11,11 @@ import java.util.Iterator;
 
 
 public class PassengerQueueGUI extends JPanel implements Observer {
-    private JPanel vipPanel;
-    private JPanel regularPanel;
+    private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
     private final PassengerQueue vipQueue;
     private final PassengerQueue regularQueue;
-    private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
+    private JPanel vipPanel;
+    private JPanel regularPanel;
 
     public PassengerQueueGUI(PassengerQueue vipQueue, PassengerQueue regularQueue) {
         this.regularQueue = regularQueue;
@@ -108,7 +108,7 @@ public class PassengerQueueGUI extends JPanel implements Observer {
 
             if (!passenger.getHisBaggageList().getBaggageList().isEmpty()) {
                 Baggage firstBaggage = passenger.getHisBaggageList().get(0);
-                String weightFormatted = String.format("%.2f", firstBaggage.getWeight());
+                String weightFormatted = String.format("%.2f", firstBaggage.getWeight()) + "kg";
                 passengerPanel.add(createLabelWithBorder(weightFormatted, 40, 0));
                 passengerPanel.add(createLabelWithBorder(firstBaggage.getVolumePrint(), 18, 0));
             } else {
@@ -126,6 +126,4 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         label.setBorder(BorderFactory.createEmptyBorder(0, leftPadding, 0, rightPadding));
         return label;
     }
-
-
 }

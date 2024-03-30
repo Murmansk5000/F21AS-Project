@@ -95,7 +95,7 @@ public class Baggage {
     }
 
     public String getVolumePrint() {
-        return String.format("%.2f", length) + "*" + String.format("%.2f", width) + "*" + String.format("%.2f", height);
+        return String.format("%.2f", length) + " * " + String.format("%.2f", width) + " * " + String.format("%.2f", height);
     }
 
     /**

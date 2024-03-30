@@ -136,7 +136,7 @@ public class BaggageList {
         return totalFee;
     }
 
-    public void renewBaggageList(){
+    public void renewBaggageList() {
         this.calculateTotalWeight();
         this.calculateTotalVolume();
         this.calculateTotalFee();
