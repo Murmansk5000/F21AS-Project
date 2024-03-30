@@ -44,6 +44,7 @@ public class FlightStatusGUI extends JPanel implements Observer {
     public void update() {
 
         SwingUtilities.invokeLater(() -> {
+            //TODO flightList.renewAllFilght();
 
             flightPanels.removeAll(); // 清空航班信息部分的面板
 
