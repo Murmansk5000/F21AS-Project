@@ -15,9 +15,8 @@ public class CheckInCounterGUI extends JPanel implements Observer {
 
     public CheckInCounterGUI(List<CheckInCounter> counters) {
         this.counters = counters;
-        this.setLayout(new GridLayout(1, 2));
-        this.setSize(1300, 600);
-
+        this.setLayout(new GridBagLayout());
+        this.setSize(1300, 250);
 
         allVipPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         allRegularPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
@@ -28,29 +27,31 @@ public class CheckInCounterGUI extends JPanel implements Observer {
 
     private void initCounterPanels() {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weighty = 1.0;
-        JPanel regularMainPanel = createMainPanel("Regular Counter");
-        JPanel vipMainPanel = createMainPanel("VIP Counter");
+        gbc.fill = GridBagConstraints.BOTH; // 让组件完全填充其显示区域
+        gbc.weighty = 1.0; // 在垂直方向上，组件都可以扩展
 
-        gbc.gridx = 0;
-        gbc.weightx = 0.7;
-        this.add(regularMainPanel, gbc);
+        // 创建常规柜台和VIP柜台的面板
+        allRegularPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        allVipPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
-        gbc.gridx = 1;
-        gbc.weightx = 0.3;
-        this.add(vipMainPanel, gbc);
-
-        regularMainPanel.add(new JScrollPane(allRegularPanel), BorderLayout.CENTER);
-        vipMainPanel.add(new JScrollPane(allVipPanel), BorderLayout.CENTER);
+        // 常规柜台面板设置
+        gbc.gridx = 0; // 第一列
+        gbc.weightx = 0.7; // 常规柜台的权重
+        this.add(createMainPanel("Regular Counter", allRegularPanel), gbc);
+        // VIP柜台面板设置
+        gbc.gridx = 1; // 第二列
+        gbc.weightx = 0.3; // VIP柜台的权重
+        this.add(createMainPanel("VIP Counter", allVipPanel), gbc);
     }
 
 
-    private JPanel createMainPanel(String title) {
+    private JPanel createMainPanel(String title, JPanel panel) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel label = new JLabel(title, SwingConstants.CENTER);
         label.setFont(new Font(label.getFont().getName(), Font.BOLD, 20));
         mainPanel.add(label, BorderLayout.NORTH);
+        mainPanel.add(panel, BorderLayout.CENTER);
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return mainPanel;
     }
 
