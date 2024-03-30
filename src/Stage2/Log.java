@@ -44,10 +44,4 @@ public class Log {
         }
     }
 
-
-    public static void main(String[] args) {
-        Log.generateLog("This is an info message.");
-        Log.generateLog("This is another log entry.");
-    }
-
 }

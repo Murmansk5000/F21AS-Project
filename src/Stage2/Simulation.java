@@ -71,9 +71,9 @@ public class Simulation {
                     int arrivalDelay = random.nextInt(10) * 10;
                     Thread.sleep(arrivalDelay);
                     passenger.addRandomBaggage();
-                    Log.generateLog("");//TODO
+                    Log.generateLog(passenger.getName() + "add a baggage which weight is" + passenger.getHisBaggageList().getTotalWeight() + "and volume is" + passenger.getHisBaggageList().getTotalVolume());//TODO
                     counterManager.addPassengerToQueue(passenger);
-                    Log.generateLog("");//TODO
+                    Log.generateLog(passenger.getName() + "is added into current queue.");//TODO
                     // Remove the processed passenger from the list to avoid reprocessing
                     passengerListCopy.remove(randomIndex);
                 } catch (InterruptedException e) {
@@ -124,7 +124,7 @@ public class Simulation {
         for (Flight flight : fltList.getFlightList()) {
             if (!flight.getIsTakenOff() && !now.isBefore(flight.getTakeOffInstant())) {
                 flight.takeOff();
-                Log.generateLog("");//TODO
+                Log.generateLog("Flight" + flight.getFlightCode() + "has taken off.");//TODO
             }
         }
     }
