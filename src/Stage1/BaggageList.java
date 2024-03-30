@@ -81,7 +81,7 @@ public class BaggageList {
      * @return boolean Returns true if the baggage was successfully removed.
      * Returns false if the baggage was not found in the list.
      */
-    public boolean removeOneBaggage(Baggage baggage) {
+    private boolean removeOneBaggage(Baggage baggage) {
         if (this.baggageList.remove(baggage)) {
             this.calculateTotalWeight();
             this.calculateTotalVolume();
@@ -96,7 +96,7 @@ public class BaggageList {
      *
      * @return total weight.
      */
-    public double calculateTotalWeight() {
+    private double calculateTotalWeight() {
         this.totalWeight = 0.0;
         for (Baggage baggage : this.baggageList) {
             this.totalWeight += baggage.getWeight();
@@ -109,7 +109,7 @@ public class BaggageList {
      *
      * @return total volume.
      */
-    public double calculateTotalVolume() {
+    private double calculateTotalVolume() {
         this.totalVolume = 0.0;
         for (Baggage baggage : this.baggageList) {
             this.totalVolume += baggage.getVolume();
@@ -122,7 +122,7 @@ public class BaggageList {
      *
      * @return total fee.
      */
-    public double calculateTotalFee() {
+    private double calculateTotalFee() {
         // Reset the fee to a base value or specific initial charge
         double Fee = BASE_FEE;
 
@@ -134,6 +134,12 @@ public class BaggageList {
         // Check if the baggage is over the size limit
         this.totalFee = Fee;
         return totalFee;
+    }
+
+    public void renewBaggageList(){
+        this.calculateTotalWeight();
+        this.calculateTotalVolume();
+        this.calculateTotalFee();
     }
 
 

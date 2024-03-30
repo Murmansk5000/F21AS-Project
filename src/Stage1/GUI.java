@@ -57,7 +57,7 @@ public class GUI extends JFrame {
      */
 
     private void onExit() throws IOException, AllExceptions.NumberErrorException {
-        this.flightList.renewBaggageInFlight();
+        this.flightList.renewAllFilght();
         Report report = new Report(this.flightList);
     }
 

@@ -44,6 +44,7 @@ public class FlightStatusGUI extends JPanel implements Observer {
     public void update() {
 
         SwingUtilities.invokeLater(() -> {
+            //TODO flightList.renewAllFilght();
 
             flightPanels.removeAll(); // 清空航班信息部分的面板
 
@@ -66,7 +67,7 @@ public class FlightStatusGUI extends JPanel implements Observer {
                 JLabel checkIn = new JLabel(flight.getPassengerInFlight().checkInSize() + " checked in of " + flight.getPassengerInFlight().size());
 
                 checkIn.setHorizontalAlignment(SwingConstants.CENTER);
-                double percentage = ((double) flight.getPassengerInFlight().checkInSize() / (double) flight.getPassengerInFlight().size() * 100.0);
+                double percentage = (flight.getBaggageInFlight().getTotalVolume() / flight.getMaxBaggageVolume() * 100.0);
                 String per = String.format("%.2f", percentage);
                 JLabel percentageLabel = new JLabel("Hold is " + per + "% full");
                 percentageLabel.setHorizontalAlignment(SwingConstants.CENTER);
