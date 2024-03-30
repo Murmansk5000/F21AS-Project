@@ -13,24 +13,27 @@ import java.util.Iterator;
 public class PassengerQueueGUI extends JPanel implements Observer {
     private JPanel vipPanel;
     private JPanel regularPanel;
-    private JPanel vipMainPanel;
-    private JPanel regularMainPanel;
     private PassengerQueue vipQueue;
     private PassengerQueue regularQueue;
+    private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
 
     public PassengerQueueGUI(PassengerQueue vipQueue, PassengerQueue regularQueue) {
-        this.vipQueue = vipQueue;
         this.regularQueue = regularQueue;
-        this.vipQueue.registerObserver(this);
         this.regularQueue.registerObserver(this);
+        this.vipQueue = vipQueue;
+        this.vipQueue.registerObserver(this);
+
         setSize(1300, 300);
+        setLayout(new BorderLayout());
 
-        vipMainPanel = createQueuePanel(vipQueue, "VIP Queue");
-        regularMainPanel = createQueuePanel(regularQueue, "Regular Queue");
+        vipPanel = new JPanel();
+        regularPanel = new JPanel();
 
-        // 将抬头部分和乘客信息部分的面板添加到主面板
-        this.add(vipMainPanel, BorderLayout.EAST);
-        this.add(regularMainPanel, BorderLayout.WEST);
+        JPanel regularMainPanel = createQueuePanel(regularQueue, "Regular Queue");
+        JPanel vipMainPanel = createQueuePanel(vipQueue, "VIP Queue");
+
+        add(regularMainPanel, BorderLayout.WEST);
+        add(vipMainPanel, BorderLayout.EAST);
     }
 
     /*
@@ -54,7 +57,7 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         JPanel headerPanel = createHeaderPanel();
 
         JLabel queueLabel = new JLabel(title);
-        queueLabel.setFont(new Font(queueLabel.getFont().getName(), Font.BOLD, 20));
+        queueLabel.setFont(LABEL_FONT);
         queueLabel.setHorizontalAlignment(SwingConstants.CENTER);
         queueLabel.setForeground(Color.BLACK);
 
@@ -84,92 +87,46 @@ public class PassengerQueueGUI extends JPanel implements Observer {
 
     @Override
     public void update() {
-        // 在这里更新 GUI 显示以反映新的乘客队列状态
         SwingUtilities.invokeLater(() -> {
-
-            vipPanel.removeAll(); // 清空乘客信息部分的面板
+            vipPanel.removeAll();
             regularPanel.removeAll();
 
-            // 重新加载乘客信息
-            Iterator<Passenger> vipIterator = vipQueue.iterator();
-            Iterator<Passenger> regularIterator = regularQueue.iterator();
-            for (int i = 0; i < 20 && vipIterator.hasNext(); i++) {
-                Passenger passenger = vipIterator.next();
-                JPanel panel = new JPanel(new GridLayout(1, 4)); // 为每个乘客创建一个面板
+            loadPassengerInfo(vipQueue, vipPanel);
+            loadPassengerInfo(regularQueue, regularPanel);
 
-                // 根据Passenger对象创建标签
-                JLabel flightCode = new JLabel(passenger.getFlightCode());
-                flightCode.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0)); // 添加左边距
-                JLabel passengerName = new JLabel(passenger.getName());
-                JLabel baggageWeight;
-                JLabel baggageVolume;
-
-                if (!passenger.getHisBaggageList().isEmpty()) {
-                    Baggage firstBaggage = passenger.getHisBaggageList().get(0);
-                    String weightFormatted = String.format("%.2f", firstBaggage.getWeight());
-                    //String volumeFormatted = String.format("%.2f", firstBaggage.getVolumePrint());
-
-                    baggageWeight = new JLabel(weightFormatted);
-                    baggageWeight.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
-                    baggageVolume = new JLabel(firstBaggage.getVolumePrint());
-                    baggageVolume.setBorder(BorderFactory.createEmptyBorder(0, 18, 0, 0));
-                } else {
-                    baggageWeight = new JLabel("N/A"); // 表示没有行李
-                    baggageWeight.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
-                    baggageVolume = new JLabel("N/A");
-                    baggageVolume.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
-                }
-
-                // 将标签添加到乘客面板
-                panel.add(flightCode);
-                panel.add(passengerName);
-                panel.add(baggageWeight);
-                panel.add(baggageVolume);
-
-                vipPanel.add(panel);
-                vipPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
-
-            }
-
-            for (int i = 0; i < 20 && regularIterator.hasNext(); i++) {
-                Passenger passenger = regularIterator.next();
-                JPanel panel = new JPanel(new GridLayout(1, 4)); // 为每个乘客创建一个面板
-
-                // 根据Passenger对象创建标签
-                JLabel flightCode = new JLabel(passenger.getFlightCode());
-                flightCode.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0)); // 添加左边距
-                JLabel passengerName = new JLabel(passenger.getName());
-                JLabel baggageWeight;
-                JLabel baggageVolume;
-
-                if (!passenger.getHisBaggageList().isEmpty()) {
-                    Baggage firstBaggage = passenger.getHisBaggageList().get(0);
-                    String weightFormatted = String.format("%.2f", firstBaggage.getWeight());
-                    //String volumeFormatted = String.format("%.2f", firstBaggage.getVolumePrint());
-
-                    baggageWeight = new JLabel(weightFormatted);
-                    baggageWeight.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
-                    baggageVolume = new JLabel(firstBaggage.getVolumePrint());
-                    baggageVolume.setBorder(BorderFactory.createEmptyBorder(0, 18, 0, 0));
-                } else {
-                    baggageWeight = new JLabel("N/A"); // 表示没有行李
-                    baggageWeight.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
-                    baggageVolume = new JLabel("N/A");
-                    baggageVolume.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 0));
-                }
-
-                // 将标签添加到乘客面板
-                panel.add(flightCode);
-                panel.add(passengerName);
-                panel.add(baggageWeight);
-                panel.add(baggageVolume);
-
-                regularPanel.add(panel);
-                regularPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
-            }
             this.revalidate();
             this.repaint();
         });
+    }
+
+    private void loadPassengerInfo(PassengerQueue passengerQueue, JPanel panel) {
+        Iterator<Passenger> iterator = passengerQueue.iterator();
+        for (int i = 0; i < 20 && iterator.hasNext(); i++) {
+            Passenger passenger = iterator.next();
+            JPanel passengerPanel = new JPanel(new GridLayout(1, 4)); // 为每个乘客创建一个面板
+
+            passengerPanel.add(createLabelWithBorder(passenger.getFlightCode(), 25, 0));
+            passengerPanel.add(createLabelWithBorder(passenger.getName(), 0, 0));
+
+            if (!passenger.getHisBaggageList().getBaggageList().isEmpty()) {
+                Baggage firstBaggage = passenger.getHisBaggageList().get(0);
+                String weightFormatted = String.format("%.2f", firstBaggage.getWeight());
+                passengerPanel.add(createLabelWithBorder(weightFormatted, 40, 0));
+                passengerPanel.add(createLabelWithBorder(firstBaggage.getVolumePrint(), 18, 0));
+            } else {
+                passengerPanel.add(createLabelWithBorder("N/A", 40, 0));
+                passengerPanel.add(createLabelWithBorder("N/A", 40, 0));
+            }
+
+            panel.add(passengerPanel);
+        }
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+    }
+
+    private JLabel createLabelWithBorder(String text, int leftPadding, int rightPadding) {
+        JLabel label = new JLabel(text);
+        label.setBorder(BorderFactory.createEmptyBorder(0, leftPadding, 0, rightPadding));
+        return label;
     }
 
 

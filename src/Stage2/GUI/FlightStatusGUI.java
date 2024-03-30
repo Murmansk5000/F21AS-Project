@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 public class FlightStatusGUI extends JPanel implements Observer {
     private JPanel flightPanels;
     private FlightList flightList;
+    private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
 
     public FlightStatusGUI(FlightList flightList) {
         this.flightList = flightList;
@@ -23,8 +24,7 @@ public class FlightStatusGUI extends JPanel implements Observer {
         setSize(1300, 400);
 
         JLabel headerLabel = new JLabel("Flight Status", SwingConstants.CENTER);
-        Font boldFont = new Font(headerLabel.getFont().getName(), Font.BOLD, (int)(headerLabel.getFont().getSize() * 1.5));
-        headerLabel.setFont(boldFont);
+        headerLabel.setFont(LABEL_FONT);
         headerLabel.setForeground(Color.BLACK);
 
         // 创建一个容纳标题的面板，并设置适当的边距
