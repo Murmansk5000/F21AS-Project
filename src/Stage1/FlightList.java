@@ -155,7 +155,7 @@ public class FlightList implements Subject {
      * Iterates through all flights, adding all passenger baggage to each flight
      * and then evaluating if the flight meets the criteria to take off.
      */
-    public void renewAllFilght() throws AllExceptions.NumberErrorException {
+    public void renewAllFlight() throws AllExceptions.NumberErrorException {
         for (Flight flight : flightList) {
             flight.addAllBaggageToFlight();
         }

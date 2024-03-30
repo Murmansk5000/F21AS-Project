@@ -156,6 +156,7 @@ public class Flight implements Comparable<Flight>, Subject {
             for (Baggage baggage : passengerBaggageList.getBaggageList()) {
                 this.addBaggageToFlight(baggage);
             }
+            passenger.getHisBaggageList().clear();
         }
         this.getBaggageInFlight().renewBaggageList();
     }

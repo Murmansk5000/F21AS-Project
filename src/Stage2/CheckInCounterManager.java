@@ -113,7 +113,7 @@ public class CheckInCounterManager implements Observer {
         int countersToAdjust = excess / OPEN_THRESHOLD - deficit / CLOSE_THRESHOLD;
 
         adjustCounters(countersToAdjust, isVIP);
-        Log.generateLog("There are " + queueSize + "people in the " + (isVIP ? "VIP" : "regular") +
+        Log.generateLog("There are " + queueSize + " people in the " + (isVIP ? "VIP" : "regular") +
                 " queue, and is now open for" + openCount + "counters");//TODO Mimic the form here
     }
 
