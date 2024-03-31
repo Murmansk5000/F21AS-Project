@@ -125,9 +125,14 @@ public class Simulation {
     private void updateFlightTakeoffStatus() {
         Instant now = Instant.now();
         for (Flight flight : fltList.getFlightList()) {
-            if (!flight.getIsTakenOff() && !now.isBefore(flight.getTakeOffInstant())) {
-                flight.takeOff();
-                Log.generateLog(String.format("Flight %s has taken off.", flight.getFlightCode()));
+            if(!now.isBefore(flight.getTakeOffInstant()) && !flight.getTimePassed()){
+                if(flight.canTakeOff()) {
+                    flight.takeOff();
+                    Log.generateLog(String.format("Flight %s has taken off.", flight.getFlightCode()));
+                }else{
+                    Log.generateLog(String.format("Flight %s can not take off because it's overloaded. ", flight.getFlightCode()));
+                }
+                flight.setTimePassed();
             }
         }
     }
@@ -138,7 +143,6 @@ public class Simulation {
     public void startSimulation() {
         passengerProcessing();
         monitorFlightTakeoff();
-        //Log.shutdown();
     }
 
     public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {

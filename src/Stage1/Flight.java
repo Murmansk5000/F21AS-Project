@@ -22,6 +22,7 @@ public class Flight implements Comparable<Flight>, Subject {
     Instant startTime;
     Instant takeOffInstant;
     private boolean isTakenOff;
+    private boolean timePassed;
 
 
     /**
@@ -48,7 +49,7 @@ public class Flight implements Comparable<Flight>, Subject {
         this.observers = new ArrayList<>();
         this.startTime = Instant.now();
         this.takeOffInstant = startTime.plus(Duration.ofMinutes(takeOffTime));
-
+        this.timePassed = false;
     }
 
     // Getter methods
@@ -161,6 +162,24 @@ public class Flight implements Comparable<Flight>, Subject {
         this.getBaggageInFlight().renewBaggageList();
     }
 
+    /**
+     * Marks take-off time has passed..
+     */
+    public void setTimePassed(){
+        this.timePassed = true;
+    }
+
+    /**
+     * Checks if take-off time has passed.
+     * @return true if the time has passed, false otherwise.
+     */
+    public boolean getTimePassed(){
+        return this.timePassed;
+    }
+
+    /**
+     * Marks the flight as having taken off if it hasn't already.
+     */
     public void takeOff() {
         if (!this.getIsTakenOff()) {
             this.isTakenOff = true;

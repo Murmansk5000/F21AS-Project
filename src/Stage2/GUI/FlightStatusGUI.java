@@ -115,10 +115,10 @@ public class FlightStatusGUI extends JPanel implements Observer {
             return "Flight has taken off.";
         } else {
             long secondsUntilTakeoff = Duration.between(Instant.now(), flight.getTakeOffInstant()).getSeconds();
-            long timeUntilTakeoffInMinutes = (long) Math.ceil(secondsUntilTakeoff / 60.0);
-            if (timeUntilTakeoffInMinutes < 0) {
-                return "Flight delays.";
+            if (secondsUntilTakeoff < 0) {
+                return "Flight was delayed or overloaded.";
             } else {
+                long timeUntilTakeoffInMinutes = (long) Math.ceil(secondsUntilTakeoff / 60.0);
                 return "Flight will take off in " + timeUntilTakeoffInMinutes + " minutes.";
             }
         }
