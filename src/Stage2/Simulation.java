@@ -49,6 +49,11 @@ public class Simulation {
         counterManager = new CheckInCounterManager(fltList);
     }
 
+    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
+        Simulation simulation = new Simulation();
+        simulation.startSimulation();
+    }
+
     /**
      * Processes passengers in a daemon thread: assigns random baggage, adds them to the queue,
      * and logs actions. Works on a copy of the passenger list to avoid concurrency issues.
@@ -142,10 +147,5 @@ public class Simulation {
     public void startSimulation() {
         passengerProcessing();
         monitorFlightTakeoff();
-    }
-
-    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
-        Simulation simulation = new Simulation();
-        simulation.startSimulation();
     }
 }

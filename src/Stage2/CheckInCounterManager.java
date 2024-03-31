@@ -1,6 +1,5 @@
 package Stage2;
 
-import Stage1.Flight;
 import Stage1.FlightList;
 import Stage1.Passenger;
 import Stage2.GUI.GUI;

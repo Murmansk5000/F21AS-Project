@@ -30,7 +30,7 @@ public class CheckInCounterGUI extends JPanel implements Observer {
      */
     public CheckInCounterGUI(List<CheckInCounter> counters) {
         this.counters = counters;
-        percentage = (double) CheckInCounterManager.getMAX_REGULAR_COUNTER() / (double) ((CheckInCounterManager.getMAX_REGULAR_COUNTER())+CheckInCounterManager.getMAX_VIP_COUNTER());
+        percentage = (double) CheckInCounterManager.getMAX_REGULAR_COUNTER() / (double) ((CheckInCounterManager.getMAX_REGULAR_COUNTER()) + CheckInCounterManager.getMAX_VIP_COUNTER());
         setLayout(new BorderLayout());
         this.setSize(1300, 120);
 

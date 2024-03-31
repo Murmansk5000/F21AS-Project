@@ -37,31 +37,28 @@ public class CheckInCounter extends Thread implements Observer {
      * handling their check-ins and sleeping when no passengers are present.
      */
     @Override
-    public synchronized void run() {
+    public void run() {
         Random random = new Random();
+        int processTime = 1000; //TODO Time can be changed
         while (running) {
-            try {
-                // Synchronized block to ensure thread-safe access to the queue
-                synchronized (queue) {
-                    if (!queue.isEmpty()) {
-                        currentPassenger = queue.dequeue(); // dequeue the next currentPassenger
-                    } else {
-                        currentPassenger = null;
-                    }
+            currentPassenger = null;
+            // Synchronized block to ensure thread-safe access to the queue
+            synchronized (queue) {
+                if (!queue.isEmpty()) {
+                    currentPassenger = queue.dequeue(); // dequeue the next currentPassenger
                 }
-                synchronized (this) {
-                    int processTime = 1000; //TODO Time can be changed
-                    if (currentPassenger != null) {
-                        String startMsg = String.format("Passenger %s will be processed by %s Counter %d.",
-                                currentPassenger.getRefCode(), counterType(), getCounterId());
-                        Log.generateLog(startMsg);
-                        processPassenger(currentPassenger);
-                        // random time for process
-                        Thread.sleep(processTime + random.nextInt(1000));
-                    } else {
-                        // wait for same time
-                        Thread.sleep(processTime);
-                    }
+            }
+            try {
+                if (currentPassenger != null) {
+                    String startMsg = String.format("Passenger %s will be processed by %s Counter %d.",
+                            currentPassenger.getRefCode(), counterType(), getCounterId());
+                    Log.generateLog(startMsg);
+                    processPassenger(currentPassenger);
+                    // random time for process
+                    Thread.sleep(processTime + random.nextInt(1000));
+
+                } else {
+                    Thread.sleep(processTime);
                 }
             } catch (InterruptedException e) {
                 System.out.println("Counter " + getCounterId() + " interrupted.");
@@ -72,6 +69,7 @@ public class CheckInCounter extends Thread implements Observer {
             }
         }
     }
+
     @Override
     public void update() {
     }
@@ -99,7 +97,7 @@ public class CheckInCounter extends Thread implements Observer {
         return isVIP;
     }
 
-    public String counterType(){
+    public String counterType() {
         return isVIP ? "VIP" : "regular";
     }
 
@@ -144,7 +142,7 @@ public class CheckInCounter extends Thread implements Observer {
         Log.generateLog(String.format("The baggage of Passenger %s has been placed on flight %s", passenger.getRefCode(), passenger.getFlightCode()));
 
         passengerInFlight.checkIn();
-        Log.generateLog(String.format("Passenger %s has successfully checked in at %s counter %d.", passenger.getRefCode(),counterType(), getCounterId()));
+        Log.generateLog(String.format("Passenger %s has successfully checked in at %s counter %d.", passenger.getRefCode(), counterType(), getCounterId()));
 
         notifyObservers();
         return true;
