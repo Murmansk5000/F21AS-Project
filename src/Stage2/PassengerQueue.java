@@ -56,12 +56,17 @@ public class PassengerQueue implements Subject {
     public Passenger dequeue() {
         synchronized (this.queue) {
             if (queue.isEmpty()) {
-                return null;
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return null;
+                }
             }
-            Passenger passenger = queue.remove();
-            notifyObservers();
-            return passenger;
         }
+        Passenger passenger = queue.remove();
+        notifyObservers();
+        return passenger;
     }
 
     /**

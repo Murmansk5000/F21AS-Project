@@ -58,7 +58,7 @@ public class Simulation {
      * Processes passengers in a daemon thread: assigns random baggage, adds them to the queue,
      * and logs actions. Works on a copy of the passenger list to avoid concurrency issues.
      */
-    private void passengerProcessing() {
+    private synchronized void passengerProcessing() {
         Thread passengerThread = new Thread(() -> {
             Random random = new Random();
             // Create a copy of the passenger list to work with
@@ -76,7 +76,7 @@ public class Simulation {
                             passenger.getHisBaggageList().toString());
                     Log.generateLog(addBaggageMsg);
                     counterManager.addPassengerToQueue(passenger);
-                    Log.generateLog(String.format("Passenger %s is added into current queue.", passenger.getRefCode()));
+                    Log.generateLog(String.format("Passenger %s is added into %s queue.", passenger.getRefCode(), passenger.isVIP()));
                     // Remove the processed passenger from the list to avoid reprocessing
                     passengerListCopy.remove(randomIndex);
                 } catch (InterruptedException e) {
@@ -95,7 +95,7 @@ public class Simulation {
     /**
      * Monitors and logs flight takeoffs in a daemon thread. Checks flight statuses and updates them until all have taken off.
      */
-    private void monitorFlightTakeoff() {
+    private synchronized void monitorFlightTakeoff() {
         Thread monitorThread = new Thread(() -> {
             boolean allFlightsTakenOff;
             do {
@@ -126,7 +126,7 @@ public class Simulation {
     /**
      * Updates the takeoff status of flights based on the current time.
      */
-    private void updateFlightTakeoffStatus() {
+    private synchronized void updateFlightTakeoffStatus() {
         Instant now = Instant.now();
         for (Flight flight : fltList.getFlightList()) {
             if (!now.isBefore(flight.getTakeOffInstant()) && !flight.getTimePassed()) {
