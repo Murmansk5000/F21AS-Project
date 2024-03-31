@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+
 /**
  * GUI class represents the main graphical user interface window for the application.
  * It combines and displays the PassengerQueueGUI, CheckInCounterGUI, and FlightStatusGUI components.

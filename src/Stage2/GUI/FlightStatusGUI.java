@@ -10,6 +10,7 @@ import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
 
+
 /**
  * FlightStatusGUI class represents the graphical user interface for displaying flight statuses.
  * It observes changes in the FlightList and updates the display accordingly.
