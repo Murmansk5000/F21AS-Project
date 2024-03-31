@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 
+
 /**
  * PassengerQueueGUI class represents the graphical user interface for displaying
  * passenger queues, including VIP and regular queues.

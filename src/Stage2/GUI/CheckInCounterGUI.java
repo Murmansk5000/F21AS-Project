@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+
 /**
  * CheckInCounterGUI class represents the graphical user interface for displaying
  * check-in counters, both regular counters and VIP counters.
