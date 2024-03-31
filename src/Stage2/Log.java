@@ -13,8 +13,10 @@ public class Log {
 
     private static final String LOG_FILE_PREFIX = "file/log/check_in"; // file prefix
     private static final String LOG_FILE_SUFFIX = ".log"; // file suffix
-    private static final long MAX_LOG_FILE_SIZE = 1024 * 1024; // log capacity
+    //private static final long MAX_LOG_FILE_SIZE = 1024 * 1024; // log capacity
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final SimpleDateFormat fileDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+    private static final String logFileName = LOG_FILE_PREFIX + "_" + fileDateFormat.format(new Date()) + LOG_FILE_SUFFIX;
     private static final ExecutorService executor = Executors.newSingleThreadExecutor(); // 单线程执行器
 
     // Log module
@@ -28,19 +30,16 @@ public class Log {
 
     // Write log to file
     private static synchronized void writeLog(String logEntry) {
-        try {
-            File logFile = new File(LOG_FILE_PREFIX + LOG_FILE_SUFFIX);//TODO file name with time
-            // Log rotation
-            if (logFile.exists() && logFile.length() > MAX_LOG_FILE_SIZE) {
-                File newLogFile = new File(LOG_FILE_PREFIX + "_" + System.currentTimeMillis() + LOG_FILE_SUFFIX);
-                logFile.renameTo(newLogFile);
-            }
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
-                writer.write(logEntry);
-                writer.newLine();
-            }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFileName, true))) {
+            writer.write(logEntry);
+            writer.newLine();
         } catch (IOException e) {
             System.err.println("Error writing to log file: " + e.getMessage());
         }
+
+    }
+
+    public static void shutdown() {
+        executor.shutdown();
     }
 }
