@@ -97,7 +97,7 @@ public class BaggageList {
      *
      * @return total weight.
      */
-    private double calculateTotalWeight() {
+    public double calculateTotalWeight() {
         this.totalWeight = 0.0;
         for (Baggage baggage : this.baggageList) {
             this.totalWeight += baggage.getWeight();
@@ -110,7 +110,7 @@ public class BaggageList {
      *
      * @return total volume.
      */
-    private double calculateTotalVolume() {
+    public double calculateTotalVolume() {
         this.totalVolume = 0.0;
         for (Baggage baggage : this.baggageList) {
             this.totalVolume += baggage.getVolume();
@@ -123,7 +123,7 @@ public class BaggageList {
      *
      * @return total fee.
      */
-    private double calculateTotalFee() {
+    public double calculateTotalFee() {
         // Reset the fee to a base value or specific initial charge
         double Fee = BASE_FEE;
 
@@ -142,7 +142,6 @@ public class BaggageList {
         this.calculateTotalVolume();
         this.calculateTotalFee();
     }
-
 
     public Baggage get(int i) {
         return this.baggageList.get(i);

@@ -95,6 +95,4 @@ public class PassengerQueue implements Subject {
     public Iterator<Passenger> iterator() {
         return this.getQueue().iterator();
     }
-
-
 }

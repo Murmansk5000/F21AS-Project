@@ -26,7 +26,6 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         setSize(1300, 300);
         setLayout(new BorderLayout());
 
-
         JPanel regularMainPanel = createQueuePanel(regularQueue, "Regular Queue");
         JPanel vipMainPanel = createQueuePanel(vipQueue, "VIP Queue");
 
@@ -34,9 +33,6 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         add(vipMainPanel, BorderLayout.EAST);
     }
 
-    /*
-
-     */
     private JPanel createQueuePanel(PassengerQueue queue, String title) {
         JPanel queuePanel = new JPanel(new GridLayout(20, 1, 10, 10));
         // Assign the panel to the correct member variable based on the queue type
@@ -45,7 +41,6 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         } else {
             regularPanel = queuePanel;
         }
-
         // Create and configure the scroll pane
         JScrollPane queueScrollPane = new JScrollPane(queuePanel);
         queueScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -76,6 +71,7 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         JLabel BaggageVolumeLabel = new JLabel("Baggage Volume");
         flightNumberLabel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
         BaggageVolumeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+
         headerPanel.add(flightNumberLabel);
         headerPanel.add(passengerNameLabel);
         headerPanel.add(BaggageWeightLabel);

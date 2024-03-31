@@ -46,27 +46,12 @@ public class Baggage {
         return length;
     }
 
-    public void setLength(double length) {
-        this.length = length;
-        updateVolume();
-    }
-
     public double getWidth() {
         return width;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
-        updateVolume();
-    }
-
     public double getHeight() {
         return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-        updateVolume();
     }
 
     /**
@@ -123,7 +108,6 @@ public class Baggage {
             throw new AllExceptions.NumberErrorException();
         }
     }
-
 
     @Override
     public String toString() {

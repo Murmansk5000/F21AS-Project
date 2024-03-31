@@ -5,8 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Report {
-
-
+    private static final String FILE_REPORT_TXT = "file/report.txt";
     /**
      * Constructs a Report object with the given flight list and generates a report file.
      * Prints a message if the flight list is empty.
@@ -15,15 +14,13 @@ public class Report {
      * @throws IOException If an I/O error occurs while writing the report file.
      */
     public Report(FlightList flightList) throws IOException {
-        String filePath = "report.txt";
-        new FileWriter(filePath, false).close();
+        new FileWriter(FILE_REPORT_TXT, false).close();
         if (flightList.size() > 0) {
-            writeReportToFile(flightList, filePath);
+            writeReportToFile(flightList, FILE_REPORT_TXT);
         } else {
             System.out.println("No flight information today!");
         }
     }
-
 
     /**
      * Writes the report file containing flight information.

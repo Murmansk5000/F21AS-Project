@@ -36,9 +36,6 @@ public class CheckInCounterManager implements Observer {
         this.regularQueue = new PassengerQueue();
         this.flightList = flightList;
         this.observers = new ArrayList<>();
-//        this.createNewCounter(true);  // Id: 0
-//        this.createNewCounter(false); // Id: 1
-//        this.createNewCounter(false); // Id: 2
         this.gui = new GUI(this.vipQueue, this.regularQueue, this.counters, this.flightList);
         startMonitoring();
         Log.generateLog("A check-in counter system has been crated.");
@@ -46,6 +43,18 @@ public class CheckInCounterManager implements Observer {
 
     public static int getMAX_REGULAR_COUNTER() {
         return MAX_REGULAR_COUNTER;
+    }
+
+    public static int getMAX_VIP_COUNTER() {
+        return MAX_VIP_COUNTER;
+    }
+
+    public static int getMIN_REGULAR_COUNTER() {
+        return MIN_REGULAR_COUNTER;
+    }
+
+    public static int getMIN_VIP_COUNTER() {
+        return MIN_VIP_COUNTER;
     }
 
     public static int getMaxCounters() {
@@ -116,7 +125,6 @@ public class CheckInCounterManager implements Observer {
         int countersToAdjust = excess / OPEN_THRESHOLD - deficit / CLOSE_THRESHOLD;
 
         adjustCounters(countersToAdjust, isVIP);
-
     }
 
     /**
@@ -126,7 +134,6 @@ public class CheckInCounterManager implements Observer {
      * @param countersToAdjust Suggested adjustment count, may be modified to ensure service availability.
      * @param isVIP            True for VIP counters, false for regular.
      */
-
     private void adjustCounters(int countersToAdjust, boolean isVIP) {
         PassengerQueue targetQueue = getQueueType(isVIP);
         if (getOpenCount(isVIP) == 0 && !targetQueue.isEmpty()) {
@@ -175,7 +182,6 @@ public class CheckInCounterManager implements Observer {
             Log.generateLog(counterMsg);
 
         }
-
     }
 
     /**
@@ -183,7 +189,7 @@ public class CheckInCounterManager implements Observer {
      *
      * @param isVIP True to create a VIP counter, false for a regular counter.
      */
-    private void createNewCounter(boolean isVIP) {
+    void createNewCounter(boolean isVIP) {
         if (!canCreateCounter(isVIP)) {
             return;
         }
@@ -300,5 +306,4 @@ public class CheckInCounterManager implements Observer {
     private PassengerQueue getQueueType(boolean isVIP) {
         return isVIP ? vipQueue : regularQueue;
     }
-
 }

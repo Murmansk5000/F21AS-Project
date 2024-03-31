@@ -16,7 +16,6 @@ public class FlightStatusGUI extends JPanel implements Observer {
     private final JPanel flightPanels;
     private final FlightList flightList;
 
-
     public FlightStatusGUI(FlightList flightList) {
         this.flightList = flightList;
         this.flightList.registerObserver(this);

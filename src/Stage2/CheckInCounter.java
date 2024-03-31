@@ -6,16 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 public class CheckInCounter extends Thread implements Observer {
     private final int counterId;
-    private final PassengerQueue queue; // Shared queue among all counters
+    private final PassengerQueue queue;
     private final boolean isVIP;
     private final FlightList fltList;
     private final List<Observer> observers;
+    private final String counterType;
     private Passenger currentPassenger;
     private volatile boolean running;
-    private final String counterType;
 
     /**
      * Constructs a CheckInCounter with specified ID, passenger queue, and VIP status.
@@ -112,18 +111,6 @@ public class CheckInCounter extends Thread implements Observer {
         running = false;
     }
 
-    public boolean getStatus() {
-        return this.running;
-    }
-
-    public int getCounterId() {
-        return this.counterId;
-    }
-
-    public Passenger getCurrentPassenger() {
-        return currentPassenger;
-    }
-
     /**
      * Processes a passenger's check-in by verifying eligibility, checking flight status, handling baggage, and updating check-in status.
      * Notifies observers upon successful check-in. Returns false if verification fails, flight is not found, or has already taken off.
@@ -163,7 +150,6 @@ public class CheckInCounter extends Thread implements Observer {
         return true;
     }
 
-
     /**
      * Verifies if a passenger has a valid reference code, indicating they are eligible for check-in.
      *
@@ -186,4 +172,15 @@ public class CheckInCounter extends Thread implements Observer {
         }
     }
 
+    public boolean getStatus() {
+        return this.running;
+    }
+
+    public int getCounterId() {
+        return this.counterId;
+    }
+
+    public Passenger getCurrentPassenger() {
+        return currentPassenger;
+    }
 }

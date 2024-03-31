@@ -22,13 +22,14 @@ import java.util.Random;
  * <p>
  * This simulation aims to demonstrate concurrency concepts and the complexity of managing airport check-in systems in a real-time scenario.
  *
- * @version 1.7
- * @since 2024-03-29
+ * @version 1.9
+ * @since 2024-03-31
+ *
  */
 
 public class Simulation {
-    private static final String PASSENGER_DATA_FILE = "passengerList.txt";
-    private static final String FLIGHT_DATA_FILE = "FlightList.txt";
+    private static final String PASSENGER_DATA_FILE = "file/PassengerList.txt";
+    private static final String FLIGHT_DATA_FILE = "file/FlightList.txt";
     private static PassengerList paxList;
     private static FlightList fltList;
     private static CheckInCounterManager counterManager;
@@ -49,17 +50,12 @@ public class Simulation {
         counterManager = new CheckInCounterManager(fltList);
     }
 
-    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
-        Simulation simulation = new Simulation();
-        simulation.startSimulation();
-    }
-
     /**
-     * Processes passengers asynchronously by simulating their arrival and check-in.
-     * Each passenger is given random baggage, then added to the check-in queue.
+     * Processes passengers in a daemon thread: assigns random baggage, adds them to the queue,
+     * and logs actions. Works on a copy of the passenger list to avoid concurrency issues.
      */
     private void passengerProcessing() {
-        new Thread(() -> {
+        Thread passengerThread = new Thread(() -> {
             Random random = new Random();
             // Create a copy of the passenger list to work with
             List<Passenger> passengerListCopy = new ArrayList<>(paxList.getPassengers());
@@ -86,14 +82,17 @@ public class Simulation {
                     throw new RuntimeException(e);
                 }
             }
-        }).start();
+            Log.generateLog("All passengers have joined the queue.");
+        });
+        passengerThread.setDaemon(true);
+        passengerThread.start();
     }
 
     /**
-     * Monitors flight takeoff status asynchronously and logs when all flights have taken off.
+     * Monitors and logs flight takeoffs in a daemon thread. Checks flight statuses and updates them until all have taken off.
      */
     private void monitorFlightTakeoff() {
-        new Thread(() -> {
+        Thread monitorThread = new Thread(() -> {
             boolean allFlightsTakenOff;
             do {
                 updateFlightTakeoffStatus();
@@ -115,8 +114,9 @@ public class Simulation {
             } while (!allFlightsTakenOff);
 
             Log.generateLog("All flights have now taken off.");
-        }).start();
-
+        });
+        monitorThread.setDaemon(true);
+        monitorThread.start();
     }
 
     /**
@@ -138,5 +138,10 @@ public class Simulation {
     public void startSimulation() {
         passengerProcessing();
         monitorFlightTakeoff();
+    }
+
+    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
+        Simulation simulation = new Simulation();
+        simulation.startSimulation();
     }
 }

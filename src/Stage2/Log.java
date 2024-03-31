@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class Log {
 
-    private static final String LOG_FILE_PREFIX = "check_in"; // file prefix
+    private static final String LOG_FILE_PREFIX = "file/log/check_in"; // file prefix
     private static final String LOG_FILE_SUFFIX = ".log"; // file suffix
     private static final long MAX_LOG_FILE_SIZE = 1024 * 1024; // log capacity
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -29,7 +29,7 @@ public class Log {
     // Write log to file
     private static synchronized void writeLog(String logEntry) {
         try {
-            File logFile = new File(LOG_FILE_PREFIX + LOG_FILE_SUFFIX);
+            File logFile = new File(LOG_FILE_PREFIX + LOG_FILE_SUFFIX);//TODO file name with time
             // Log rotation
             if (logFile.exists() && logFile.length() > MAX_LOG_FILE_SIZE) {
                 File newLogFile = new File(LOG_FILE_PREFIX + "_" + System.currentTimeMillis() + LOG_FILE_SUFFIX);
@@ -43,5 +43,4 @@ public class Log {
             System.err.println("Error writing to log file: " + e.getMessage());
         }
     }
-
 }

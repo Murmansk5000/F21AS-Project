@@ -111,9 +111,9 @@ public class Passenger implements Comparable<Passenger> {
      */
     public String pay() {
         double totalFee = this.getHisBaggageList().getTotalFee();
-        String passengerDetail = String.format("Passenger %s ",this.getRefCode());
+        String passengerDetail = String.format("Passenger %s ", this.getRefCode());
         String payDetail = String.format("paid %6s GBP.", String.format("%.2f", this.getHisBaggageList().getTotalFee()));
-        if(totalFee == 0) {
+        if (totalFee == 0) {
             payDetail = "is not required to pay.";
         }
         return passengerDetail + payDetail;

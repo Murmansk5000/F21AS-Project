@@ -35,7 +35,6 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         splitPane.setLeftComponent(createMainPanel("Regular Counter", new JScrollPane(allRegularPanel)));
         splitPane.setRightComponent(createMainPanel("VIP Counter", new JScrollPane(allVipPanel)));
         splitPane.setResizeWeight(percentage);
-        // splitPane.setDividerLocation(0.60);
         splitPane.setEnabled(false);
 
         add(splitPane, BorderLayout.CENTER);
@@ -46,6 +45,7 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel label = new JLabel(title, SwingConstants.CENTER);
         label.setFont(LABEL_FONT);
+
         mainPanel.add(label, BorderLayout.NORTH);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -65,7 +65,6 @@ public class CheckInCounterGUI extends JPanel implements Observer {
 
     private void updateCounterDisplay(JPanel parentPanel, boolean isVip) {
         parentPanel.removeAll();
-
         for (CheckInCounter counter : counters) {
             if (counter.isVIP() == isVip && counter.getStatus()) {
                 JPanel counterPanel = createCounterPanel(counter);

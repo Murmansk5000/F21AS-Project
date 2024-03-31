@@ -23,7 +23,6 @@ public class GUI extends JFrame {
         checkInCounterGUI = new CheckInCounterGUI(checkInCounter);
         flightStatusGUI = new FlightStatusGUI(flightList);
 
-
         passengerQueueGUI.setAlignmentX(Component.LEFT_ALIGNMENT);
         checkInCounterGUI.setAlignmentX(Component.LEFT_ALIGNMENT);
         flightStatusGUI.setAlignmentX(Component.LEFT_ALIGNMENT);

@@ -18,8 +18,8 @@ package Stage1;
  * @since 2024-03-14
  */
 public class CheckInSystem {
-    private static final String PASSENGER_DATA_FILE = "passengerList.txt";
-    private static final String FLIGHT_DATA_FILE = "FlightList.txt";
+    private static final String PASSENGER_DATA_FILE = "file/PassengerList.txt";
+    private static final String FLIGHT_DATA_FILE = "file/FlightList.txt";
     private static PassengerList paxList;
     private static FlightList fltList;
 
@@ -46,9 +46,5 @@ public class CheckInSystem {
         GUI gui = new GUI(passengerList, flightList);
         gui.FlightCheckInGUI();
         gui.setVisible(true);
-
-
     }
-
-
 }

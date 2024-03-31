@@ -2,12 +2,17 @@ package Stage2;
 
 import Stage1.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class FlightTest {
+/**
+ * This class tests the logic of the extended functionality where
+ * passengers check-in based on the departure status of the airplane.
+ *
+ */
+class CheckInCounterTest {
     private FlightList flightList;
     private Flight flight;
     private CheckInCounter checkInCounter;
@@ -16,6 +21,7 @@ class FlightTest {
 
     @BeforeEach
     void setUp() {
+        // Initialize passenger instances, flight instances and counter instances.
         flightList = new FlightList();
         passengerList = new PassengerList();
         flight = new Flight("DQ2692", "Destination", "Carrier", 100, 20000, 200, 100);
@@ -45,4 +51,12 @@ class FlightTest {
         // Try to check-in for a flight after departure
         assertFalse(checkInCounter.processPassenger(passenger), "Passenger should not be able to check");
     }
+
+    @AfterEach
+    void tearDown() {
+        flightList = null;
+        passengerList = null;
+        checkInCounter = null;
+    }
 }
+
