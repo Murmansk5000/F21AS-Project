@@ -6,6 +6,6 @@ BT9441,Airport 4,Delta AirLines,185,300,6000000,6
 XQ3326,Airport 5,British Airlines,100,800,4000000,9
 GC3217,Airport 6,United Airlines,150,800,4400000,5
 WJ7955,Airport 7,American Airlines,130,600,4000000,7
-ZK8692,Airport 8,Delta AirLines,128,500,400000,5
+ZK8692,Airport 8,Delta AirLines,128,500,4000000,5
 LQ3059,Airport 9,Delta AirLines,123,700,4000000,8
 DQ2692,Airport 10,United Airlines,219,1000,5000000,8

@@ -9,13 +9,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * CheckInCounterGUI class represents the graphical user interface for displaying
+ * check-in counters, both regular counters and VIP counters.
+ */
 public class CheckInCounterGUI extends JPanel implements Observer {
+    // Constants
     private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
+    // Member variables
     private final JPanel allVipPanel;
     private final JPanel allRegularPanel;
     private final List<CheckInCounter> counters;
     private final double percentage;
 
+    /**
+     * Constructs a CheckInCounterGUI object with the specified list of check-in counters.
+     *
+     * @param counters The list of check-in counters to display.
+     */
     public CheckInCounterGUI(List<CheckInCounter> counters) {
         this.counters = counters;
         percentage = (double) CheckInCounterManager.getMAX_REGULAR_COUNTER() / (double) CheckInCounterManager.getMaxCounters();
@@ -40,7 +51,13 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         add(splitPane, BorderLayout.CENTER);
     }
 
-
+    /**
+     * Creates a main panel for displaying regular or VIP counters.
+     *
+     * @param title      The title of the panel.
+     * @param scrollPane The scroll pane containing the counter panels.
+     * @return The main panel.
+     */
     private JPanel createMainPanel(String title, Component scrollPane) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel label = new JLabel(title, SwingConstants.CENTER);
@@ -52,7 +69,9 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         return mainPanel;
     }
 
-
+    /**
+     * Updates the GUI to reflect changes in the check-in counters.
+     */
     @Override
     public void update() {
         SwingUtilities.invokeLater(() -> {
@@ -63,6 +82,12 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         });
     }
 
+    /**
+     * Updates the display of counter panels based on the list of check-in counters.
+     *
+     * @param parentPanel The parent panel to which the counter panels will be added.
+     * @param isVip       A boolean indicating whether the counter is VIP or not.
+     */
     private void updateCounterDisplay(JPanel parentPanel, boolean isVip) {
         parentPanel.removeAll();
         for (CheckInCounter counter : counters) {
@@ -73,6 +98,12 @@ public class CheckInCounterGUI extends JPanel implements Observer {
         }
     }
 
+    /**
+     * Creates a panel to display information about a check-in counter.
+     *
+     * @param counter The check-in counter.
+     * @return The panel displaying information about the counter.
+     */
     private JPanel createCounterPanel(CheckInCounter counter) {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

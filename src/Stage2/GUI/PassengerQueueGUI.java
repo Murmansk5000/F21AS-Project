@@ -9,14 +9,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 
-
+/**
+ * PassengerQueueGUI class represents the graphical user interface for displaying
+ * passenger queues, including VIP and regular queues.
+ */
 public class PassengerQueueGUI extends JPanel implements Observer {
+
     private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
+
+    // Member variables
     private final PassengerQueue vipQueue;
     private final PassengerQueue regularQueue;
     private JPanel vipPanel;
     private JPanel regularPanel;
 
+    /**
+     * Constructs a PassengerQueueGUI object with the specified VIP and regular queues.
+     *
+     * @param vipQueue     The VIP passenger queue to display.
+     * @param regularQueue The regular passenger queue to display.
+     */
     public PassengerQueueGUI(PassengerQueue vipQueue, PassengerQueue regularQueue) {
         this.regularQueue = regularQueue;
         this.regularQueue.registerObserver(this);
@@ -33,6 +45,13 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         add(vipMainPanel, BorderLayout.EAST);
     }
 
+    /**
+     * Creates a panel to display the passenger queue with the specified title.
+     *
+     * @param queue The passenger queue to display.
+     * @param title The title of the queue panel.
+     * @return The created panel to display the passenger queue.
+     */
     private JPanel createQueuePanel(PassengerQueue queue, String title) {
         JPanel queuePanel = new JPanel(new GridLayout(20, 1, 10, 10));
         // Assign the panel to the correct member variable based on the queue type
@@ -46,9 +65,10 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         queueScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         queueScrollPane.setPreferredSize(new Dimension(600, 150));
 
-        // Create the header panel with the title "Flight Code", "Passenger Name", "Baggage Weight" and "Baggage Volume".
+        // Create the header panel
         JPanel headerPanel = createHeaderPanel();
 
+        // Create the queue title label
         JLabel queueLabel = new JLabel(title);
         queueLabel.setFont(LABEL_FONT);
         queueLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -63,8 +83,13 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         return queueMainPanel;
     }
 
+    /**
+     * Creates a header panel with column titles.
+     *
+     * @return The header panel with column titles.
+     */
     private JPanel createHeaderPanel() {
-        JPanel headerPanel = new JPanel(new GridLayout(1, 4, 10, 10)); // 用GridLayout将四个标签平均分布
+        JPanel headerPanel = new JPanel(new GridLayout(1, 4, 10, 10)); // Use GridLayout to evenly distribute four labels
         JLabel flightNumberLabel = new JLabel("Flight Code");
         JLabel passengerNameLabel = new JLabel("Passenger Name");
         JLabel BaggageWeightLabel = new JLabel("Baggage Weight");
@@ -79,6 +104,9 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         return headerPanel;
     }
 
+    /**
+     * When a customer enters the queue, the GUI interface is updated at the same time
+     */
     @Override
     public void update() {
         SwingUtilities.invokeLater(() -> {
@@ -93,6 +121,12 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         });
     }
 
+    /**
+     * Loads passenger information into the specified panel from the given passenger queue.
+     *
+     * @param passengerQueue The passenger queue to load information from.
+     * @param panel          The panel to display the passenger information.
+     */
     private void loadPassengerInfo(PassengerQueue passengerQueue, JPanel panel) {
         Iterator<Passenger> iterator = passengerQueue.iterator();
         for (int i = 0; i < 20 && iterator.hasNext(); i++) {
@@ -116,6 +150,14 @@ public class PassengerQueueGUI extends JPanel implements Observer {
         panel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
     }
 
+    /**
+     * Creates a label with specified text and border.
+     *
+     * @param text         The text to display on the label.
+     * @param leftPadding  The left padding of the label.
+     * @param rightPadding The right padding of the label.
+     * @return The created label.
+     */
     private JLabel createLabelWithBorder(String text, int leftPadding, int rightPadding) {
         JLabel label = new JLabel(text);
         label.setBorder(BorderFactory.createEmptyBorder(0, leftPadding, 0, rightPadding));
