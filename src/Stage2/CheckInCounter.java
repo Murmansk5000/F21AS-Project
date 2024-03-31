@@ -12,7 +12,6 @@ public class CheckInCounter extends Thread implements Observer {
     private final boolean isVIP;
     private final FlightList fltList;
     private final List<Observer> observers;
-    private final String counterType;
     private Passenger currentPassenger;
     private volatile boolean running;
 
@@ -31,7 +30,6 @@ public class CheckInCounter extends Thread implements Observer {
         running = true;
         observers = new ArrayList<>();
         currentPassenger = null;
-        counterType = isVIP ? "VIP" : "regular";
     }
 
     /**
@@ -55,7 +53,7 @@ public class CheckInCounter extends Thread implements Observer {
                     int processTime = 1000; //TODO Time can be changed
                     if (currentPassenger != null) {
                         String startMsg = String.format("Passenger %s will be processed by %s Counter %d.",
-                                currentPassenger.getRefCode(), counterType, counterId);
+                                currentPassenger.getRefCode(), counterType(), getCounterId());
                         Log.generateLog(startMsg);
                         processPassenger(currentPassenger);
                         // random time for process
@@ -66,7 +64,7 @@ public class CheckInCounter extends Thread implements Observer {
                     }
                 }
             } catch (InterruptedException e) {
-                System.out.println("Counter " + counterId + " interrupted.");
+                System.out.println("Counter " + getCounterId() + " interrupted.");
                 Thread.currentThread().interrupt();
             } catch (AllExceptions.NumberErrorException | AllExceptions.NoMatchingFlightException |
                      AllExceptions.NoMatchingRefException e) {
@@ -74,7 +72,6 @@ public class CheckInCounter extends Thread implements Observer {
             }
         }
     }
-
     @Override
     public void update() {
     }
@@ -100,6 +97,10 @@ public class CheckInCounter extends Thread implements Observer {
      */
     public boolean isVIP() {
         return isVIP;
+    }
+
+    public String counterType(){
+        return isVIP ? "VIP" : "regular";
     }
 
     /**
@@ -143,7 +144,7 @@ public class CheckInCounter extends Thread implements Observer {
         Log.generateLog(String.format("The baggage of Passenger %s has been placed on flight %s", passenger.getRefCode(), passenger.getFlightCode()));
 
         passengerInFlight.checkIn();
-        Log.generateLog(String.format("Passenger %s has successfully checked in at counter %d.", passenger.getRefCode(), this.counterId));
+        Log.generateLog(String.format("Passenger %s has successfully checked in at %s counter %d.", passenger.getRefCode(),counterType(), getCounterId()));
 
         notifyObservers();
         return true;

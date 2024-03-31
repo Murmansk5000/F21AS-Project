@@ -58,16 +58,11 @@ public class CheckInCounterManager implements Observer {
         return MIN_VIP_COUNTER;
     }
 
-    public static int getMaxCounters() {
-        return MAX_REGULAR_COUNTER + MAX_VIP_COUNTER;
-    }
 
     @Override
     public void update() {
         if (gui != null) {
-            SwingUtilities.invokeLater(() -> {
-                gui.update();
-            });
+            SwingUtilities.invokeLater(gui::update);
         }
     }
 
@@ -95,6 +90,60 @@ public class CheckInCounterManager implements Observer {
         counters.clear();
     }
 
+    /**
+     * Close a VIP or regular counter if conditions allow.
+     *
+     * @param isVIP True to close a VIP counter, false for a regular counter.
+     */
+    public synchronized void closeCounter(boolean isVIP) {
+        if (!canCloseCounter(isVIP)) {
+            return;
+        }
+        CheckInCounter counterToClose = null;
+        for (int i = counters.size() - 1; i >= 0; i--) {
+            CheckInCounter counter = counters.get(i);
+            if (counter.isVIP() == isVIP && counter.getStatus()) {
+                counterToClose = counter;
+                break;
+            }
+        }
+
+        if (counterToClose != null) {
+            counterToClose.shutdown();
+            int counterId = counterToClose.getCounterId();
+
+            String closeMsg = String.format("Close a %s counter with ID: %d.", getType(isVIP), counterId);
+            Log.generateLog(closeMsg);
+
+            String counterMsg = String.format("There are %d people in the %s queue and a total of %d counter is now open.",
+                    getQueueType(isVIP).size(), getType(isVIP), getOpenCount(isVIP));
+            Log.generateLog(counterMsg);
+        }
+    }
+
+    /**
+     * Create a VIP or regular counter if conditions allow.
+     *
+     * @param isVIP True to create a VIP counter, false for a regular counter.
+     */
+    void createNewCounter(boolean isVIP) {
+        if (!canCreateCounter(isVIP)) {
+            return;
+        }
+        int counterId = calculateCounterId(isVIP);
+        CheckInCounter newCounter = new CheckInCounter(counterId, getQueueType(isVIP), isVIP, flightList);
+        newCounter.registerObserver(this);
+        newCounter.start();
+        counters.add(newCounter);
+
+        String openMsg = String.format("Open a new %s counter with ID: %s.", getType(isVIP), counterId);
+        Log.generateLog(openMsg);
+
+        String counterMsg = String.format("There are %d people in the %s queue and a total of %d counter is now open.",
+                getQueueType(isVIP).size(), getType(isVIP), getOpenCount(isVIP));
+        Log.generateLog(counterMsg);
+    }
+
     private void startMonitoring() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -104,13 +153,6 @@ public class CheckInCounterManager implements Observer {
                 removeTerminatedCounters();
             }// Adjustment of the number of counters at regular intervals
         }, 0, 500); //TODO Time can be changed
-    }
-
-    /**
-     * Removes terminated counter threads to prevent memory leaks and keep the list current.
-     */
-    private synchronized void removeTerminatedCounters() {
-        counters.removeIf(counter -> !counter.isAlive());
     }
 
     /**
@@ -162,70 +204,14 @@ public class CheckInCounterManager implements Observer {
     }
 
     /**
-     * Close a VIP or regular counter if conditions allow.
-     *
-     * @param isVIP True to close a VIP counter, false for a regular counter.
+     * Removes terminated counter threads to prevent memory leaks and keep the list current.
      */
-    public synchronized void closeCounter(boolean isVIP) {
-        if (!canCloseCounter(isVIP)) {
-            return;
-        }
-        CheckInCounter counterToClose = null;
-        for (int i = counters.size() - 1; i >= 0; i--) {
-            CheckInCounter counter = counters.get(i);
-            if (counter.isVIP() == isVIP && counter.getStatus()) {
-                counterToClose = counter;
-                break;
-            }
-        }
-        if (counterToClose != null) {
-            counterToClose.shutdown();
-            int counterId = counterToClose.getCounterId();
-
-            String closeMsg = String.format("Close a %s counter with ID: %d.", getType(isVIP), counterId);
-            Log.generateLog(closeMsg);
-
-            String counterMsg = String.format("There are %d people in the %s queue and a total of %d counter is now open.",
-                    getQueueType(isVIP).size(), getType(isVIP), getOpenCount(isVIP));
-
-            Log.generateLog(counterMsg);
-
-        }
+    private synchronized void removeTerminatedCounters() {
+        counters.removeIf(counter -> !counter.isAlive());
     }
 
     /**
-     * Create a VIP or regular counter if conditions allow.
-     *
-     * @param isVIP True to create a VIP counter, false for a regular counter.
-     */
-    void createNewCounter(boolean isVIP) {
-        if (!canCreateCounter(isVIP)) {
-            return;
-        }
-        int counterId = calculateCounterId(isVIP);
-        CheckInCounter newCounter = new CheckInCounter(counterId, getQueueType(isVIP), isVIP, flightList);
-        newCounter.registerObserver(this);
-        newCounter.start();
-        counters.add(newCounter);
-
-        String openMsg = String.format("Open a new %s counter with ID: %s.", getType(isVIP), counterId);
-        Log.generateLog(openMsg);
-
-        String counterMsg = String.format("There are %d people in the %s queue and a total of %d counter is now open.",
-                getQueueType(isVIP).size(), getType(isVIP), getOpenCount(isVIP));
-
-        Log.generateLog(counterMsg);
-
-    }
-
-    private void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update();
-        }
-    }
-
-    /**
-     * Checks if a new counter can be opened based on VIP status and maximum counter limits.
+     * Checks if a new counter can be opened based on maximum counter limits.
      *
      * @param isVIP True for VIP counters, false for regular counters.
      * @return True if a new counter can be created, false otherwise.
@@ -239,26 +225,13 @@ public class CheckInCounterManager implements Observer {
     }
 
     /**
-     * Checks if a counter can be closed, considering all flights' statuses and minimum counter requirements.
-     * If all the flight take off then all the counters can be closed and even if new passengers come in they can't check in.
+     * Checks if a counter can be closed, based on minimum counter requirements.
      *
-     * @param isVIP True for VIP counters.
+     * @param isVIP True for VIP counters, false for regular counters.
      * @return True if it can be closed, false otherwise.
      */
 
     private boolean canCloseCounter(boolean isVIP) {
-        boolean allFlightsTakenOff = true;
-        for (Flight flight : flightList.getFlightList()) {
-            if (!flight.getIsTakenOff()) {
-                allFlightsTakenOff = false;
-                break;
-            }
-        }
-
-        if (allFlightsTakenOff) {
-            return true;
-        }
-
         if (isVIP) {
             return getOpenCount(true) > MIN_VIP_COUNTER;
         } else {
@@ -329,4 +302,11 @@ public class CheckInCounterManager implements Observer {
     private PassengerQueue getQueueType(boolean isVIP) {
         return isVIP ? vipQueue : regularQueue;
     }
+
+    private void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+
 }
