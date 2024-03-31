@@ -105,7 +105,7 @@ public class PassengerQueueGUI extends JPanel implements Observer {
     }
 
     /**
-     * When a customer enters the queue, the GUI interface is updated at the same time
+     * Update the interface while a customer enter the queue
      */
     @Override
     public void update() {
