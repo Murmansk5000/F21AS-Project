@@ -24,7 +24,6 @@ import java.util.Random;
  *
  * @version 1.9
  * @since 2024-03-31
- *
  */
 
 public class Simulation {
@@ -50,6 +49,11 @@ public class Simulation {
         counterManager = new CheckInCounterManager(fltList);
     }
 
+    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
+        Simulation simulation = new Simulation();
+        simulation.startSimulation();
+    }
+
     /**
      * Processes passengers in a daemon thread: assigns random baggage, adds them to the queue,
      * and logs actions. Works on a copy of the passenger list to avoid concurrency issues.
@@ -64,7 +68,7 @@ public class Simulation {
                     int randomIndex = random.nextInt(passengerListCopy.size());
                     // Get the passenger at the random index
                     Passenger passenger = passengerListCopy.get(randomIndex);
-                    int arrivalDelay = random.nextInt(10) * 10;// TODO change the time
+                    int arrivalDelay = random.nextInt(30) * 10;//TODO Time can be changed
                     Thread.sleep(arrivalDelay);
                     passenger.addRandomBaggage();
                     String addBaggageMsg = String.format("Passenger %s added %s.",
@@ -125,11 +129,11 @@ public class Simulation {
     private void updateFlightTakeoffStatus() {
         Instant now = Instant.now();
         for (Flight flight : fltList.getFlightList()) {
-            if(!now.isBefore(flight.getTakeOffInstant()) && !flight.getTimePassed()){
-                if(flight.canTakeOff()) {
+            if (!now.isBefore(flight.getTakeOffInstant()) && !flight.getTimePassed()) {
+                if (flight.canTakeOff()) {
                     flight.takeOff();
                     Log.generateLog(String.format("Flight %s has taken off.", flight.getFlightCode()));
-                }else{
+                } else {
                     Log.generateLog(String.format("Flight %s can not take off because it's overloaded. ", flight.getFlightCode()));
                 }
                 flight.setTimePassed();
@@ -143,10 +147,5 @@ public class Simulation {
     public void startSimulation() {
         passengerProcessing();
         monitorFlightTakeoff();
-    }
-
-    public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
-        Simulation simulation = new Simulation();
-        simulation.startSimulation();
     }
 }

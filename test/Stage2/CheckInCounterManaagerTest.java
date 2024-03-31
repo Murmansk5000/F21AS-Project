@@ -1,8 +1,8 @@
 package Stage2;
 
 import Stage1.FlightList;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * This class is used to test that counters can be correctly created
  * and closed according to quantity limits in the CHeckInCounterManagement class.
- *
  */
 class CheckInCounterManagerTest {
     private CheckInCounterManager manager;

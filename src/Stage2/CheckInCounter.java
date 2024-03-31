@@ -49,21 +49,20 @@ public class CheckInCounter extends Thread implements Observer {
                         currentPassenger = queue.dequeue(); // dequeue the next currentPassenger
                     } else {
                         currentPassenger = null;
-                        break;
                     }
                 }
                 synchronized (this) {
+                    int processTime = 1000; //TODO Time can be changed
                     if (currentPassenger != null) {
                         String startMsg = String.format("Passenger %s will be processed by %s Counter %d.",
                                 currentPassenger.getRefCode(), counterType, counterId);
                         Log.generateLog(startMsg);
                         processPassenger(currentPassenger);
                         // random time for process
-                        int processTime = random.nextInt(1000); //TODO change the time
-                        Thread.sleep(processTime);
+                        Thread.sleep(processTime + random.nextInt(1000));
                     } else {
-                        // wait for passengers
-                        Thread.sleep(3000);
+                        // wait for same time
+                        Thread.sleep(processTime);
                     }
                 }
             } catch (InterruptedException e) {
@@ -104,10 +103,9 @@ public class CheckInCounter extends Thread implements Observer {
     }
 
     /**
-     * Stops the counter's operation and clears the current passenger.
+     * Stops the counter.
      */
     public void shutdown() {
-        currentPassenger = null;
         running = false;
     }
 
@@ -124,7 +122,7 @@ public class CheckInCounter extends Thread implements Observer {
 
     public synchronized boolean processPassenger(Passenger passenger) throws AllExceptions.NumberErrorException, AllExceptions.NoMatchingFlightException, AllExceptions.NoMatchingRefException {
         if (!verifyPassenger(passenger)) {
-            Log.generateLog(String.format("Passenger verification failed for: %s", passenger.getRefCode()));
+            Log.generateLog(String.format("Passenger %s verification failed.", passenger.getRefCode()));
             return false;
         }
 
@@ -139,11 +137,12 @@ public class CheckInCounter extends Thread implements Observer {
         handleBaggage(passenger.getHisBaggageList());
         Log.generateLog(passenger.pay());
 
-        passengerInFlight.checkIn();
         for (Baggage baggage : passenger.getHisBaggageList().getBaggageList()) {
             flight.getBaggageInFlight().addBaggage(baggage);
         }
+        Log.generateLog(String.format("The baggage of Passenger %s has been placed on flight %s", passenger.getRefCode(), passenger.getFlightCode()));
 
+        passengerInFlight.checkIn();
         Log.generateLog(String.format("Passenger %s has successfully checked in at counter %d.", passenger.getRefCode(), this.counterId));
 
         notifyObservers();

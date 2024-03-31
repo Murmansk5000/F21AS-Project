@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public class Report {
     private static final String FILE_REPORT_TXT = "file/report.txt";
+
     /**
      * Constructs a Report object with the given flight list and generates a report file.
      * Prints a message if the flight list is empty.

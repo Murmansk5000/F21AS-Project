@@ -1,16 +1,16 @@
 package Stage2;
 
 import Stage1.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This class tests the logic of the extended functionality where
  * passengers check-in based on the departure status of the airplane.
- *
  */
 class CheckInCounterTest {
     private FlightList flightList;

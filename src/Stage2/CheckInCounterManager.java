@@ -1,14 +1,13 @@
 package Stage2;
 
+import Stage1.Flight;
 import Stage1.FlightList;
 import Stage1.Passenger;
 import Stage2.GUI.GUI;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class CheckInCounterManager implements Observer {
     private static final int OPEN_THRESHOLD = 15; // Setting the threshold for adding counters
@@ -31,11 +30,13 @@ public class CheckInCounterManager implements Observer {
      * @param flightList The list of flights associated with the passengers.
      */
     public CheckInCounterManager(FlightList flightList) {
-        this.counters = new ArrayList<>();
+        this.counters = new LinkedList<>();
         this.vipQueue = new PassengerQueue();
         this.regularQueue = new PassengerQueue();
         this.flightList = flightList;
         this.observers = new ArrayList<>();
+        this.createNewCounter(true);  // Id: 0
+        this.createNewCounter(false); // Id: 1
         this.gui = new GUI(this.vipQueue, this.regularQueue, this.counters, this.flightList);
         startMonitoring();
         Log.generateLog("A check-in counter system has been crated.");
@@ -100,8 +101,16 @@ public class CheckInCounterManager implements Observer {
             @Override
             public void run() {
                 checkAndAdjustCounters();
-            }
-        }, 0, 500); // Adjustment of the number of counters at regular intervals
+                removeTerminatedCounters();
+            }// Adjustment of the number of counters at regular intervals
+        }, 0, 500); //TODO Time can be changed
+    }
+
+    /**
+     * Removes terminated counter threads to prevent memory leaks and keep the list current.
+     */
+    private synchronized void removeTerminatedCounters() {
+        counters.removeIf(counter -> !counter.isAlive());
     }
 
     /**
@@ -230,12 +239,26 @@ public class CheckInCounterManager implements Observer {
     }
 
     /**
-     * Determines if a counter can be closed, ensuring minimum service levels are maintained.
+     * Checks if a counter can be closed, considering all flights' statuses and minimum counter requirements.
+     * If all the flight take off then all the counters can be closed and even if new passengers come in they can't check in.
      *
-     * @param isVIP True for VIP counters, false for regular counters.
-     * @return True if a counter can be closed, false otherwise.
+     * @param isVIP True for VIP counters.
+     * @return True if it can be closed, false otherwise.
      */
+
     private boolean canCloseCounter(boolean isVIP) {
+        boolean allFlightsTakenOff = true;
+        for (Flight flight : flightList.getFlightList()) {
+            if (!flight.getIsTakenOff()) {
+                allFlightsTakenOff = false;
+                break;
+            }
+        }
+
+        if (allFlightsTakenOff) {
+            return true;
+        }
+
         if (isVIP) {
             return getOpenCount(true) > MIN_VIP_COUNTER;
         } else {

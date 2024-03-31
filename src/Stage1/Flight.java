@@ -165,15 +165,16 @@ public class Flight implements Comparable<Flight>, Subject {
     /**
      * Marks take-off time has passed..
      */
-    public void setTimePassed(){
+    public void setTimePassed() {
         this.timePassed = true;
     }
 
     /**
      * Checks if take-off time has passed.
+     *
      * @return true if the time has passed, false otherwise.
      */
-    public boolean getTimePassed(){
+    public boolean getTimePassed() {
         return this.timePassed;
     }
 
