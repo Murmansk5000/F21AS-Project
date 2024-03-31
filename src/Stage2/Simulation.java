@@ -138,6 +138,7 @@ public class Simulation {
     public void startSimulation() {
         passengerProcessing();
         monitorFlightTakeoff();
+        //Log.shutdown();
     }
 
     public static void main(String[] args) throws AllExceptions.NoMatchingFlightException {
