@@ -10,10 +10,10 @@ import java.io.IOException;
 
 public class GUI extends JFrame {
     private static Passenger selectedPassenger;
-    private JTextField lastNameTextField;
-    private JTextField referenceTextField;
     private final PassengerList passengerList;
     private final FlightList flightList;
+    private JTextField lastNameTextField;
+    private JTextField referenceTextField;
 
     /**
      * Constructs the GUI interface.

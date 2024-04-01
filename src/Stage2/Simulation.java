@@ -99,7 +99,7 @@ public class Simulation {
         Thread monitorThread = new Thread(() -> {
             boolean allFlightsTakenOff;
             do {
-                updateFlightTakeoffStatus();
+                updateFlightTakeOffStatus();
                 allFlightsTakenOff = true;
                 for (Flight flight : fltList.getFlightList()) {
                     if (!flight.getIsTakenOff()) {
@@ -126,7 +126,7 @@ public class Simulation {
     /**
      * Updates the takeoff status of flights based on the current time.
      */
-    private synchronized void updateFlightTakeoffStatus() {
+    private synchronized void updateFlightTakeOffStatus() {
         Instant now = Instant.now();
         for (Flight flight : fltList.getFlightList()) {
             if (!now.isBefore(flight.getTakeOffInstant()) && !flight.getTimePassed()) {
