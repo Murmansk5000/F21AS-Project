@@ -1,7 +1,7 @@
 package Stage2;
 
-import Stage1.FlightList;
-import Stage1.Passenger;
+import Stage1.modules.FlightList;
+import Stage1.modules.Passenger;
 import Stage2.GUI.GUI;
 
 import javax.swing.*;

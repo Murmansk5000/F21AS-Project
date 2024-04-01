@@ -1,6 +1,6 @@
 package Stage2;
 
-import Stage1.*;
+import Stage1.modules.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -22,8 +22,8 @@ import java.util.Random;
  * <p>
  * This simulation aims to demonstrate concurrency concepts and the complexity of managing airport check-in systems in a real-time scenario.
  *
- * @version 1.9
- * @since 2024-03-31
+ * @version 2.0
+ * @since 2024-04-01
  */
 
 public class Simulation {

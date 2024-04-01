@@ -1,6 +1,6 @@
 package Stage2.GUI;
 
-import Stage1.Passenger;
+import Stage1.modules.Passenger;
 import Stage2.CheckInCounter;
 import Stage2.CheckInCounterManager;
 import Stage2.Observer;

@@ -1,7 +1,7 @@
 package Stage2.GUI;
 
-import Stage1.Baggage;
-import Stage1.Passenger;
+import Stage1.modules.Baggage;
+import Stage1.modules.Passenger;
 import Stage2.Observer;
 import Stage2.PassengerQueue;
 

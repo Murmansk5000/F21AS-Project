@@ -1,7 +1,7 @@
 package Stage2.GUI;
 
-import Stage1.Flight;
-import Stage1.FlightList;
+import Stage1.modules.Flight;
+import Stage1.modules.FlightList;
 import Stage2.Observer;
 
 import javax.swing.*;

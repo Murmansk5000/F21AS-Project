@@ -1,5 +1,9 @@
 package Stage1;
 
+import Stage1.modules.AllExceptions;
+import Stage1.modules.FlightList;
+import Stage1.modules.PassengerList;
+
 /**
  * The CheckInSystem class serves as the entry point to the application and demonstrates the functionality of the first phase of the project.
  * <p>

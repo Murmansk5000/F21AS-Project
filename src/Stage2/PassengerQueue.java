@@ -1,6 +1,6 @@
 package Stage2;
 
-import Stage1.Passenger;
+import Stage1.modules.Passenger;
 
 import java.util.*;
 

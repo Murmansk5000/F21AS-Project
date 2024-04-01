@@ -1,4 +1,4 @@
-package Stage1;
+package Stage1.modules;
 
 import javax.swing.*;
 

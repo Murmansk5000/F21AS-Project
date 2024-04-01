@@ -1,4 +1,4 @@
-package Stage1;
+package Stage1.modules;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,5 +1,8 @@
 package Stage1;
 
+import Stage1.modules.AllExceptions;
+import Stage1.modules.Passenger;
+import Stage1.modules.PassengerList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

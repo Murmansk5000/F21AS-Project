@@ -1,4 +1,4 @@
-package Stage1;
+package Stage1.modules;
 
 public class Passenger implements Comparable<Passenger> {
     private final String referenceCode;

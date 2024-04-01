@@ -1,6 +1,6 @@
 package Stage2;
 
-import Stage1.*;
+import Stage1.modules.*;
 
 import java.util.ArrayList;
 import java.util.List;

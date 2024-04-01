@@ -1,5 +1,8 @@
 package Stage1;
 
+import Stage1.modules.Flight;
+import Stage1.modules.FlightList;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

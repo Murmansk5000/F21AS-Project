@@ -1,5 +1,9 @@
 package Stage1;
 
+import Stage1.modules.AllExceptions;
+import Stage1.modules.Baggage;
+import Stage1.modules.Flight;
+import Stage1.modules.Passenger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package Stage1;
+package Stage1.modules;
 
 public class Baggage {
     private static final double BASE_FEE = 0.0;

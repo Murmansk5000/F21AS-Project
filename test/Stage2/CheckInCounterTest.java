@@ -1,6 +1,6 @@
 package Stage2;
 
-import Stage1.*;
+import Stage1.modules.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

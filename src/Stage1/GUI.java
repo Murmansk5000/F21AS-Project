@@ -1,5 +1,7 @@
 package Stage1;
 
+import Stage1.modules.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -8,12 +10,10 @@ import java.io.IOException;
 
 public class GUI extends JFrame {
     private static Passenger selectedPassenger;
-    private boolean shouldExit = false;
     private JTextField lastNameTextField;
     private JTextField referenceTextField;
-    private PassengerList passengerList;
-    private FlightList flightList;
-    private Flight selectedFlight;
+    private final PassengerList passengerList;
+    private final FlightList flightList;
 
     /**
      * Constructs the GUI interface.
@@ -45,9 +45,6 @@ public class GUI extends JFrame {
         return this.flightList;
     }
 
-    public boolean getShouldExit() {
-        return shouldExit;
-    }
 
     /**
      * Update baggage information for flights on exit and generate reports.
@@ -55,10 +52,9 @@ public class GUI extends JFrame {
      * @throws IOException                        If an I/O error occurs during the exit process.
      * @throws AllExceptions.NumberErrorException If a number error exception occurs during the exit process.
      */
-
     private void onExit() throws IOException, AllExceptions.NumberErrorException {
         this.flightList.renewAllFlight();
-        Report report = new Report(this.flightList);
+        new Report(this.flightList);
     }
 
     /**
@@ -80,20 +76,18 @@ public class GUI extends JFrame {
 
         JLabel headerLabel = new JLabel("Welcome to Airport Check-in System", SwingConstants.LEFT);
         headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(headerLabel);
 
+        mainPanel.add(headerLabel);
+        mainPanel.add(createLoginPanel("Booking Reference:", new JTextField(20)));
         // mainPanel.add(createInputPanel("                First Name:", new JTextField(20)));
         mainPanel.add(createLoginPanel("               Last Name:", new JTextField(20)));
-        mainPanel.add(createLoginPanel("Booking Reference:", new JTextField(20)));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(e -> {
             try {
                 onExit();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (AllExceptions.NumberErrorException ex) {
+            } catch (IOException | AllExceptions.NumberErrorException ex) {
                 throw new RuntimeException(ex);
             }
             System.exit(0);
@@ -110,16 +104,13 @@ public class GUI extends JFrame {
                 if (passengerList.matchPassenger(reference, lastName)) {
                     selectedPassenger = passengerList.findByRefCode(reference);
                     // If inputs are valid and correct, proceed to the next step
-                    new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
+                    new FlightDetailsGUI(reference, passengerList, flightList).setVisible(true);
                     dispose(); // Close the current window
                 }
-            } catch (IllegalArgumentException ex) {
-                ex.printStackTrace();
-            } catch (AllExceptions.NoMatchingRefException ex) {
-                ex.printStackTrace();
-            } catch (AllExceptions.NameCodeMismatchException ex) {
-                ex.printStackTrace();
-            } catch (AllExceptions.NoMatchingFlightException ex) {
+            } catch (IllegalArgumentException |
+                     AllExceptions.NoMatchingRefException |
+                     AllExceptions.NameCodeMismatchException |
+                     AllExceptions.NoMatchingFlightException ex) {
                 ex.printStackTrace();
             }
 
@@ -180,12 +171,8 @@ public class GUI extends JFrame {
      */
     class FlightDetailsGUI extends JFrame {
 
-        private String lastName;
-        private String reference;
 
-        public FlightDetailsGUI(String lastName, String reference, PassengerList passengerList, FlightList flightList) throws AllExceptions.NoMatchingRefException, AllExceptions.NoMatchingFlightException {
-            this.lastName = lastName;
-            this.reference = reference;
+        public FlightDetailsGUI(String reference, PassengerList passengerList, FlightList flightList) throws AllExceptions.NoMatchingRefException, AllExceptions.NoMatchingFlightException {
 
             setTitle("Flight Details");
             setSize(400, 500);
@@ -201,15 +188,15 @@ public class GUI extends JFrame {
             mainPanel.add(headerLabel);
 
             String flightCode = selectedPassenger.getFlightCode();
-            selectedFlight = flightList.findByCode(flightCode);
+            Flight selectedFlight = flightList.findByCode(flightCode);
             selectedPassenger = selectedFlight.getPassengerInFlight().findByRefCode(reference);
             //Add flight information
             mainPanel.add(createDetailPanel("Flight Number: ", selectedFlight.getFlightCode()));
             mainPanel.add(createDetailPanel("Carrier: ", selectedFlight.getCarrier()));
             mainPanel.add(createDetailPanel("Destination Airport: ", selectedFlight.getDestination()));
             mainPanel.add(createDetailPanel("Flight Max Passenger: ", String.valueOf(selectedFlight.getMaxPassengers())));
-            mainPanel.add(createDetailPanel("Flight Max Baggage Weight: ", String.valueOf(selectedFlight.getMaxBaggageWeight()) + " kg"));
-            mainPanel.add(createDetailPanel("Flight Max Baggage Volume: ", String.valueOf(selectedFlight.getMaxBaggageVolume() / 1000000) + " cubic meters"));
+            mainPanel.add(createDetailPanel("Flight Max Baggage Weight: ", selectedFlight.getMaxBaggageWeight() + " kg"));
+            mainPanel.add(createDetailPanel("Flight Max Baggage Volume: ", selectedFlight.getMaxBaggageVolume() / 1000000 + " cubic meters"));
             mainPanel.add(createDetailPanel("Your Purchased Baggage Weight: ", String.valueOf(selectedFlight.getBaggageInFlight().getFreeQuota())));
 
 
@@ -362,7 +349,7 @@ public class GUI extends JFrame {
                 String lastName = selectedPassenger.getLastName();
                 String reference = selectedPassenger.getRefCode();
                 try {
-                    new FlightDetailsGUI(lastName, reference, passengerList, flightList).setVisible(true);
+                    new FlightDetailsGUI(reference, passengerList, flightList).setVisible(true);
                 } catch (AllExceptions.NoMatchingRefException | AllExceptions.NoMatchingFlightException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -452,15 +439,9 @@ public class GUI extends JFrame {
             weightPanel.add(weightField);
 
             switch (baggageNumber) {
-                case 1:
-                    weightField1 = weightField;
-                    break;
-                case 2:
-                    weightField2 = weightField;
-                    break;
-                case 3:
-                    weightField3 = weightField;
-                    break;
+                case 1 -> weightField1 = weightField;
+                case 2 -> weightField2 = weightField;
+                case 3 -> weightField3 = weightField;
             }
             return weightPanel;
         }
@@ -479,21 +460,21 @@ public class GUI extends JFrame {
 
             // According to the baggage number, point the corresponding length, width, and height text box variables to the created text box.
             switch (baggageNumber) {
-                case 1:
+                case 1 -> {
                     lengthField1 = lengthField;
                     widthField1 = widthField;
                     heightField1 = heightField;
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     lengthField2 = lengthField;
                     widthField2 = widthField;
                     heightField2 = heightField;
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     lengthField3 = lengthField;
                     widthField3 = widthField;
                     heightField3 = heightField;
-                    break;
+                }
             }
             return panel;
         }
