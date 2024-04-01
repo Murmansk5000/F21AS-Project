@@ -266,14 +266,14 @@ public class GUI extends JFrame {
             mainPanel.add(buttonPanel1);
 
             // Add the first baggage weight input area and its size input area
-            mainPanel.add(createBaggageWeightPanel("Baggage 1:      Weight (kg):", 1));
-            mainPanel.add(createDimensionPanel("                         Dimensions (cm):", 1));
+            mainPanel.add(createBaggageWeightPanel(1));
+            mainPanel.add(createDimensionPanel(1));
 
-            mainPanel.add(createBaggageWeightPanel("Baggage 2:      Weight (kg):", 2));
-            mainPanel.add(createDimensionPanel("                         Dimensions (cm):", 2));
+            mainPanel.add(createBaggageWeightPanel( 2));
+            mainPanel.add(createDimensionPanel(2));
 
-            mainPanel.add(createBaggageWeightPanel("Baggage 3:      Weight (kg):", 3));
-            mainPanel.add(createDimensionPanel("                         Dimensions (cm):", 3));
+            mainPanel.add(createBaggageWeightPanel( 3));
+            mainPanel.add(createDimensionPanel(3));
             // Create a baggage weight input area (arranged vertically)
             JPanel weightPanel = new JPanel();
             weightPanel.setLayout(new BoxLayout(weightPanel, BoxLayout.Y_AXIS));
@@ -432,8 +432,9 @@ public class GUI extends JFrame {
             return true;
         }
 
-        private JPanel createBaggageWeightPanel(String labelText, int baggageNumber) {
+        private JPanel createBaggageWeightPanel(int baggageNumber) {
             JPanel weightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+            String labelText=String.format("Baggage %d:      Weight (kg):",baggageNumber);
             weightPanel.add(new JLabel(labelText));
             JTextField weightField = new JTextField(5);
             weightPanel.add(weightField);
@@ -446,9 +447,9 @@ public class GUI extends JFrame {
             return weightPanel;
         }
 
-        private JPanel createDimensionPanel(String labelText, int baggageNumber) {
+        private JPanel createDimensionPanel(int baggageNumber) {
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            panel.add(new JLabel(labelText));
+            panel.add(new JLabel("                         Dimensions (cm):"));
 
             JTextField lengthField = new JTextField(3), widthField = new JTextField(3), heightField = new JTextField(3);
             panel.add(new JLabel("L:"));
