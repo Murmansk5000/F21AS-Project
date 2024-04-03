@@ -1,5 +1,6 @@
 ## Week 1: Start and build the foundation
 Date: February 29
+
 Participants: Team
 Meeting content:
 Project Introduction: The group discussed the second phase of the airport check-in system project and outlined the phased objectives.
