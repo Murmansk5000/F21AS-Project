@@ -1,5 +1,6 @@
 ## Week 1: Start and build the foundation
 Date: February 29
+
 Participants: Team
 
 Meeting content:
