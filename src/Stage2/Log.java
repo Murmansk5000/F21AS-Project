@@ -26,7 +26,7 @@ public class Log {
     /**
      * Constructor for the Log class. It starts a new thread that continuously reads log entries from the log queue and writes them to the log file.
      */
-    public Log() {
+    private Log() {
         new Thread(() -> {
             while (true) {
                 String logEntry = logQueue.dequeue(); // Dequeue a log entry
