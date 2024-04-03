@@ -3,6 +3,14 @@
 This repository contains the source code for an airport check-in system. The system handles passenger bookings, flight
 management, and baggage processing.
 
+## Group
+### Edinburgh Group 9: 
+1. Chenmeng Bi (H00364891)
+2. Yu Cheng (H00364953)
+3. Huimeng Cui (H00364899)
+4. Kehan Li (H00364963)
+5. Ao Li (H00364959)
+
 ## Project Structure
 
 The project is structured as follows:
